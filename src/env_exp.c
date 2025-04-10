@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:17:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/09 19:11:03 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/10 20:47:06 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void builtin_env(t_minishell *data, t_pars_cmd *cmd)
     }
     if (cmd->args[1])
     {
-        ft_putstr_fd("env: too many arguments\n", 2); //msg: env: doesn't take arguments
+        ft_putstr_fd("minishell: env: doesn't accept arguments\n", 2); //msg: env: doesn't take arguments
         data->exit_code = 1;
         return ;
     }
@@ -53,7 +53,7 @@ void builtin_export(t_minishell *data, t_pars_cmd *cmd)
         i++;
     if (ft_strncmp(cmd->args[i], "-", 1) == 0 && cmd->args[i][1] != '\0')
     {
-        print_invalid_option(data, cmd->args[i]);
+        print_invalid_option(data, cmd->args[0], cmd->args[i]);
         return ;
     }
     while (cmd->args[i])
@@ -108,7 +108,8 @@ void check_exp(t_minishell *data, char *arg)
         {
             if (value_str)
             {
-                free(cur_exp_node->value);
+                if (cur_exp_node->value)
+                    free(cur_exp_node->value);
                 cur_exp_node->value = ft_strdup(value_str + 1);
                 check_env(data, arg);
             }
@@ -131,8 +132,8 @@ void    check_env(t_minishell *data, char *arg)
     char *value_str;
 
     cur_env_node = data->env;
-    key = ft_substr(arg, 0, ft_strchr(arg, '=') - arg);
     value_str = ft_strchr(arg, '=');
+    key = ft_substr(arg, 0, value_str - arg);
     while (cur_env_node)
     {
         if (ft_strcmp(cur_env_node->title, key) == 0)
@@ -142,12 +143,11 @@ void    check_env(t_minishell *data, char *arg)
                 free(cur_env_node->value);
                 free(key);
             }
-            cur_env_node->value = value_str;
+            cur_env_node->value = ft_strdup(value_str + 1);
             return ;
         }
         cur_env_node = cur_env_node->next;
     }
     free(key);
-    free(value_str);
     add_env(data, arg);
 }

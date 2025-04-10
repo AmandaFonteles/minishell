@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:24:55 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/09 11:53:54 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:36:51 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,33 @@ void cleanup_heredocs(t_minishell *data)
 		}
 		cmd = cmd->next;
 	}
+}
+
+void	free_cmd_node(t_pars_cmd *cmd)
+{
+	if (cmd->delimiters)
+		free_arraystr(cmd->delimiters);
+	if (cmd->infile)
+		free(cmd->infile);
+	if (cmd->outfile)
+		free(cmd->outfile);
+	if (cmd->args)
+		free_arraystr(cmd->args);
+	if (cmd->next)
+		free_cmd_node(cmd->next);
+	free(cmd);
+	cmd = NULL;
+}
+
+void	free_all(t_minishell *data)
+{
+	if (data->cmd_list)
+	{
+		cleanup_heredocs(data);
+		free_cmd_node(data->cmd_list);
+	}
+	if (data->user_input)
+		free(data->user_input);
+	if (data->pipe_ends)
+		free_pipes(data);
 }

@@ -6,19 +6,19 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:34:22 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/09 11:34:44 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/10 21:36:13 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void builtin_pwd(t_minishell *data, t_pars_cmd *cmd)
+void builtin_pwd(t_minishell *data, t_pars_cmd *cmd) //pwd can have arguments
 {
     char *cwd;
-
-    if (cmd->args[1])
+    
+    if (cmd->args[1] && cmd->args[1][0] == '-' && cmd->args[1][1] != '\0')
     {
-        ft_putstr_fd("minishell: pwd: too many arguments\n", 2); //msg: pwd: doesn't take arguments
+        print_invalid_option(data, cmd->args[0], cmd->args[1]);
         data->exit_code = 1;
         return ;
     }
@@ -33,6 +33,7 @@ void builtin_pwd(t_minishell *data, t_pars_cmd *cmd)
     data->exit_code = 0;
     free(cwd);
 }
+
 //break into smaller functions
 void builtin_echo(t_minishell *data, t_pars_cmd *cmd)
 {
@@ -99,12 +100,11 @@ void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
     i = 1;
     while (cmd->args[i])
     {
-        if (!is_valid_identifier(cmd->args[i]))
+        if (cmd->args[i][0] == '-')
         {
-            ft_putstr_fd("unset: `", 2);
-            ft_putstr_fd(cmd->args[i], 2);
-            ft_putstr_fd("': not a valid identifier\n", 2);
+            print_invalid_option(data, cmd->args[0], cmd->args[i]);
             data->exit_code = 1;
+            return ;
         }
         else
         {
@@ -114,4 +114,5 @@ void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
         }
         i++;
     }
+    data->exit_code = 0;
 }

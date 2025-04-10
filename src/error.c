@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:08:03 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/09 19:15:00 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/10 20:38:55 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ void print_invalid_identifier(t_minishell *data, char *arg)
     data->exit_code = 1;
 }
 
-void    print_invalid_option(t_minishell *data, char *arg)
+void    print_invalid_option(t_minishell *data, char *builtin, char *arg)
 {
-    ft_putstr_fd("minishell: export: '", 2);
+    ft_putstr_fd("minishell: ", 2);
+    ft_putstr_fd(builtin, 2);
+    ft_putstr_fd(": '", 2);
     ft_putchar_fd(arg[0], 2);
     ft_putchar_fd(arg[1], 2);
     ft_putstr_fd("': invalid option\n", 2);

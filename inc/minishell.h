@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/09 19:11:45 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/10 20:41:45 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include "structs.h"
-# include "../libft/libft.h"
+# include "../libft/inc/libft.h"
 
 /*TEST*/
 void basic_parse_input(t_minishell *data);
@@ -118,13 +118,15 @@ char    *ft_getenv(char *directory_name, t_minishell *data);
 void free_pipes(t_minishell *data);
 void free_arraystr(char **arr);
 void cleanup_heredocs(t_minishell *data);
+void free_cmd_node(t_pars_cmd *cmd);
+void free_all(t_minishell *data);
 
 /* ERROR.C */
 void print_cmd_not_found(t_minishell *data, char *cmd);
 void ft_error(t_minishell *data, char *msg);
 void print_exit_error(char *arg, char *msg);
 void print_invalid_identifier(t_minishell *data, char *arg);
-void    print_invalid_option(t_minishell *data, char *arg);
+void    print_invalid_option(t_minishell *data, char *builtin, char *arg);
 
 /* UTILS.C */
 long long	ft_atoll(const char *str);

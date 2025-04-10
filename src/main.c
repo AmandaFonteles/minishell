@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/09 12:51:56 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:28:17 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ void main_loop(t_minishell *data)
         basic_parse_input(data);
         setup_exec(data);
         //wait for the command to finish
-        //free the structs
-        free(data->user_input);
+        free_all(data);
     }
 }
 
