@@ -1,43 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afontele <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 20:27:44 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/09 11:01:23 by afontele         ###   ########.fr       */
+/*   Created: 2025/04/15 11:51:41 by afontele          #+#    #+#             */
+/*   Updated: 2025/04/15 13:24:00 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/libft.h"
+
+static int	get_sign(const char **str)
+{
+	int	sign;
+
+	sign = 1;
+	while (**str == ' ' || (**str >= 9 && **str <= 13))
+		(*str)++;
+	if (**str == '-' || **str == '+')
+	{
+		if (**str == '-')
+			sign = -1;
+		(*str)++;
+	}
+	return (sign);
+}
 
 long long	ft_atoll(const char *str)
 {
-	long long	res = 0;
-	int			sign = 1;
+	long long	res;
+	int			sign;
 
-	while (*str == ' ' || (*str >= 9 && *str <= 13))
-		str++;
-	if (*str == '-' || *str == '+')
-		sign = (*str++ == '-') ? -1 : 1;
+	res = 0;
+	sign = 1;
+	sign = get_sign(&str);
 	while (*str >= '0' && *str <= '9')
 	{
 		if (res > (LLONG_MAX - (*str - '0')) / 10)
-			return (sign == 1 ? LLONG_MAX : LLONG_MIN); // or handle error
+		{
+			if (sign == 1)
+				return (LLONG_MAX);
+			else
+				return (LLONG_MIN);
+		}
 		res = res * 10 + (*str - '0');
 		str++;
 	}
 	return (res * sign);
-}
-
-
-unsigned int ft_strcmp(char *s1, char *s2)
-{
-    unsigned int i;
-
-    i = 0;
-    while (s1[i] && s2[i] && s1[i] == s2[i])
-        i++;
-    return (s1[i] - s2[i]);
 }

@@ -13,7 +13,7 @@
 #include "../inc/minishell.h"
 
 //exit utils
-int ft_isnbr(char *str)
+int isnbr(char *str)
 {
     int i;
 

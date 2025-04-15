@@ -78,7 +78,7 @@ void builtin_hub(t_minishell *data, t_pars_cmd *cmd);
 
 
 /* BUILTIN_UTILS.C */
-int ft_isnbr(char *str);
+int isnbr(char *str);
 int is_valid_identifier(char *s);
 void remove_env(t_minishell *data, char *arg);
 void remove_exp(t_minishell *data, char *arg);
@@ -120,10 +120,12 @@ void free_arraystr(char **arr);
 void cleanup_heredocs(t_minishell *data);
 void free_cmd_node(t_pars_cmd *cmd);
 void free_all(t_minishell *data);
+void free_to_exit(t_minishell *data);
+void free_env(t_env *list);
 
 /* ERROR.C */
 void print_cmd_not_found(t_minishell *data, char *cmd);
-void ft_error(t_minishell *data, char *msg);
+void ft_error(t_minishell *data, char *msg); //arrumar
 void print_exit_error(char *arg, char *msg);
 void print_invalid_identifier(t_minishell *data, char *arg);
 void    print_invalid_option(t_minishell *data, char *builtin, char *arg);

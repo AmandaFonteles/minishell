@@ -52,6 +52,7 @@ SRC = $(SRC_DIR)ft_is/ft_isalnum.c \
       $(SRC_DIR)ft_put/ft_putstr_fd.c \
       $(SRC_DIR)ft_str/ft_split.c \
       $(SRC_DIR)ft_str/ft_strchr.c \
+      $(SRC_DIR)ft_str/ft_strcmp.c \
       $(SRC_DIR)ft_str/ft_strdup.c \
       $(SRC_DIR)ft_str/ft_striteri.c \
       $(SRC_DIR)ft_str/ft_strjoin.c \
@@ -65,6 +66,7 @@ SRC = $(SRC_DIR)ft_is/ft_isalnum.c \
       $(SRC_DIR)ft_str/ft_strtrim.c \
       $(SRC_DIR)ft_str/ft_substr.c \
       $(SRC_DIR)ft_to/ft_atoi.c \
+      $(SRC_DIR)ft_to/ft_atoll.c \
       $(SRC_DIR)ft_to/ft_itoa.c \
       $(SRC_DIR)ft_to/ft_tolower.c \
       $(SRC_DIR)ft_to/ft_toupper.c \

@@ -6,18 +6,18 @@
 /*   By: afontele <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 15:03:57 by afontele          #+#    #+#             */
-/*   Updated: 2024/03/22 15:06:31 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/15 13:27:01 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*d)(void *))
 {
 	t_list	*new_list;
 	t_list	*head_new_list;
 
-	if (!lst || !f || !del)
+	if (!lst || !f || !d)
 		return (NULL);
 	new_list = ft_lstnew(f(lst->content));
 	if (!new_list)
@@ -29,7 +29,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		new_list->next = ft_lstnew(f(lst->content));
 		if (!new_list->next)
 		{
-			ft_lstclear(&head_new_list, del);
+			ft_lstclear(&head_new_list, d);
 			return (NULL);
 		}
 		new_list = new_list->next;

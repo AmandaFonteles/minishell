@@ -76,7 +76,8 @@ void    cd_to_path(t_minishell *data, char *path, char *old_pwd)
 {
     if (chdir(path) == -1)
     {
-        perror("cd");
+        ft_putstr_fd("minishell: cd: ", 2);
+        perror(path);
         data->exit_code = 1;
         return ;
     }
@@ -100,7 +101,7 @@ void builtin_cd(t_minishell *data, t_pars_cmd *cmd)
         data->exit_code = 1;
         return ;
     }
-    if (!cmd->args[1] || ft_strcmp(cmd->args[1], "~") == 0)
+    if (cmd->args[1] == NULL || ft_strcmp(cmd->args[1], "~") == 0)
         cd_home(data, old_pwd);
     else if (ft_strcmp(cmd->args[1], "-") == 0)
         cd_dash(data, old_pwd);

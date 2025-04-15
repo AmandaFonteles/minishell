@@ -23,10 +23,6 @@
  */
 #include "../inc/minishell.h"
 
-/*void test(int signal)
-{
-    printf("signal : %d", signal);
-}*/
 // TODO: add free_cmd_list(), free_pipe_ends() here before reinitializing
 //TODO: check if all the malloc from libft func was freed!!!
 // TOO: Create a global variable to store the exit code
@@ -57,21 +53,17 @@ void main_loop(t_minishell *data)
 int main(int ac, char **av, char **envp)
 {
     (void)av;
-    
-    //I think we need to create a function to handle the signals and call it inside the main loop
-    /*struct sigaction    action;
-    action.sa_handler = test;
-    action.sa_flags = 0;
-    sigemptyset(&action.sa_mask);*/
-    //allocating memory for the struct
     t_minishell *data;
 
-    data = malloc(sizeof(t_minishell)); //alloc mem inside the loop?
-    if (!data)
-        return (1);
     if (ac != 1)
     {
-        printf("Error: minishell don't take arguments\n");
+        ft_putstr_fd("Error: minishell don't take arguments\n", 2);
+        return (1);
+    }
+    data = malloc(sizeof(t_minishell));
+    if (!data)
+    {
+        ft_putstr_fd("Error: malloc failed\n", 2);
         return (1);
     }
     init_structs(data);

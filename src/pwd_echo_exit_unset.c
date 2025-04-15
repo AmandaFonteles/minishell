@@ -68,15 +68,16 @@ void builtin_exit(t_minishell *data, t_pars_cmd *cmd)
     if (cmd->args[1] == NULL)
     {
         data->exit_code = 0;
-        //free everything
+        free_all(data);
+        free_to_exit(data);
         ft_putstr_fd("exit\n", 1);
         exit(0);
     }
-    else if (cmd->args[1] && !ft_isnbr(cmd->args[1]))
+    else if (cmd->args[1] && !isnbr(cmd->args[1]))
     {
         data->exit_code = 2;
         print_exit_error(cmd->args[1], "numeric argument required");
-        //free everything
+        free_all(data);
         exit(2);
     }
     else if (cmd->args[1] && cmd->args[2])

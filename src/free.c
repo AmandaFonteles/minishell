@@ -84,3 +84,34 @@ void	free_all(t_minishell *data)
 	if (data->pipe_ends)
 		free_pipes(data);
 }
+
+void free_to_exit(t_minishell *data)
+{
+	if (data->user_input)
+		free(data->user_input);
+	if (data->envp)
+		free(data->envp);
+	if (data->env)
+		free_env(data->env);
+	if (data->exported)
+		free_env(data->exported);
+		//should I free exit_code?
+	if (data)
+		free(data);
+}
+
+void free_env(t_env *list)
+{
+	t_env *temp;
+
+	while (list)
+	{
+		temp = list;
+		list = list->next;
+		if (temp->title)
+			free(temp->title);
+		if (temp->value)
+			free(temp->value);
+		free(temp);
+	}
+}

@@ -44,7 +44,6 @@ SRC = $(SRCDIR)main.c \
 		$(SRCDIR)heredoc.c \
 		$(SRCDIR)env_management.c \
 		$(SRCDIR)init.c \
-		$(SRCDIR)utils.c \
 		$(SRCDIR)test.c \
 		
 # Objects
