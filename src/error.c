@@ -11,6 +11,17 @@
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+//fazer func error_init
+void error_init(t_minishell *data, char *msg)
+{
+    (void)data;
+    ft_putstr_fd("minishell: ", 2);
+    if (msg)
+        ft_putstr_fd(msg, 2);
+    ft_putstr_fd(": Init error\n", 2);
+}
+
+
 
 void print_cmd_not_found(t_minishell *data, char *cmd)
 {

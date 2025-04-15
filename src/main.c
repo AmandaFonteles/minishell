@@ -40,21 +40,17 @@ void main_loop(t_minishell *data)
         }
         if (data->user_input[0] != '\0')
             add_history(data->user_input);
-        //init_structs
-        //parse the command
-        //execute the command
         basic_parse_input(data);
         setup_exec(data);
-        //wait for the command to finish
         free_all(data);
     }
 }
-
+//change nbr of returning errors for different errors
 int main(int ac, char **av, char **envp)
 {
-    (void)av;
     t_minishell *data;
 
+    (void)av;
     if (ac != 1)
     {
         ft_putstr_fd("Error: minishell don't take arguments\n", 2);
@@ -66,9 +62,8 @@ int main(int ac, char **av, char **envp)
         ft_putstr_fd("Error: malloc failed\n", 2);
         return (1);
     }
-    init_structs(data);
-    init_env(data, envp);
-    init_exp(data, envp);
+    if (!init_data(data, envp))
+        return (1);
     main_loop(data); 
     //free all the memory allocated
     return (data->exit_code);

@@ -38,6 +38,18 @@ int ft_strlen_array(char **arr);
 /* MAIN.C */
 void    main_loop(t_minishell *data);
 
+/*init - prepare the data struct*/
+int init_data(t_minishell *data, char **envp);
+void init_structs(t_minishell *data);
+int init_envp(t_minishell *data);
+t_env   *create_env_node(t_minishell *data, char *env_str); //maybe open a .c for all the creation of nodes?
+int add_env(t_minishell *data, char *env);
+int    add_exp(t_minishell *data, char *envp);
+
+/*error*/
+void error_init(t_minishell *data, char *msg); //generic error func, change name!
+
+
 /* EXECVE_HUB.C */
 void    execute(t_minishell *data, t_pars_cmd *cur_cmd);
 void    resolve_and_exec(t_minishell *data, t_pars_cmd *cmd);
@@ -103,14 +115,7 @@ void print_exported(t_env *cur_exp_node);
 void check_exp(t_minishell *data, char *arg);
 void check_env(t_minishell *data, char *arg);
 
-/* INIT.C */
-void init_structs(t_minishell *data);
-void init_env(t_minishell *data, char **envp);
-void init_exp(t_minishell *data, char **envp);
-
 /* ENV_MANAGEMENT.C */
-void    add_exp(t_minishell *data, char *env);
-void add_env(t_minishell *data, char *env);
 void    set_env(t_env *list, char *title, char *value);
 char    *ft_getenv(char *directory_name, t_minishell *data);
 

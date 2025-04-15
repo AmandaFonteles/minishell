@@ -12,60 +12,6 @@
 
 #include "../inc/minishell.h"
 
-void   add_exp(t_minishell *data, char *env)
-{
-    t_env *new;
-    t_env *tmp;
-    char *has_value;
-
-    new = malloc(sizeof(t_env));
-    if (!new)
-        ft_error(data, "error malloc"); // Error allocating memory
-    has_value = ft_strchr(env, '=');
-    if (!has_value)
-    {
-        new->title = ft_strdup(env);
-        new->value = NULL;
-    }
-    else
-    {
-        new->title = ft_substr(env, 0, has_value - env);
-        new->value = ft_strdup(has_value + 1);
-    }
-    new->next = NULL;
-    if (!data->exported)
-    {
-        data->exported = new;
-        return ;
-    }
-    tmp = data->exported;
-    while (tmp->next)
-        tmp = tmp->next;
-    tmp->next = new;
-}
-
-void   add_env(t_minishell *data, char *env)
-{
-    t_env *new;
-    t_env *tmp;
-
-    new = malloc(sizeof(t_env));
-    if (!new)
-        ft_error(data, "error malloc"); // Error allocating memory
-    new->title = ft_substr(env, 0, ft_strchr(env, '=') - env);
-    new->value = ft_strdup(ft_strchr(env, '=') + 1);
-    new->next = NULL;
-    if (!data->env)
-    {
-        data->env = new;
-        return ;
-    }
-    tmp = data->env;
-    while (tmp->next)
-        tmp = tmp->next;
-    tmp->next = new;
-}
-
 void    set_env(t_env *list, char *title, char *value)
 {
     t_env *cur_node;
