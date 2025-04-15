@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:24:55 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/10 19:36:51 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:39:24 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ void	free_all(t_minishell *data)
 
 void free_to_exit(t_minishell *data)
 {
-	if (data->user_input)
-		free(data->user_input);
+	free_all(data);
 	if (data->envp)
 		free(data->envp);
 	if (data->env)

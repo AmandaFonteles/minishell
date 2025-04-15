@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/10 20:41:45 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/15 22:08:30 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int add_env(t_minishell *data, char *env);
 int    add_exp(t_minishell *data, char *envp);
 
 /*error*/
-void error_init(t_minishell *data, char *msg); //generic error func, change name!
-
+void error_to_exit(t_minishell *data, char *msg); //exit the program
+int    error_to_excode(t_minishell *data, char *msg, int exit_code); //return an error code
 
 /* EXECVE_HUB.C */
 void    execute(t_minishell *data, t_pars_cmd *cur_cmd);
@@ -58,7 +58,7 @@ void    execve_error(t_minishell *data, char *cmd_path);
 int check_full_path(char *cmd);
 
 /* SETUP_EXEC.C */
-void    setup_exec(t_minishell *data);
+int    setup_exec(t_minishell *data);
 void    multiple_cmds(t_minishell *data);
 void    exec_uniq_cmd(t_minishell *data);
 
@@ -85,7 +85,7 @@ void redirect_heredoc(t_minishell *data, t_pars_cmd *cmd);
 
 /* BUILTINS.C */
 int is_builtin(t_pars_cmd *command);
-void single_builtin(t_minishell *data, t_pars_cmd *cmd);
+int single_builtin(t_minishell *data, t_pars_cmd *cmd);
 void builtin_hub(t_minishell *data, t_pars_cmd *cmd);
 
 

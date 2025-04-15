@@ -6,22 +6,36 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:08:03 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/10 20:38:55 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/15 22:08:55 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-//fazer func error_init
-void error_init(t_minishell *data, char *msg)
+
+void error_to_exit(t_minishell *data, char *msg)
 {
     (void)data;
     ft_putstr_fd("minishell: ", 2);
     if (msg)
-        ft_putstr_fd(msg, 2);
-    ft_putstr_fd(": Init error\n", 2);
+        perror(msg);
+    free_to_exit(data);
+    exit(1);
 }
 
-
+int    error_to_excode(t_minishell *data, char *msg, int exit_code)
+{
+    (void)data;
+    ft_putstr_fd("minishell: ", 2);
+    if (msg)
+        perror(msg);
+    return (data->exit_code = exit_code);
+}
+{
+    ft_putstr_fd("minishell: ", 2);
+    if (msg)
+        perror(msg);
+    data->exit_code = 1;
+}
 
 void print_cmd_not_found(t_minishell *data, char *cmd)
 {

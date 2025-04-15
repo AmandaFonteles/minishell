@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:03:09 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/15 15:58:14 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:43:35 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,21 @@ t_env   *create_env_node(t_minishell *data, char *env_str)
 
 	new = malloc(sizeof(t_env));
 	if (!new)
-		error_init(data, "malloc t_env node");
+		error_to_exit(data, "malloc t_env node");
 	equal = ft_strchr(env_str, '=');
 	if (equal)
 	{
 		if (!(new->title = ft_substr(env_str, 0, equal - env_str))
         || !(new->value = ft_strdup(equal + 1)))
         {
-			error_init(data, "error populating env node");
+			error_to_exit(data, "error populating env node");
             return (NULL);           
         }
 	}
     else
     {
         if (!(new->title = ft_strdup(env_str)))
-            error_init(data, "error ft_strdup");
+            error_to_exit(data, "error ft_strdup");
         new->value = NULL;
     }
     new->next = NULL;

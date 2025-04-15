@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/09 11:58:36 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/15 21:19:15 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,18 @@
 
 static char *gen_heredoc_filename(int index)
 {
-	char *num = ft_itoa(index);
-	char *name = ft_strjoin("hd_tmp", num);
+	char *num; 
+	char *name;
+	
+	num = ft_itoa(index);
+	if (!num)
+		return NULL;
+	name = ft_strjoin("hd_tmp", num);
+	if (!name)
+	{
+		free(num);
+		return NULL;
+	}
 	free(num);
 	return (name);
 }
@@ -27,7 +37,7 @@ void write_heredoc_file(t_minishell *data, char *filename, char *delimiter)
 	
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
-		ft_error(data, "heredoc open");
+		error_to_exit(data, "heredoc open");
 	while (1)
 	{
 		line = readline("> ");
@@ -41,13 +51,24 @@ void write_heredoc_file(t_minishell *data, char *filename, char *delimiter)
 	close(fd);
 }
 
+static void handle_heredoc(t_minishell *data, t_pars_cmd *cmd, int i, int *hd_count)
+{
+	char *filename;
+
+	filename = gen_heredoc_filename(*hd_count);
+	if (!filename)
+		error_to_exit(data, "malloc heredoc filename");
+	write_heredoc_file(data, filename, cmd->delimiters[i]);
+	cmd->heredoc[i] = filename;
+	(*hd_count)++;
+}
+
 void generate_heredocs(t_minishell *data)
 {
 	t_pars_cmd *cmd;
 	int hd_count;
 	int i;
 
-	i = 0;
 	hd_count = 0;
 	cmd = data->cmd_list;
 	while (cmd)
@@ -56,12 +77,11 @@ void generate_heredocs(t_minishell *data)
 		{
 			cmd->heredoc = malloc(sizeof(char *) * (cmd->hd_nb + 1));
 			if (!cmd->heredoc)
-				ft_error(data, "malloc heredoc");
+				error_to_exit(data, "malloc heredoc");
+			i = 0;
 			while (i < cmd->hd_nb)
 			{
-				char *filename = gen_heredoc_filename(hd_count++);
-				write_heredoc_file(data, filename, cmd->delimiters[i]);
-				cmd->heredoc[i] = filename;
+				handle_heredoc(data, cmd, i, &hd_count);
 				i++;
 			}
 			cmd->heredoc[cmd->hd_nb] = NULL;
