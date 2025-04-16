@@ -6,12 +6,12 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:08:03 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/15 22:08:55 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:43:16 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
+//this exit minishell
 void error_to_exit(t_minishell *data, char *msg)
 {
     (void)data;
@@ -21,21 +21,31 @@ void error_to_exit(t_minishell *data, char *msg)
     free_to_exit(data);
     exit(1);
 }
-
-int    error_to_excode(t_minishell *data, char *msg, int exit_code)
-{
-    (void)data;
-    ft_putstr_fd("minishell: ", 2);
-    if (msg)
-        perror(msg);
-    return (data->exit_code = exit_code);
-}
+//this displays the error, set the exit code and return to the prompt
+//inside main_loop, but didin't fork yet
+int    error_and_prompt_back(t_minishell *data, char *msg)
 {
     ft_putstr_fd("minishell: ", 2);
     if (msg)
         perror(msg);
     data->exit_code = 1;
+    return (0); // let caller return early
 }
+//dup2 and check for errors
+int safe_dup2(int oldfd, int newfd, t_minishell *data)
+{
+    if (dup2(oldfd, newfd) == -1)
+    {
+        ft_putstr_fd("minishell: ", 2);
+        perror("dup2");
+        //do I need to close oldfd and newfd?
+        close(oldfd);
+        data->exit_code = 1;
+        return (0);
+    }
+    return (1);
+}
+
 
 void print_cmd_not_found(t_minishell *data, char *cmd)
 {

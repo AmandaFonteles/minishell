@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:47:11 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/15 22:03:33 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:16:28 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ int is_builtin(t_pars_cmd *command)
     else
         return 0;
 }
-
-int single_builtin(t_minishell *data, t_pars_cmd *cmd)
+void single_builtin(t_minishell *data, t_pars_cmd *cmd)
 {
     int fd_in;
     int fd_out;
@@ -40,7 +39,10 @@ int single_builtin(t_minishell *data, t_pars_cmd *cmd)
     fd_in = dup(STDIN_FILENO);
     fd_out = dup(STDOUT_FILENO);
     if (fd_in == -1 || fd_out == -1)
-        return (error_to_excode(data, "dup", 1));
+    {
+        error_and_prompt_back(data, "dup");
+        return ;
+    }
     if (!setup_redirections(cmd, data))
     {
         dup2(fd_in, STDIN_FILENO);

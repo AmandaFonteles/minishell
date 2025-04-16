@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/15 22:08:30 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:52:45 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int    add_exp(t_minishell *data, char *envp);
 
 /*error*/
 void error_to_exit(t_minishell *data, char *msg); //exit the program
-int    error_to_excode(t_minishell *data, char *msg, int exit_code); //return an error code
+int    error_and_prompt_back(t_minishell *data, char *msg);
+int safe_dup2(int oldfd, int newfd, t_minishell *data);
 
 /* EXECVE_HUB.C */
 void    execute(t_minishell *data, t_pars_cmd *cur_cmd);
@@ -58,7 +59,7 @@ void    execve_error(t_minishell *data, char *cmd_path);
 int check_full_path(char *cmd);
 
 /* SETUP_EXEC.C */
-int    setup_exec(t_minishell *data);
+void    setup_exec(t_minishell *data);
 void    multiple_cmds(t_minishell *data);
 void    exec_uniq_cmd(t_minishell *data);
 
@@ -75,17 +76,17 @@ void    close_all_pipes(t_minishell *data);
 /* REDIRECTIONS */
 int setup_redirections(t_pars_cmd *cmd, t_minishell *data);
 int open_infile(t_pars_cmd *cmd, t_minishell *data);
-int open_outfile(t_pars_cmd *cmd, t_minishell *data, int mode);
+int open_outfile(t_pars_cmd *cmd, t_minishell *data, int append);
 
 /* HEREDOC.C */
 void write_heredoc_file(t_minishell *data, char *filename, char *delimiter);
-void generate_heredocs(t_minishell *data);
+int generate_heredocs(t_minishell *data);
 char *last_heredoc_path(t_pars_cmd *cmd);
 void redirect_heredoc(t_minishell *data, t_pars_cmd *cmd);
 
 /* BUILTINS.C */
 int is_builtin(t_pars_cmd *command);
-int single_builtin(t_minishell *data, t_pars_cmd *cmd);
+void single_builtin(t_minishell *data, t_pars_cmd *cmd);
 void builtin_hub(t_minishell *data, t_pars_cmd *cmd);
 
 

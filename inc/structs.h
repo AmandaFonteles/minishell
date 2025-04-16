@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:00:39 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/09 21:41:59 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:50:04 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_parsed_command
     char    **delimiters; //we need an array with the delimiters - NULL if none
     char    *infile; //infile, NULL if none
     char    *outfile; //outfile, if pipe, NULL
-    int outfile_mode; // 1 for >, 2 for >>, 0 if we don't have it
+    int append; //1 if append, 0 if overwrite
     char    **args; //we need an array with the cmd and args to pass to execve
     struct s_parsed_command *next; //pointer to the next command in the list 
 }   t_pars_cmd;

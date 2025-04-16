@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/15 21:19:15 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:06:07 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ void write_heredoc_file(t_minishell *data, char *filename, char *delimiter)
 	
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
-		error_to_exit(data, "heredoc open");
+	{
+		error_and_prompt_back(data, filename);
+		free(filename);
+		return ;		
+	}
 	while (1)
 	{
 		line = readline("> ");
@@ -57,13 +61,13 @@ static void handle_heredoc(t_minishell *data, t_pars_cmd *cmd, int i, int *hd_co
 
 	filename = gen_heredoc_filename(*hd_count);
 	if (!filename)
-		error_to_exit(data, "malloc heredoc filename");
+		error_and_prompt_back(data, "malloc heredoc filename");
 	write_heredoc_file(data, filename, cmd->delimiters[i]);
 	cmd->heredoc[i] = filename;
 	(*hd_count)++;
 }
 
-void generate_heredocs(t_minishell *data)
+int generate_heredocs(t_minishell *data)
 {
 	t_pars_cmd *cmd;
 	int hd_count;
@@ -76,8 +80,8 @@ void generate_heredocs(t_minishell *data)
 		if (cmd->delimiters)
 		{
 			cmd->heredoc = malloc(sizeof(char *) * (cmd->hd_nb + 1));
-			if (!cmd->heredoc)
-				error_to_exit(data, "malloc heredoc");
+			if (!cmd->heredoc)			
+				return (error_and_prompt_back(data, "malloc heredoc"), 0);
 			i = 0;
 			while (i < cmd->hd_nb)
 			{
@@ -88,6 +92,7 @@ void generate_heredocs(t_minishell *data)
 		}
 		cmd = cmd->next;
 	}
+	return (1);
 }
 
 char *last_heredoc_path(t_pars_cmd *cmd)
@@ -107,15 +112,18 @@ void redirect_heredoc(t_minishell *data, t_pars_cmd *cmd)
 	
 	path = last_heredoc_path(cmd);
 	if (!path)
-		return ;
+	{
+    	data->exit_code = error_to_excode(data, "heredoc: error path\n", 1);
+    	return ;
+	}
 	fd_hd = open(path, O_RDONLY);
 	if (fd_hd == -1)
-    {
-        ft_putstr_fd("minishell: here_doc ", 2);
-        perror(path);
-        data->exit_code = 1;
-    }
+	{
+		perror(path);
+		data->exit_code = 1;
+		return ;
+	}
 	if (dup2(fd_hd, STDIN_FILENO) == -1)
-		ft_error(data, "dup2 heredoc");
+		error_to_exit(data, "dup2");
 	close(fd_hd);
 }

@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/15 22:07:17 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/16 16:53:16 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,17 @@ void   setup_exec(t_minishell *data)
     if (!data->cmd_list)
         return ;
     //printf("[DEBUG] Executing %d command(s)\n", data->cmd_nb);
-    generate_heredocs(data); // unlink and free the heredocs after !!!!
+    if (!generate_heredocs(data))
+        return ;
     if (data->cmd_nb == 1)
     {
         if (is_builtin(data->cmd_list))
-            return (single_builtin(data, data->cmd_list));
+            single_builtin(data, data->cmd_list);
         else
-            return (exec_uniq_cmd(data));  //change from void to return int
+            exec_uniq_cmd(data);  //change from void to return int
     }
     else
-        return (multiple_cmds(data)); //change from void to return int
+        multiple_cmds(data); //change from void to return int
 }
 //hub to create pipes and processes for multiple commands
 void    multiple_cmds(t_minishell *data)
