@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:47:11 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/16 17:16:28 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/16 22:34:05 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,23 @@ void single_builtin(t_minishell *data, t_pars_cmd *cmd)
     }
     if (!setup_redirections(cmd, data))
     {
-        dup2(fd_in, STDIN_FILENO);
-        dup2(fd_out, STDOUT_FILENO);
-        close(fd_in);
-        close(fd_out);
-        return ;
+        if (dup_and_close(fd_in, fd_out, data) == 0)
+            return ;
     }
     builtin_hub(data, cmd);
-    dup2(fd_in, STDIN_FILENO);
-    dup2(fd_out, STDOUT_FILENO);
+    if (dup_and_close(fd_in, fd_out, data) == 0)
+        return ;
+}
+
+int dup_and_close(int fd_in, int fd_out, t_minishell *data)
+{
+    if (safe_dup2(fd_in, STDIN_FILENO, data) == 0)
+        return (0);
+    if (safe_dup2(fd_out, STDOUT_FILENO, data) == 0)
+        return (0);
     close(fd_in);
     close(fd_out);
+    return (1);
 }
 
 void builtin_hub(t_minishell *data, t_pars_cmd *cmd)

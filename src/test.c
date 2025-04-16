@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:51:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/09 12:51:32 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/16 22:25:33 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static t_pars_cmd *create_cmd_node(void)
     cmd->delimiters = NULL;
     cmd->infile = NULL;
     cmd->outfile = NULL;
-    cmd->outfile_mode = 0;
+    cmd->append = 0;
     cmd->args = NULL;
     cmd->next = NULL;
     return cmd;
@@ -56,12 +56,12 @@ void basic_parse_input(t_minishell *data)
         else if (ft_strcmp(tokens[i], ">") == 0 && tokens[i + 1])
         {
             cmd->outfile = ft_strdup(tokens[++i]);
-            cmd->outfile_mode = 1;
+            cmd->append = 0;
         }
         else if (ft_strcmp(tokens[i], ">>") == 0 && tokens[i + 1])
         {
             cmd->outfile = ft_strdup(tokens[++i]);
-            cmd->outfile_mode = 2;
+            cmd->append = 1;
         }
         else
             cmd->args[argc++] = ft_strdup(tokens[i]);

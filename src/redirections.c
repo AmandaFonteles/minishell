@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:56:58 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/16 17:52:17 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/16 20:25:19 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int setup_redirections(t_pars_cmd *cmd, t_minishell *data)
             return 0; //fail
     }
     else if (cmd->heredoc && cmd->heredoc[0])
-        redirect_heredoc(data, cmd);
+        if (!redirect_heredoc(data, cmd))
+            return 0; //fail
     if (cmd->outfile)
     {
         if (!open_outfile(cmd, data, cmd->append))
@@ -53,24 +54,12 @@ int open_outfile(t_pars_cmd *cmd, t_minishell *data, int append)
     
     if (append == 0)
         fd_out = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    else if (append == 1)
-        fd_out = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
     else
-    {
-        data->exit_code = error_to_excode(data, cmd->outfile, 1);
-        return 0;
-    }
+        fd_out = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (fd_out == -1)
-    {
-        data->exit_code = error_to_excode(data, cmd->outfile, 1);
+        return (error_and_prompt_back(data, cmd->outfile)); //fail
+    if (safe_dup2(fd_out, STDOUT_FILENO, data) == 0)
         return 0; //fail
-    }
-    if (dup2(fd_out, STDOUT_FILENO) == -1)
-    {
-        data->exit_code = error_to_excode(data, "dup2", 1);
-        close(fd_out);
-        return 0; //fail
-    }
     close(fd_out);
     return 1; //success
 }

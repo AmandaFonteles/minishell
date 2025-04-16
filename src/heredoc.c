@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/16 17:06:07 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/16 20:31:44 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,28 +102,22 @@ char *last_heredoc_path(t_pars_cmd *cmd)
 		return NULL;
 	while (cmd->heredoc[i + 1])
 		i++;
-	return cmd->heredoc[i];
+	return (cmd->heredoc[i]);
 }
 
-void redirect_heredoc(t_minishell *data, t_pars_cmd *cmd)
+int redirect_heredoc(t_minishell *data, t_pars_cmd *cmd)
 {
 	char *path;
 	int fd_hd;
 	
 	path = last_heredoc_path(cmd);
 	if (!path)
-	{
-    	data->exit_code = error_to_excode(data, "heredoc: error path\n", 1);
-    	return ;
-	}
+    	return (error_and_prompt_back(data, "heredoc: path not found\n"));
 	fd_hd = open(path, O_RDONLY);
 	if (fd_hd == -1)
-	{
-		perror(path);
-		data->exit_code = 1;
-		return ;
-	}
-	if (dup2(fd_hd, STDIN_FILENO) == -1)
-		error_to_exit(data, "dup2");
+		return (error_and_prompt_back(data, path));
+	if (safe_dup2(fd_hd, STDIN_FILENO, data) == 0)
+		return (0);
 	close(fd_hd);
+	return (1);
 }
