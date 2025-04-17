@@ -49,12 +49,12 @@ int is_valid_identifier(char *s)
     return (1);
 }
 
-void    remove_env(t_minishell *data, char *arg)
+void    remove_tenv(t_env *list, char *arg)
 {
     t_env *cur_env_node;
     t_env *prev_env_node;
 
-    cur_env_node = data->env;
+    cur_env_node = list;
     prev_env_node = NULL;
     while (cur_env_node)
     {
@@ -63,38 +63,14 @@ void    remove_env(t_minishell *data, char *arg)
             if (prev_env_node)
                 prev_env_node->next = cur_env_node->next;
             else
-                data->env = cur_env_node->next;
+                list = cur_env_node->next;
+            if (cur_env_node->value)
+                free(cur_env_node->value);           
             free(cur_env_node->title);
-            free(cur_env_node->value);
             free(cur_env_node);
             return ;
         }
         prev_env_node = cur_env_node;
         cur_env_node = cur_env_node->next;
-    }
-}
-
-void    remove_exp(t_minishell *data, char *arg)
-{
-    t_env *cur_exp_node;
-    t_env *prev_exp_node;
-
-    cur_exp_node = data->exported;
-    prev_exp_node = NULL;
-    while (cur_exp_node)
-    {
-        if (ft_strcmp(cur_exp_node->title, arg) == 0)
-        {
-            if (prev_exp_node)
-                prev_exp_node->next = cur_exp_node->next;
-            else
-                data->exported = cur_exp_node->next;
-            free(cur_exp_node->title);
-            free(cur_exp_node->value);
-            free(cur_exp_node);
-            return ;
-        }
-        prev_exp_node = cur_exp_node;
-        cur_exp_node = cur_exp_node->next;
     }
 }

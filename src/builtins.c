@@ -69,11 +69,11 @@ void builtin_hub(t_minishell *data, t_pars_cmd *cmd)
     if (!cmd || !cmd->args || !cmd->args[0])
         return ;
     if (ft_strcmp(cmd->args[0], "echo") == 0)
-        data->exit_code = builtin_echo(data, cmd);
+        builtin_echo(data, cmd);
     else if (ft_strcmp(cmd->args[0], "cd") == 0)
         builtin_cd(data, cmd);
     else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-        data->exit_code = builtin_pwd(data, cmd);
+        builtin_pwd(data, cmd);
     else if (ft_strcmp(cmd->args[0], "export") == 0)
         builtin_export(data, cmd);
     else if (ft_strcmp(cmd->args[0], "unset") == 0)

@@ -79,7 +79,7 @@ void print_invalid_identifier(t_minishell *data, char *arg)
     data->exit_code = 1;
 }
 
-void    print_invalid_option(t_minishell *data, char *builtin, char *arg)
+int    print_invalid_option(t_minishell *data, char *builtin, char *arg)
 {
     ft_putstr_fd("minishell: ", 2);
     ft_putstr_fd(builtin, 2);
@@ -88,6 +88,7 @@ void    print_invalid_option(t_minishell *data, char *builtin, char *arg)
     ft_putchar_fd(arg[1], 2);
     ft_putstr_fd("': invalid option\n", 2);
     data->exit_code = 1;
+    return (0);
 }
 
 void ft_error(t_minishell *data, char *msg)

@@ -50,6 +50,7 @@ int    add_exp(t_minishell *data, char *envp);
 void error_to_exit(t_minishell *data, char *msg); //exit the program
 int    error_and_prompt_back(t_minishell *data, char *msg);
 int safe_dup2(int oldfd, int newfd, t_minishell *data);
+int    print_invalid_option(t_minishell *data, char *builtin, char *arg);
 
 /* EXECVE_HUB.C */
 void    execute(t_minishell *data, t_pars_cmd *cur_cmd);
@@ -94,8 +95,7 @@ void builtin_hub(t_minishell *data, t_pars_cmd *cmd);
 /* BUILTIN_UTILS.C */
 int isnbr(char *str);
 int is_valid_identifier(char *s);
-void remove_env(t_minishell *data, char *arg);
-void remove_exp(t_minishell *data, char *arg);
+void remove_tenv(t_env *list, char *arg);
 
 /* PWD_ECHO_EXIT_UNSET.C */
 void builtin_pwd(t_minishell *data, t_pars_cmd *cmd);
@@ -135,7 +135,6 @@ void print_cmd_not_found(t_minishell *data, char *cmd);
 void ft_error(t_minishell *data, char *msg); //arrumar
 void print_exit_error(char *arg, char *msg);
 void print_invalid_identifier(t_minishell *data, char *arg);
-void    print_invalid_option(t_minishell *data, char *builtin, char *arg);
 
 /* UTILS.C */
 long long	ft_atoll(const char *str);

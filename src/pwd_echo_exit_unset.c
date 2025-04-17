@@ -29,8 +29,8 @@ void builtin_pwd(t_minishell *data, t_pars_cmd *cmd) //pwd can have arguments
     }
     ft_putstr_fd(cwd, 1);
     ft_putstr_fd("\n", 1);
-    data->exit_code = 0;
     free(cwd);
+    data->exit_code = 0;    
 }
 
 static int is_n(char *str)
@@ -80,6 +80,28 @@ void builtin_echo(t_minishell *data, t_pars_cmd *cmd)
     data->exit_code = 0;
 }
 
+void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
+{
+    int i;
+
+    i = 1;
+    while (cmd->args[i])
+    {
+        if (cmd->args[i][0] == '-')
+        {
+            print_invalid_option(data, cmd->args[0], cmd->args[i]);
+            return ;
+        }
+        else
+        {
+            remove_tenv(data->exported, cmd->args[i]);
+            remove_tenv(data->env, cmd->args[i]);            
+        }
+        i++;
+    }
+    data->exit_code = 0;
+}
+
 void builtin_exit(t_minishell *data, t_pars_cmd *cmd)
 {
     if (cmd->args[1] == NULL)
@@ -109,28 +131,4 @@ void builtin_exit(t_minishell *data, t_pars_cmd *cmd)
         exit(data->exit_code);*/
         exit((unsigned char)ft_atoll(cmd->args[1]));
     }
-}
-
-void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
-{
-    int i;
-
-    i = 1;
-    while (cmd->args[i])
-    {
-        if (cmd->args[i][0] == '-')
-        {
-            print_invalid_option(data, cmd->args[0], cmd->args[i]);
-            data->exit_code = 1;
-            return ;
-        }
-        else
-        {
-            remove_env(data, cmd->args[i]);
-            remove_exp(data, cmd->args[i]);
-            data->exit_code = 0;
-        }
-        i++;
-    }
-    data->exit_code = 0;
 }
