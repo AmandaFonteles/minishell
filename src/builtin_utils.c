@@ -27,7 +27,7 @@ int isnbr(char *str)
         i++;
     }
     long long nb = ft_atoll(str);
-    if (nb == LLONG_MAX || nb == LLONG_MIN)
+    if (nb > LLONG_MAX || nb < LLONG_MIN)
         return (0);
     return (1);
 }

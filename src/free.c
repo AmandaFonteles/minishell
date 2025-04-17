@@ -25,6 +25,7 @@ void    free_pipes(t_minishell *data)
         i++;
     }
     free(data->pipe_ends);
+	data->pipe_ends = NULL;
 }
 
 void free_arraystr(char **arr)
@@ -44,10 +45,13 @@ void cleanup_heredocs(t_minishell *data)
 	{
 		if (cmd->heredoc)
 		{
-			for (i = 0; cmd->heredoc[i]; i++)
+			i = 0;
+			while (cmd->heredoc[i])
 			{
 				unlink(cmd->heredoc[i]);
 				free(cmd->heredoc[i]);
+				cmd->heredoc[i] = NULL;
+				i++;
 			}
 			free(cmd->heredoc);
 			cmd->heredoc = NULL;
@@ -58,16 +62,18 @@ void cleanup_heredocs(t_minishell *data)
 
 void	free_cmd_node(t_pars_cmd *cmd)
 {
-	if (cmd->delimiters)
-		free_arraystr(cmd->delimiters);
-	if (cmd->infile)
-		free(cmd->infile);
-	if (cmd->outfile)
-		free(cmd->outfile);
-	if (cmd->args)
-		free_arraystr(cmd->args);
-	if (cmd->next)
-		free_cmd_node(cmd->next);
+	while (cmd)
+	{
+		if (cmd->delimiters)
+			free_arraystr(cmd->delimiters);
+		if (cmd->infile)
+			free(cmd->infile);
+		if (cmd->outfile)
+			free(cmd->outfile);
+		if (cmd->args)
+			free_arraystr(cmd->args);
+		cmd = cmd->next;
+	}
 	free(cmd);
 	cmd = NULL;
 }
@@ -88,8 +94,6 @@ void	free_all(t_minishell *data)
 void free_to_exit(t_minishell *data)
 {
 	free_all(data);
-	if (data->envp)
-		free(data->envp);
 	if (data->env)
 		free_env(data->env);
 	if (data->exported)
@@ -97,6 +101,7 @@ void free_to_exit(t_minishell *data)
 		//should I free exit_code?
 	if (data)
 		free(data);
+		
 }
 
 void free_env(t_env *list)

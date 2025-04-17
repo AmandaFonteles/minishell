@@ -101,34 +101,41 @@ void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
     }
     data->exit_code = 0;
 }
+static int too_many_args(t_minishell *data, char **args, int i)
+{
+    if (args[i] && args[i + 1])
+    {
+        data->exit_code = 1;
+        print_exit_error(NULL, "too many arguments");
+        return (1);
+    }
+    return (0);
+}
 
 void builtin_exit(t_minishell *data, t_pars_cmd *cmd)
 {
+    int i;
+    int arg;
+
+    i = 1;
     if (cmd->args[1] == NULL)
     {
-        data->exit_code = 0;
-        free_all(data);
         free_to_exit(data);
         ft_putstr_fd("exit\n", 1);
         exit(0);
     }
-    else if (cmd->args[1] && !isnbr(cmd->args[1]))
+    if (ft_strcmp(cmd->args[i], "--") == 0)
+        i++;
+    if (cmd->args[i] && !isnbr(cmd->args[i]))
     {
-        data->exit_code = 2;
-        print_exit_error(cmd->args[1], "numeric argument required");
-        free_all(data);
+        print_exit_error(cmd->args[i], "numeric argument required");
+        free_to_exit(data);
         exit(2);
     }
-    else if (cmd->args[1] && cmd->args[2])
-    {
-        data->exit_code = 1;
-        print_exit_error(NULL, "too many arguments");
-    }
-    else
-    {
-        /*data->exit_code = ft_atoll(cmd->args[1]) % 256; //include atoll in libft
-        ft_putstr_fd("exit\n", 1);
-        exit(data->exit_code);*/
-        exit((unsigned char)ft_atoll(cmd->args[1]));
-    }
+    if (too_many_args(data,cmd->args, i))
+        return ;
+    ft_putstr_fd("exit\n", 1);
+    arg = ft_atoll(cmd->args[i]);
+    free_to_exit(data);
+    exit((unsigned char)arg);
 }
