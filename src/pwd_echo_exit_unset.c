@@ -19,37 +19,55 @@ void builtin_pwd(t_minishell *data, t_pars_cmd *cmd) //pwd can have arguments
     if (cmd->args[1] && cmd->args[1][0] == '-' && cmd->args[1][1] != '\0')
     {
         print_invalid_option(data, cmd->args[0], cmd->args[1]);
-        data->exit_code = 1;
-        return ;
+        return;
     }
     cwd = getcwd(NULL, 0);
     if (!cwd)
     {
-        perror("pwd");
-        data->exit_code = 1;
+        error_and_prompt_back(data, "getcwd");
         return ;
     }
-    printf("%s\n", cwd);
+    ft_putstr_fd(cwd, 1);
+    ft_putstr_fd("\n", 1);
     data->exit_code = 0;
     free(cwd);
+}
+
+static int is_n(char *str)
+{
+    int i;
+
+    i = 2;
+    if (str[0] != '-' || str[1] != 'n')
+        return (0);
+    while (str[i] && str[i]== 'n')
+        i++;
+    if (str[i] != '\0')
+        return (0);
+    return (1);
+}
+
+static int parse_flag(char **args, int *i)
+{
+    int n_flag;
+
+    n_flag = 0;
+    while(args[*i] && is_n(args[*i]))
+    {
+        n_flag = 1;
+        (*i)++;
+    }
+    return (n_flag);
 }
 
 //break into smaller functions
 void builtin_echo(t_minishell *data, t_pars_cmd *cmd)
 {
-    int i = 1;
-    int n_flag = 0;
+    int i;
+    int n_flag;
 
-    while (cmd->args[i] && ft_strncmp(cmd->args[i], "-n", 2) == 0)
-    {
-        int j = 1;
-        while (cmd->args[i][j] == 'n')
-            j++;
-        if (cmd->args[i][j] != '\0') 
-            break;
-        n_flag = 1;
-        i++;
-    }
+    i = 1;
+    n_flag = parse_flag(cmd->args, &i);
     while (cmd->args[i])
     {
         ft_putstr_fd(cmd->args[i], 1);
@@ -59,7 +77,6 @@ void builtin_echo(t_minishell *data, t_pars_cmd *cmd)
     }
     if (!n_flag)
         ft_putstr_fd("\n", 1);
-
     data->exit_code = 0;
 }
 

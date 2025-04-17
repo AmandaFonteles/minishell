@@ -79,7 +79,7 @@ int open_infile(t_pars_cmd *cmd, t_minishell *data);
 int open_outfile(t_pars_cmd *cmd, t_minishell *data, int append);
 
 /* HEREDOC.C */
-void write_heredoc_file(t_minishell *data, char *filename, char *delimiter);
+int write_heredoc_file(t_minishell *data, char *filename, char *delimiter);
 int generate_heredocs(t_minishell *data);
 char *last_heredoc_path(t_pars_cmd *cmd);
 int redirect_heredoc(t_minishell *data, t_pars_cmd *cmd);

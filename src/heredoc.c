@@ -30,7 +30,7 @@ static char *gen_heredoc_filename(int index)
 	return (name);
 }
 
-void write_heredoc_file(t_minishell *data, char *filename, char *delimiter)
+int write_heredoc_file(t_minishell *data, char *filename, char *delimiter)
 {
 	int fd; 
 	char *line;
@@ -40,7 +40,7 @@ void write_heredoc_file(t_minishell *data, char *filename, char *delimiter)
 	{
 		error_and_prompt_back(data, filename);
 		free(filename);
-		return ;		
+		return (0);		
 	}
 	while (1)
 	{
@@ -53,18 +53,27 @@ void write_heredoc_file(t_minishell *data, char *filename, char *delimiter)
 	}
 	free(line);
 	close(fd);
+	return (1);
 }
 
-static void handle_heredoc(t_minishell *data, t_pars_cmd *cmd, int i, int *hd_count)
+static int handle_heredoc(t_minishell *data, t_pars_cmd *cmd, int i, int *hd_count)
 {
 	char *filename;
 
 	filename = gen_heredoc_filename(*hd_count);
 	if (!filename)
-		error_and_prompt_back(data, "malloc heredoc filename");
-	write_heredoc_file(data, filename, cmd->delimiters[i]);
+	{
+		error_and_prompt_back(data, "malloc heredoc filename");		
+		return (0);
+	}
+	if (!write_heredoc_file(data, filename, cmd->delimiters[i]))
+	{
+		free(filename);
+		return (0);
+	}
 	cmd->heredoc[i] = filename;
 	(*hd_count)++;
+	return (1);
 }
 
 int generate_heredocs(t_minishell *data)
@@ -85,7 +94,8 @@ int generate_heredocs(t_minishell *data)
 			i = 0;
 			while (i < cmd->hd_nb)
 			{
-				handle_heredoc(data, cmd, i, &hd_count);
+				if (!handle_heredoc(data, cmd, i, &hd_count))
+					return (0);
 				i++;
 			}
 			cmd->heredoc[cmd->hd_nb] = NULL;

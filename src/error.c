@@ -29,7 +29,7 @@ int    error_and_prompt_back(t_minishell *data, char *msg)
     if (msg)
         perror(msg);
     data->exit_code = 1;
-    return (0); // let caller return early
+    return (0);
 }
 //dup2 and check for errors
 int safe_dup2(int oldfd, int newfd, t_minishell *data)
@@ -56,17 +56,6 @@ void print_cmd_not_found(t_minishell *data, char *cmd)
         ft_putstr_fd(": command not found\n", 2);
         data->exit_code = 127;
     }
-}
-
-void ft_error(t_minishell *data, char *msg)
-{
-    free_pipes(data);
-    perror(msg);
-    //free_processes(data);
-    //free_commands(data);
-    //free_env(data);
-    //free_exported(data);
-    //free(data);
 }
 
 void print_exit_error(char *arg, char *msg)
@@ -99,4 +88,15 @@ void    print_invalid_option(t_minishell *data, char *builtin, char *arg)
     ft_putchar_fd(arg[1], 2);
     ft_putstr_fd("': invalid option\n", 2);
     data->exit_code = 1;
+}
+
+void ft_error(t_minishell *data, char *msg)
+{
+    free_pipes(data);
+    perror(msg);
+    //free_processes(data);
+    //free_commands(data);
+    //free_env(data);
+    //free_exported(data);
+    //free(data);
 }
