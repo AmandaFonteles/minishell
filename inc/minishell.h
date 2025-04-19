@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/16 22:34:18 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/18 20:31:03 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ int init_data(t_minishell *data, char **envp);
 void init_structs(t_minishell *data);
 int init_envp(t_minishell *data);
 t_env   *create_env_node(t_minishell *data, char *env_str); //maybe open a .c for all the creation of nodes?
-int add_env(t_minishell *data, char *env);
-int    add_exp(t_minishell *data, char *envp);
+int add_env(t_minishell *data, char *env, t_env **list);
 
 /*error*/
 void error_to_exit(t_minishell *data, char *msg); //exit the program
@@ -114,6 +113,9 @@ void builtin_cd(t_minishell *data, t_pars_cmd *cmd);
 void builtin_env(t_minishell *data, t_pars_cmd *cmd);
 void builtin_export(t_minishell *data, t_pars_cmd *cmd);
 void print_exported(t_env *cur_exp_node);
+int extract_key_value(char *arg, char **key, char **value);
+int update_env_value_in_list(t_env *list, char *key, char *value);
+void export_or_update(t_minishell *data, char *arg, char *key, char *value, int has_equal);
 void check_exp(t_minishell *data, char *arg);
 void check_env(t_minishell *data, char *arg);
 

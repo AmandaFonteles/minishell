@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:03:09 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/15 19:43:35 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/18 14:58:43 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int init_envp(t_minishell *data)
     data->exported = NULL;
     while (data->envp[i])
     {
-        if (!add_env(data, data->envp[i]))
+        if (!add_env(data, data->envp[i], &data->env))
             return (0);
-        if (!add_exp(data, data->envp[i]))
+        if (!add_env(data, data->envp[i], &data->exported))
             return (0);
         i++;
     }
@@ -75,27 +75,7 @@ t_env   *create_env_node(t_minishell *data, char *env_str)
     return (new);
 }
 
-int add_env(t_minishell *data, char *env)
-{
-    t_env *new;
-    t_env *cur;
-
-    new = create_env_node(data, env);
-    if (!new)
-        return (0);
-    if (!data->env)
-    {
-        data->env = new;
-        return (1);
-    }
-    cur = data->env;
-    while (cur->next)
-        cur = cur->next;
-    cur->next = new;
-    return (1);
-}
-
-int add_exp(t_minishell *data, char *envp)
+int add_env(t_minishell *data, char *envp, t_env **list)
 {
     t_env *new;
     t_env *cur;
@@ -103,12 +83,12 @@ int add_exp(t_minishell *data, char *envp)
     new = create_env_node(data, envp);
     if (!new)
         return (0);
-    if (!data->exported)
+    if (!(*list))
     {
-        data->exported = new;
+        *list = new;
         return (1);
     }
-    cur = data->exported;
+    cur = *list;
     while (cur->next)
         cur = cur->next;
     cur->next = new;
