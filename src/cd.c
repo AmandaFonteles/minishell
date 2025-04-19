@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:48:45 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/09 11:51:25 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/19 22:08:12 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,22 @@ void cd_update_pwd(t_minishell *data, char *old_pwd)
     new_pwd = getcwd(NULL, 0);
     if (!new_pwd)
     {
+        ft_putstr_fd("minishell: cd: ", 2);
         perror("getcwd");
         data->exit_code = 1;
         return ;
     }
-    set_env(data->env, "PWD", new_pwd);
-    set_env(data->exported, "PWD", new_pwd);
-    set_env(data->env, "OLDPWD", old_pwd);
-    set_env(data->exported, "OLDPWD", old_pwd);
+    if (!update_env_value_in_list(data->env, "PWD", new_pwd) ||
+        !update_env_value_in_list(data->exported, "PWD", new_pwd) ||
+        !update_env_value_in_list(data->env, "OLDPWD", old_pwd) ||
+        !update_env_value_in_list(data->exported, "OLDPWD", old_pwd))
+    {
+        ft_putstr_fd("minishell: cd: ", 2);
+        perror("update_env_value_in_list");
+        data->exit_code = 1;
+        free(new_pwd);
+        return ;
+    }
     free(new_pwd);
 }
 
@@ -37,13 +45,19 @@ void    cd_home(t_minishell *data, char *old_pwd)
     home = ft_getenv("HOME", data);
     if (!home || chdir(home) == -1)
     {
+        ft_putstr_fd("minishell: ", 2);
         perror("cd");
         data->exit_code = 1;
         return ;
     }
     free(home);
-    set_env(data->env, "OLDPWD", old_pwd);
-    set_env(data->exported, "OLDPWD", old_pwd);
+    if (!update_env_value_in_list(data->env, "OLDPWD", old_pwd) ||
+        !update_env_value_in_list(data->exported, "OLDPWD", old_pwd))
+    {
+        perror("update_env_value_in_list");
+        data->exit_code = 1;
+        return ;
+    }
 }
 
 void    cd_dash(t_minishell *data, char *old_pwd)
@@ -60,7 +74,8 @@ void    cd_dash(t_minishell *data, char *old_pwd)
     }
     if (chdir(prev_oldpwd) == -1)
     {
-        perror("cd");
+        ft_putstr_fd("minishell: cd: ", 2);
+        perror("chdir");
         data->exit_code = 1;
         free(prev_oldpwd);
         return ;
@@ -68,8 +83,13 @@ void    cd_dash(t_minishell *data, char *old_pwd)
     ft_putstr_fd(prev_oldpwd, 1);
     ft_putstr_fd("\n", 1);
     free(prev_oldpwd);
-    set_env(data->env, "OLDPWD", old_pwd);
-    set_env(data->exported, "OLDPWD", old_pwd);
+    if (!update_env_value_in_list(data->env, "OLDPWD", old_pwd) ||
+        !update_env_value_in_list(data->exported, "OLDPWD", old_pwd))
+    {
+        perror("update_env_value_in_list");
+        data->exit_code = 1;
+        return ;
+    }
 }
 
 void    cd_to_path(t_minishell *data, char *path, char *old_pwd)
@@ -88,10 +108,10 @@ void builtin_cd(t_minishell *data, t_pars_cmd *cmd)
 {
     char *old_pwd;
     
-    if (cmd->args[2])
+    if (strlen_array(cmd->args) > 2)
     {
-        ft_putstr_fd("cd: too many arguments\n", 2);
         data->exit_code = 1;
+        ft_putstr_fd("cd: too many arguments\n", 2);
         return ;
     }
     old_pwd = getcwd(NULL, 0);

@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/18 20:31:03 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/19 22:07:51 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 
 /*TEST*/
 void basic_parse_input(t_minishell *data);
-int ft_strlen_array(char **arr);
 
 /* MAIN.C */
 void    main_loop(t_minishell *data);
@@ -95,6 +94,7 @@ void builtin_hub(t_minishell *data, t_pars_cmd *cmd);
 int isnbr(char *str);
 int is_valid_identifier(char *s);
 void remove_tenv(t_env *list, char *arg);
+int strlen_array(char **arr);
 
 /* PWD_ECHO_EXIT_UNSET.C */
 void builtin_pwd(t_minishell *data, t_pars_cmd *cmd);
@@ -120,8 +120,7 @@ void check_exp(t_minishell *data, char *arg);
 void check_env(t_minishell *data, char *arg);
 
 /* ENV_MANAGEMENT.C */
-void    set_env(t_env *list, char *title, char *value);
-char    *ft_getenv(char *directory_name, t_minishell *data);
+char    *ft_getenv(char *variable, t_minishell *data);
 
 /* FREE.C */
 void free_pipes(t_minishell *data);

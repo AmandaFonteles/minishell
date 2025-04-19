@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:51:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/16 22:25:33 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/19 22:08:43 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void basic_parse_input(t_minishell *data)
         return ;
 
     int i = 0, argc = 0;
-    cmd->args = malloc(sizeof(char *) * (ft_strlen_array(tokens) + 1));
+    cmd->args = malloc(sizeof(char *) * (strlen_array(tokens) + 1));
     if (!cmd->args)
         return ;
 
@@ -74,11 +74,3 @@ void basic_parse_input(t_minishell *data)
     free_arraystr(tokens); // reuse your existing free function
 }
 
-// Utility function to count NULL-terminated arrays
-int ft_strlen_array(char **arr)
-{
-    int i = 0;
-    while (arr && arr[i])
-        i++;
-    return i;
-}

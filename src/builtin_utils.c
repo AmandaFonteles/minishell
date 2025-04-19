@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:18:08 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/09 18:46:07 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/19 22:06:49 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,14 @@ void    remove_tenv(t_env *list, char *arg)
         prev_env_node = cur_env_node;
         cur_env_node = cur_env_node->next;
     }
+}
+
+int strlen_array(char **arr)
+{
+    int i;
+
+    i = 0;
+    while (arr && arr[i])
+        i++;
+    return (i);
 }
