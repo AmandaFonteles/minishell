@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:17:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/18 20:36:11 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/19 17:35:53 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int update_env_value_in_list(t_env *list, char *key, char *value)
 	return (0);
 }
 //pode ter mais de 4 args
-void export_or_update(t_minishell *data, char *arg, char *key, char *value, int has_equal)
+/*void export_or_update(t_minishell *data, char *arg, char *key, char *value, int has_equal)
 {
 	if (update_env_value_in_list(data->exported, key, value))
 	{
@@ -145,30 +145,45 @@ void export_or_update(t_minishell *data, char *arg, char *key, char *value, int 
 			add_env(data, arg, &data->env);
 		add_env(data, arg, &data->exported);
 	}
+}*/
+
+void export_or_update(t_minishell *data, char *arg)
+{
+    char *key;
+    char *value;
+    int has_equal;
+
+    has_equal = 0;
+    if (!extract_key_value(arg, &key, &value))
+    {
+        error_and_prompt_back(data, "malloc");
+        return ;
+    }
+    if (ft_strchr(arg, '='))
+        has_equal = 1;
+    if (update_env_value_in_list(data->exported, key, value))
+    {
+        if (has_equal)
+            check_env(data, arg);
+    }
+    else
+    {
+        if (has_equal)
+            add_env(data, arg, &data->env);
+        add_env(data, arg, &data->exported);
+    }
+    free(key);
+    free(value);
 }
 
 void check_exp(t_minishell *data, char *arg)
 {
-	char *key;
-	char *value;
-	int has_equal;
-
-    has_equal = 0;
 	if (!is_valid_identifier(arg))
 	{
 		print_invalid_identifier(data, arg);
 		return ;
 	}
-	if (!extract_key_value(arg, &key, &value))
-	{
-		error_and_prompt_back(data, "malloc");
-		return ;
-	}
-	if (ft_strchr(arg, '='))
-        has_equal = 1;
-	export_or_update(data, arg, key, value, has_equal);
-	free(key);
-	free(value);
+	export_or_update(data, arg);
 }
 
 void check_env(t_minishell *data, char *arg)
