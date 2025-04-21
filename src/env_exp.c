@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:17:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/19 17:35:53 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/19 16:43:12 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,21 +131,6 @@ int update_env_value_in_list(t_env *list, char *key, char *value)
 	}
 	return (0);
 }
-//pode ter mais de 4 args
-/*void export_or_update(t_minishell *data, char *arg, char *key, char *value, int has_equal)
-{
-	if (update_env_value_in_list(data->exported, key, value))
-	{
-		if (has_equal)
-			check_env(data, arg);
-	}
-	else
-	{
-		if (has_equal)
-			add_env(data, arg, &data->env);
-		add_env(data, arg, &data->exported);
-	}
-}*/
 
 void export_or_update(t_minishell *data, char *arg)
 {
