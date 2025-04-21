@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:48:45 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/19 22:08:12 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:01:42 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ void    cd_home(t_minishell *data, char *old_pwd)
     home = ft_getenv("HOME", data);
     if (!home || chdir(home) == -1)
     {
-        ft_putstr_fd("minishell: ", 2);
-        perror("cd");
+        ft_putstr_fd("minishell: cd: HOME not set\n", 2);
         data->exit_code = 1;
         return ;
     }
@@ -74,10 +73,7 @@ void    cd_dash(t_minishell *data, char *old_pwd)
     }
     if (chdir(prev_oldpwd) == -1)
     {
-        ft_putstr_fd("minishell: cd: ", 2);
-        perror("chdir");
-        data->exit_code = 1;
-        free(prev_oldpwd);
+        error_chdir(data, prev_oldpwd);
         return ;
     }
     ft_putstr_fd(prev_oldpwd, 1);
@@ -111,7 +107,7 @@ void builtin_cd(t_minishell *data, t_pars_cmd *cmd)
     if (strlen_array(cmd->args) > 2)
     {
         data->exit_code = 1;
-        ft_putstr_fd("cd: too many arguments\n", 2);
+        ft_putstr_fd("minishell: cd: too many arguments\n", 2);
         return ;
     }
     old_pwd = getcwd(NULL, 0);

@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/19 22:07:51 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:46:06 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void error_to_exit(t_minishell *data, char *msg); //exit the program
 int    error_and_prompt_back(t_minishell *data, char *msg);
 int safe_dup2(int oldfd, int newfd, t_minishell *data);
 int    print_invalid_option(t_minishell *data, char *builtin, char *arg);
+void    error_chdir(t_minishell *data, char *path);
 
 /* EXECVE_HUB.C */
 void    execute(t_minishell *data, t_pars_cmd *cur_cmd);

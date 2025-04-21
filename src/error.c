@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:08:03 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/18 13:44:57 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/21 16:43:59 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,16 @@ int    print_invalid_option(t_minishell *data, char *builtin, char *arg)
     ft_putstr_fd("': invalid option\n", 2);
     data->exit_code = 1;
     return (0);
+}
+
+void    error_chdir(t_minishell *data, char *path)
+{
+    ft_putstr_fd("minishell: cd: ", 2);
+    ft_putstr_fd(path, 2);
+    ft_putstr_fd(": ", 2);
+    perror("chdir");
+    free(path);
+    data->exit_code = 1;
 }
 
 void ft_error(t_minishell *data, char *msg)
