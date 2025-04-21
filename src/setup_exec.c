@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/16 16:53:16 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:24:06 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void exec_uniq_cmd(t_minishell *data)
         return ;
     cmd->pid = fork();
     if (cmd->pid == -1)
-        ft_error(data, "error fork"); // Error forking process
+        error_to_exit(data, "error fork"); // Error forking process
     if (cmd->pid == 0)
             execute(data, cmd);
     waitpid(cmd->pid, &status, 0);
