@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/21 16:46:06 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:34:08 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void    error_chdir(t_minishell *data, char *path);
 
 /* EXECVE_HUB.C */
 void    execute(t_minishell *data, t_pars_cmd *cur_cmd);
+char *exec_make_path(t_minishell *data, t_pars_cmd *cmd);
 void    resolve_and_exec(t_minishell *data, t_pars_cmd *cmd);
 char *build_path(t_minishell *data ,char *path, char *cmd);
 void    execve_error(t_minishell *data, char *cmd_path);
