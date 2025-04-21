@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:59:29 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/21 18:39:41 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/21 19:47:01 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,35 @@ void    execute(t_minishell *data, t_pars_cmd *cur_cmd)
         return ;
     }    
 }
-//refactor
+
+char *exec_make_path(t_minishell *data, t_pars_cmd *cmd)
+{
+    char *path;
+    char *cmd_path;
+
+    path = ft_getenv("PATH", data);
+    if (!path || !*path)
+    {
+        print_cmd_not_found(data, cmd->args[0]);
+        free_to_exit(data);
+        exit(data->exit_code);
+    }
+    cmd_path = build_path(data, path, cmd->args[0]);
+    if (!cmd_path)
+    {
+        print_cmd_not_found(data, cmd->args[0]);
+        free_to_exit(data);
+        exit(data->exit_code);
+    }
+    return (cmd_path);
+}
+
 void    resolve_and_exec(t_minishell *data, t_pars_cmd *cmd)
 {
     char *cmd_path;
-    char *path;
 
     if (!check_full_path(cmd->args[0]))
-    {
-        path = ft_getenv("PATH", data);
-        if (!path || !*path)
-        {
-            print_cmd_not_found(data, cmd->args[0]);
-            free_to_exit(data);
-            exit(data->exit_code);
-        }
-        cmd_path = build_path(data, path, cmd->args[0]);
-        if (!cmd_path)
-        {
-            print_cmd_not_found(data, cmd->args[0]);
-            free_to_exit(data);
-            exit(data->exit_code);
-        }
-    }
+        cmd_path = exec_make_path(data, cmd);
     else
     {
         cmd_path = ft_strdup(cmd->args[0]);
@@ -112,10 +118,8 @@ void    execve_error(t_minishell *data, char *cmd_path)
         data->exit_code = 1; // Error other
     free_to_exit(data);
 }
-//refactor
+
 int check_full_path(char *cmd)
 {
-    if (cmd[0] == '/')
-        return (1);
-    return (0);
+    return (ft_strchr(cmd, '/') != NULL);
 }
