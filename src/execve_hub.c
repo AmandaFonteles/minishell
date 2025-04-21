@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:59:29 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/09 11:55:37 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/21 18:39:41 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void    execute(t_minishell *data, t_pars_cmd *cur_cmd)
     if (!cur_cmd->args || !cur_cmd->args[0])
     {
         print_cmd_not_found(data, NULL);
+        free_to_exit(data);
         exit(data->exit_code);
-        //need to free?
     }
     if (is_builtin(cur_cmd))
     {
@@ -32,7 +32,7 @@ void    execute(t_minishell *data, t_pars_cmd *cur_cmd)
         return ;
     }    
 }
-
+//refactor
 void    resolve_and_exec(t_minishell *data, t_pars_cmd *cmd)
 {
     char *cmd_path;
@@ -44,12 +44,14 @@ void    resolve_and_exec(t_minishell *data, t_pars_cmd *cmd)
         if (!path || !*path)
         {
             print_cmd_not_found(data, cmd->args[0]);
+            free_to_exit(data);
             exit(data->exit_code);
         }
         cmd_path = build_path(data, path, cmd->args[0]);
         if (!cmd_path)
         {
             print_cmd_not_found(data, cmd->args[0]);
+            free_to_exit(data);
             exit(data->exit_code);
         }
     }
@@ -60,6 +62,7 @@ void    resolve_and_exec(t_minishell *data, t_pars_cmd *cmd)
         {
             print_cmd_not_found(data, cmd->args[0]);
             free(cmd_path);
+            free_to_exit(data);
             exit(data->exit_code);
         }
     }
@@ -78,7 +81,7 @@ char *build_path(t_minishell *data ,char *path, char *cmd)
     i = 0;
     possible_paths = ft_split(path, ':');
     if (!possible_paths)
-        ft_error(data, "error malloc"); // Error allocating memory
+        error_and_prompt_back(data, "error malloc"); // Error allocating memory
     while (possible_paths[i])
     {
         tmp = ft_strjoin(possible_paths[i], "/");
@@ -107,8 +110,9 @@ void    execve_error(t_minishell *data, char *cmd_path)
         data->exit_code = 126; // Error permission denied
     else
         data->exit_code = 1; // Error other
+    free_to_exit(data);
 }
-
+//refactor
 int check_full_path(char *cmd)
 {
     if (cmd[0] == '/')
