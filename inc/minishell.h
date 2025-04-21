@@ -116,7 +116,7 @@ void builtin_export(t_minishell *data, t_pars_cmd *cmd);
 void print_exported(t_env *cur_exp_node);
 int extract_key_value(char *arg, char **key, char **value);
 int update_env_value_in_list(t_env *list, char *key, char *value);
-void export_or_update(t_minishell *data, char *arg, char *key, char *value, int has_equal);
+void export_or_update(t_minishell *data, char *arg);
 void check_exp(t_minishell *data, char *arg);
 void check_env(t_minishell *data, char *arg);
 

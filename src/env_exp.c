@@ -131,44 +131,44 @@ int update_env_value_in_list(t_env *list, char *key, char *value)
 	}
 	return (0);
 }
-//refactor this function - norminette doesn't allow more than 4 arguments
-void export_or_update(t_minishell *data, char *arg, char *key, char *value, int has_equal)
+
+void export_or_update(t_minishell *data, char *arg)
 {
-	if (update_env_value_in_list(data->exported, key, value))
-	{
-		if (has_equal)
-			check_env(data, arg);
-	}
-	else
-	{
-		if (has_equal)
-			add_env(data, arg, &data->env);
-		add_env(data, arg, &data->exported);
-	}
+    char *key;
+    char *value;
+    int has_equal;
+
+    has_equal = 0;
+    if (!extract_key_value(arg, &key, &value))
+    {
+        error_and_prompt_back(data, "malloc");
+        return ;
+    }
+    if (ft_strchr(arg, '='))
+        has_equal = 1;
+    if (update_env_value_in_list(data->exported, key, value))
+    {
+        if (has_equal)
+            check_env(data, arg);
+    }
+    else
+    {
+        if (has_equal)
+            add_env(data, arg, &data->env);
+        add_env(data, arg, &data->exported);
+    }
+    free(key);
+    free(value);
 }
 
 void check_exp(t_minishell *data, char *arg)
 {
-	char *key;
-	char *value;
-	int has_equal;
-
-    has_equal = 0;
 	if (!is_valid_identifier(arg))
 	{
 		print_invalid_identifier(data, arg);
 		return ;
 	}
-	if (!extract_key_value(arg, &key, &value))
-	{
-		error_and_prompt_back(data, "malloc");
-		return ;
-	}
-	if (ft_strchr(arg, '='))
-        has_equal = 1;
-	export_or_update(data, arg, key, value, has_equal);
-	free(key);
-	free(value);
+	export_or_update(data, arg);
 }
 
 void check_env(t_minishell *data, char *arg)
