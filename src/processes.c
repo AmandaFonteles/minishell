@@ -6,13 +6,13 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/08 23:53:04 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/23 01:02:41 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void    create_processes(t_minishell *data)
+int    create_processes(t_minishell *data)
 {
     t_pars_cmd *cur_cmd;
     
@@ -21,7 +21,11 @@ void    create_processes(t_minishell *data)
     {
         cur_cmd->pid = fork();
         if (cur_cmd->pid == -1)
-            ft_error(data, "error forking"); // Error forking
+        {
+            error_and_prompt_back(data, "error forking"); // Error forking
+            close_all_pipes(data);
+            return (0);
+        }
         if (cur_cmd->pid == 0)
         {
             setup_child(data, cur_cmd);
@@ -39,6 +43,7 @@ void    create_processes(t_minishell *data)
     }
     close_all_pipes(data);
     wait_loop(data);
+    return (1);
 }
 
 void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
@@ -51,12 +56,18 @@ void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
         if (idx > 0)
         {
             if (dup2(data->pipe_ends[idx - 1][0], STDIN_FILENO) == -1)
-                ft_error(data, "error dup2"); // Error duplicating pipe
+            {
+                close_all_pipes(data);
+                error_to_exit(data, "error dup2"); // Error duplicating pipe
+            }
         }
         if (idx < data->cmd_nb - 1)
         {
-            if (dup2(data->pipe_ends[idx][1], STDOUT_FILENO) == -1)
-                ft_error(data, "error dup2"); // Error duplicating pipe
+            if (dup2(data->pipe_ends[idx - 1][0], STDIN_FILENO) == -1)
+            {
+                close_all_pipes(data);
+                error_to_exit(data, "error dup2"); // Error duplicating pipe
+            }
         }
     }
     close_unused_pipes(data, cur_cmd);
@@ -128,7 +139,6 @@ void wait_loop(t_minishell *data)
             data->exit_code = WEXITSTATUS(status);
         else if (WIFSIGNALED(status))
             data->exit_code = 128 + WTERMSIG(status);
-        //fprintf(stderr, "[DEBUG] Child %d exited with status %d\n", cur_cmd->pid, data->exit_code);
         cur_cmd = cur_cmd->next;
     }
 }

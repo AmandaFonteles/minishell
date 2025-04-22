@@ -6,13 +6,13 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:05 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/03 17:38:26 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/23 00:52:06 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void    create_pipes(t_minishell *data)
+int    create_pipes(t_minishell *data)
 {
     int i;
 
@@ -20,10 +20,14 @@ void    create_pipes(t_minishell *data)
     while (i < data->cmd_nb - 1)
     {
         if (pipe(data->pipe_ends[i]) == -1)
-        //close all previous pipes if one fails
-            ft_error(data, "error creating pipe"); // Error creating pipe
+        {
+            close_all_pipes(data); //check if this is needed
+            error_and_prompt_back(data, "error creating pipe"); // Error creating pipe
+            return (0);
+        }
         i++;
     }
+    return (1);
 }
 
 void    close_unused_pipes(t_minishell *data, t_pars_cmd *cur_cmd)
@@ -52,8 +56,12 @@ void    close_all_pipes(t_minishell *data)
         return ;
     while (i < data->cmd_nb - 1)
     {
-        close(data->pipe_ends[i][0]);
-        close(data->pipe_ends[i][1]);
+        if (data->pipe_ends[i])
+        {
+            close(data->pipe_ends[i][0]);
+            close(data->pipe_ends[i][1]);
+            free(data->pipe_ends[i]);
+        }
         i++;
     }
 }
