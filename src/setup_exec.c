@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/21 18:24:06 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:07:57 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,15 @@ void exec_uniq_cmd(t_minishell *data)
     t_pars_cmd *cmd;
 
     cmd = data->cmd_list;
-    if (!setup_redirections(cmd, data))
-        return ;
     cmd->pid = fork();
     if (cmd->pid == -1)
         error_to_exit(data, "error fork"); // Error forking process
     if (cmd->pid == 0)
-            execute(data, cmd);
+    {
+        if (!setup_redirections(cmd, data))
+            exit(1);        
+        execute(data, cmd);
+    }
     waitpid(cmd->pid, &status, 0);
     if (WIFEXITED(status))
         data->exit_code = WEXITSTATUS(status);
