@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/21 18:24:06 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/23 00:53:38 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,31 @@ void    multiple_cmds(t_minishell *data)
         return ;
     data->pipe_ends = (int **)malloc(sizeof(int *) * (data->cmd_nb - 1));
     if (!data->pipe_ends)
-        ft_error(data, "error malloc"); // Error allocating memory
+    {
+        error_and_prompt_back(data, "error malloc pipe_ends"); // Error allocating memory
+        return ;
+    }
     while (i < data->cmd_nb - 1)
     {
         data->pipe_ends[i] = (int *)malloc(sizeof(int) * 2);
         if (!data->pipe_ends[i])
-            ft_error(data, "error malloc"); // Error allocating memory
+        {
+            error_and_prompt_back(data, "error malloc pipe_ends"); // Error allocating memory
+            return ;
+        }
         i++;
     }
-    create_pipes(data);
-    create_processes(data);
+    if (!setup_multiple_cmd(data))
+        return ;
+}
+int setup_multiple_cmd(t_minishell *data)
+{
+    if (!create_pipes(data))
+        return (0);
+    if (!create_processes(data))
+        return (0);
     free_pipes(data);
+    return (1);
 }
  // execute a single command without pipes
 void exec_uniq_cmd(t_minishell *data)
@@ -60,13 +74,18 @@ void exec_uniq_cmd(t_minishell *data)
     t_pars_cmd *cmd;
 
     cmd = data->cmd_list;
-    if (!setup_redirections(cmd, data))
-        return ;
     cmd->pid = fork();
     if (cmd->pid == -1)
-        error_to_exit(data, "error fork"); // Error forking process
+    {
+        error_and_prompt_back(data, "error fork"); // Error forking process
+        return ;
+    }
     if (cmd->pid == 0)
-            execute(data, cmd);
+    {
+        if (!setup_redirections(cmd, data))
+            exit(1);        
+        execute(data, cmd);
+    }
     waitpid(cmd->pid, &status, 0);
     if (WIFEXITED(status))
         data->exit_code = WEXITSTATUS(status);

@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/21 19:34:08 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/22 23:45:36 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,16 @@ int check_full_path(char *cmd);
 /* SETUP_EXEC.C */
 void    setup_exec(t_minishell *data);
 void    multiple_cmds(t_minishell *data);
+int setup_multiple_cmd(t_minishell *data);
 void    exec_uniq_cmd(t_minishell *data);
 
 /* PROCESSES.C */
-void    create_processes(t_minishell *data);
+int    create_processes(t_minishell *data);
 void    setup_child(t_minishell *data, t_pars_cmd *cur_cmd);
 void wait_loop(t_minishell *data);
 
 /* PIPES.C */
-void    create_pipes(t_minishell *data);
+int    create_pipes(t_minishell *data);
 void    close_unused_pipes(t_minishell *data, t_pars_cmd *cur_cmd);
 void    close_all_pipes(t_minishell *data);
 
