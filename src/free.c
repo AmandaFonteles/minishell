@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:24:55 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/15 19:39:24 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/23 00:38:40 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ void    free_pipes(t_minishell *data)
         return ;
     while (i < data->cmd_nb - 1)
     {
+		/*if (data->pipe_ends[i])
+		{
+			close(data->pipe_ends[i][0]);
+			close(data->pipe_ends[i][1]);
+		}*/
         free(data->pipe_ends[i]);
         i++;
     }
@@ -62,8 +67,11 @@ void cleanup_heredocs(t_minishell *data)
 
 void	free_cmd_node(t_pars_cmd *cmd)
 {
+	t_pars_cmd *temp;
+	
 	while (cmd)
 	{
+		temp = cmd->next;
 		if (cmd->delimiters)
 			free_arraystr(cmd->delimiters);
 		if (cmd->infile)
@@ -72,10 +80,11 @@ void	free_cmd_node(t_pars_cmd *cmd)
 			free(cmd->outfile);
 		if (cmd->args)
 			free_arraystr(cmd->args);
-		cmd = cmd->next;
+		if (cmd->heredoc)
+			free_arraystr(cmd->heredoc);
+		free(cmd);
+		cmd = temp;
 	}
-	free(cmd);
-	cmd = NULL;
 }
 
 void	free_all(t_minishell *data)

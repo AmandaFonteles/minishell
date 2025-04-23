@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:51:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/19 22:08:43 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:42:27 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,36 @@ void basic_parse_input(t_minishell *data)
 {
     char **tokens = ft_split(data->user_input, ' ');
     if (!tokens || !tokens[0])
-        return ;
+        return;
 
     t_pars_cmd *cmd = create_cmd_node();
     if (!cmd)
-        return ;
+        return;
 
-    int i = 0, argc = 0;
-    cmd->args = malloc(sizeof(char *) * (strlen_array(tokens) + 1));
+    int i = 0, argc = 0, hd_count = 0;
+    int token_count = strlen_array(tokens);
+    cmd->args = malloc(sizeof(char *) * (token_count + 1));
     if (!cmd->args)
-        return ;
+        return;
 
+    // First pass to count heredocs
+    while (tokens[i])
+    {
+        if (ft_strcmp(tokens[i], "<<") == 0 && tokens[i + 1])
+            hd_count++;
+        i++;
+    }
+
+    if (hd_count > 0)
+    {
+        cmd->delimiters = malloc(sizeof(char *) * (hd_count + 1));
+        if (!cmd->delimiters)
+            return;
+        cmd->hd_nb = hd_count;
+    }
+
+    i = 0;
+    int del_idx = 0;
     while (tokens[i])
     {
         if (ft_strcmp(tokens[i], "<") == 0 && tokens[i + 1])
@@ -63,14 +82,22 @@ void basic_parse_input(t_minishell *data)
             cmd->outfile = ft_strdup(tokens[++i]);
             cmd->append = 1;
         }
+        else if (ft_strcmp(tokens[i], "<<") == 0 && tokens[i + 1])
+        {
+            cmd->delimiters[del_idx++] = ft_strdup(tokens[++i]);
+        }
         else
             cmd->args[argc++] = ft_strdup(tokens[i]);
         i++;
     }
     cmd->args[argc] = NULL;
+    if (cmd->delimiters)
+        cmd->delimiters[del_idx] = NULL;
+
     data->cmd_list = cmd;
     data->cmd_nb = 1;
 
-    free_arraystr(tokens); // reuse your existing free function
+    free_arraystr(tokens);
 }
+
 
