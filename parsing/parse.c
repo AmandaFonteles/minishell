@@ -2,54 +2,31 @@
 
 t_pars_cmd	**parse_input(char *str)
 {
-	char	**tab;
+	char		**tab;
 	t_pars_cmd	**cmds;
-	int		i;
+	int			i;
 	t_pars_cmd	*cmd;
 
 	i = 1;
-	cmds = ft_calloc(1, sizeof(t_pars_cmd **));
-	if (!cmds || !ft_check(str, 0, 0, 0))
-		return (free_cmd_node(cmds), NULL);
+	cmds = ft_calloc(1, sizeof(t_pars_cmd *));
+	// if (!cmds || !ft_check(str, 0, 0, 0))
+	// 	return (free_cmd_node(*cmds), NULL);
 	tab = ft_shell_split(str, '|', 0, 0);
-	free(str);
 	if (!tab)
 		return (NULL);
 	*cmds = ft_lstnew_cmd(tab[0], cmds, 0);
-	if (*cmds == NULL)
-		return (free(tab), NULL);
+	// if (*cmds == NULL)
+	// 	return (free(tab), NULL);
 	while (tab[i])
 	{
-		cmd = ft_lstnew_cmd(tab[i++], cmds, i);
+		cmd = ft_lstnew_cmd(tab[i], cmds, i);
 		if (!cmd)
 			return (NULL);
-		ft_darkadd_back(cmds, cmd);
+		ft_shell_add_back(cmds, cmd);
+		i++;
 	}
-	free(tab);
+	// free(tab);
 	return (cmds);
-}
-
-int	process_input(t_minishell *data)
-{
-	t_pars_cmd	**cmds;
-
-	cmds = NULL;
-	if (data->user_input == NULL)
-		//voir tes methodes pour free (je ne sais pas si tu as déjà quelque chose)
-	if (*data->user_input != '\0')
-	{
-		cmds = parse_input(data->user_input);
-		if (cmds)
-		{
-			if (ft_tokenise(cmds))
-			  data->exit_code = setup_exec(data);
-        // il va surement falloir faire une variable globale pour le exit code
-		}
-		free_cmd_node(cmds);
-	}
-	else
-		free(data->user_input);
-	return (data->exit_code);
 }
 
 t_pars_cmd	*ft_lstnew_cmd(char *cmd, t_pars_cmd **cmds, int cmd_index)
@@ -59,7 +36,8 @@ t_pars_cmd	*ft_lstnew_cmd(char *cmd, t_pars_cmd **cmds, int cmd_index)
 	new = ft_calloc(1, sizeof(t_pars_cmd));
 	if (!new)
 		return (NULL);
-	new->cmd_index = cmd_index - 1;
+	new->cmd = cmd;
+	new->cmd_index = cmd_index;
 	new->pid = 0;
 	new->hd_nb = 0;
 	new->heredoc = NULL;
@@ -70,4 +48,61 @@ t_pars_cmd	*ft_lstnew_cmd(char *cmd, t_pars_cmd **cmds, int cmd_index)
 	new->args = NULL;
 	new->next = NULL;
 	return (new);
+}
+
+t_pars_cmd	*ft_lstlast_cmds(t_pars_cmd *cmd)
+{
+	if (!cmd)
+		return (NULL);
+	while (cmd->next)
+		cmd = cmd->next;
+	return (cmd);
+}
+
+void	ft_shell_add_back(t_pars_cmd **cmds, t_pars_cmd *new)
+{
+	t_pars_cmd	*temp;
+
+	temp = *cmds;
+	temp = ft_lstlast_cmds(temp);
+	if (!temp)
+		*cmds = new;
+	else
+		temp->next = new;
+}
+
+int	ft_tokenise(t_pars_cmd **cmds)
+{
+	// À implémenter
+	return (1);
+}
+
+int	process_input(t_minishell *data)
+{
+	t_pars_cmd	**cmds;
+
+	cmds = NULL;
+	if (data->user_input == NULL)
+	{
+		// free_cmd_node(*cmds);
+		return (1);
+	}
+	if (*data->user_input != '\0')
+	{
+		cmds = parse_input(data->user_input);
+	// 	if (cmds)
+	// 	{
+	// 		if (ft_tokenise(cmds))
+	// 		{
+	// 			// Temporairement commenté pour le test de parsing
+	// 			// data->exit_code = setup_exec(data);
+	// 			setup_exec(data);
+  //       // il va falloir se poser la question de la variable globale ici
+	// 	}
+	// 	// free_cmd_node(*cmds);
+	// }
+	// else
+	// 	free(data->user_input);
+  }
+	return (data->exit_code);
 }

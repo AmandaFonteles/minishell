@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/25 10:45:34 by adregis          ###   ########.fr       */
+/*   Updated: 2025/04/25 18:03:14 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,5 @@ void print_invalid_identifier(t_minishell *data, char *arg);
 long long	ft_atoll(const char *str);
 unsigned int ft_strcmp(char *s1, char *s2);
 
-////////////////////////// PARSING //////////////////////////
-void parse_input(t_minishell *data);
 
 #endif

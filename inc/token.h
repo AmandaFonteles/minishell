@@ -39,6 +39,10 @@ char	*ft_shell_strdup(const char *str, char sep);
 void	handle_special_chars(char *str, int *i, int *d, int *s);
 int	calculate_len_w(const char *str, char sep);
 int	ft_nb_word(char *str, char c);
+t_pars_cmd	*ft_lstnew_cmd(char *cmd, t_pars_cmd **cmds, int cmd_index);
+t_pars_cmd	*ft_lstlast_cmds(t_pars_cmd *cmd);
+void		ft_shell_add_back(t_pars_cmd **cmds, t_pars_cmd *new);
+int			ft_tokenise(t_pars_cmd **cmds);
 
 
 #endif

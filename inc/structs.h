@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:00:39 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/16 17:50:04 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/25 18:55:29 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 typedef struct s_parsed_command
 {
+    char    *cmd; //entire command before I split it to put it in args
     int cmd_index; //index of the command in the list
     pid_t   pid; //pid of the child process - included in exec part
     int hd_nb; //number of heredoc - 0 if none
@@ -26,7 +27,7 @@ typedef struct s_parsed_command
     char    *outfile; //outfile, if pipe, NULL
     int append; //1 if append, 0 if overwrite
     char    **args; //we need an array with the cmd and args to pass to execve
-    struct s_parsed_command *next; //pointer to the next command in the list 
+    struct s_parsed_command *next; //pointer to the next command in the list
 }   t_pars_cmd;
 
 typedef struct s_env //structure for the environment variables
