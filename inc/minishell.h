@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/22 23:45:36 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/25 10:45:34 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include "structs.h"
+# include "token.h"
 # include "../libft/inc/libft.h"
 
 /*TEST*/
@@ -143,5 +144,8 @@ void print_invalid_identifier(t_minishell *data, char *arg);
 /* UTILS.C */
 long long	ft_atoll(const char *str);
 unsigned int ft_strcmp(char *s1, char *s2);
+
+////////////////////////// PARSING //////////////////////////
+void parse_input(t_minishell *data);
 
 #endif

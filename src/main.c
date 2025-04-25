@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/16 15:31:09 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/25 10:44:58 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void main_loop(t_minishell *data)
         }
         if (data->user_input[0] != '\0')
             add_history(data->user_input);
-        basic_parse_input(data);
+        // basic_parse_input(data);
+        parse_input(data);
         setup_exec(data);
         free_all(data);
     }
@@ -64,7 +65,7 @@ int main(int ac, char **av, char **envp)
     }
     if (!init_data(data, envp))
         return (1);
-    main_loop(data); 
+    main_loop(data);
     //free all the memory allocated
     return (data->exit_code);
 }
