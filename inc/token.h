@@ -43,8 +43,6 @@ t_pars_cmd	*ft_lstnew_cmd(char *cmd, t_pars_cmd **cmds, int cmd_index);
 t_pars_cmd	*ft_lstlast_cmds(t_pars_cmd *cmd);
 void		ft_shell_add_back(t_pars_cmd **cmds, t_pars_cmd *new);
 
-
-
 ///////////////////// TOKENIZATION /////////////////////
 
 t_token	**ft_create_token(char *str);
@@ -60,6 +58,7 @@ t_token	*ft_lstlast_token(t_token *token);
 t_token	*ft_lstnew_token(char *word);
 void	ft_lstadd_back_token(t_token **token, t_token *new);
 void	set_next_type(t_token *current);
+
 ///////////////////// FREE PARSE /////////////////////
 
 void	ft_free_tab(char **tab, int nb);
@@ -69,21 +68,27 @@ void	ft_free_tab(char **tab, int nb);
 int	ft_parse_error(char **words);
 int	ft_check_dir(char *str);
 
-  ///////////////////// EXPEND /////////////////////
+///////////////////// EXPEND /////////////////////
 
 char	*ft_expend(char *str, enum type type, int i, int j);
+int	find_stop_index(char *str, int i);
+char	*ft_create_part(char *str, int end);
+int	process_special_chars(char *str, int *i);
 
+///////////////////// EXPEND UTILS /////////////////////
 
+int	ft_check_dollars(char *str);
+char	*ft_join_parts(char **tab, int len_tab);
+int	ft_create_str(char *str, char **part);
+int	ft_get_value(char **part, char *tmp);
+char	*ft_quote_value(char *str);
 
+///////////////////// EXPEND D /////////////////////
 
-
-
-
-
-
-
-
-
-
+char	*ft_expend_d(char *str, int i, int j);
+int	ft_get_value_d(char **str);
+int	nb_str_d(char *str, int i, int nw);
+int	ft_create_str_d(char *str, char **part);
+char	*ft_join_parts_d(char **tab, int len_tab);
 
 #endif
