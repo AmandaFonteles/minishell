@@ -42,7 +42,48 @@ int	ft_nb_word(char *str, char c);
 t_pars_cmd	*ft_lstnew_cmd(char *cmd, t_pars_cmd **cmds, int cmd_index);
 t_pars_cmd	*ft_lstlast_cmds(t_pars_cmd *cmd);
 void		ft_shell_add_back(t_pars_cmd **cmds, t_pars_cmd *new);
+
+
+
+///////////////////// TOKENIZATION /////////////////////
+
+t_token	**ft_create_token(char *str);
 int			ft_tokenise(t_pars_cmd **cmds);
+char	**ft_split_token(char *str);
+int	ft_create_args(t_pars_cmd *cmd);
+int	ft_count_args(t_pars_cmd *cmd);
+int	ft_count_space(char *str);
+int	ft_split_word(char *str, char **args, int index);
+char	*dark_strtrim(const char *s1, const char *set);
+int	ft_isset(char c, const char *set);
+t_token	*ft_lstlast_token(t_token *token);
+t_token	*ft_lstnew_token(char *word);
+void	ft_lstadd_back_token(t_token **token, t_token *new);
+void	set_next_type(t_token *current);
+///////////////////// FREE PARSE /////////////////////
+
+void	ft_free_tab(char **tab, int nb);
+
+///////////////////// ERROR PARSING /////////////////////
+
+int	ft_parse_error(char **words);
+int	ft_check_dir(char *str);
+
+  ///////////////////// EXPEND /////////////////////
+
+char	*ft_expend(char *str, enum type type, int i, int j);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #endif

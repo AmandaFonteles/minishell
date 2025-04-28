@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:00:39 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/25 18:55:29 by adregis          ###   ########.fr       */
+/*   Updated: 2025/04/28 16:11:43 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 typedef struct s_parsed_command
 {
     char    *cmd; //entire command before I split it to put it in args
+    struct token	**token; //I am also adding a token to the command structure
     int cmd_index; //index of the command in the list
     pid_t   pid; //pid of the child process - included in exec part
     int hd_nb; //number of heredoc - 0 if none
