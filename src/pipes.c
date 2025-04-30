@@ -22,7 +22,7 @@ int    create_pipes(t_minishell *data)
         if (pipe(data->pipe_ends[i]) == -1)
         {
             close_all_pipes(data); //check if this is needed
-            error_and_prompt_back(data, "error creating pipe"); // Error creating pipe
+            error_and_prompt_back("error creating pipe"); // Error creating pipe
             return (0);
         }
         i++;

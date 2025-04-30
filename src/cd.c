@@ -21,7 +21,7 @@ void cd_update_pwd(t_minishell *data, char *old_pwd)
     {
         ft_putstr_fd("minishell: cd: ", 2);
         perror("getcwd");
-        data->exit_code = 1;
+        global_exit_flag = 1;
         return ;
     }
     if (!update_env_value_in_list(data->env, "PWD", new_pwd) ||
@@ -31,7 +31,7 @@ void cd_update_pwd(t_minishell *data, char *old_pwd)
     {
         ft_putstr_fd("minishell: cd: ", 2);
         perror("update_env_value_in_list");
-        data->exit_code = 1;
+        global_exit_flag = 1;
         free(new_pwd);
         return ;
     }
@@ -46,7 +46,7 @@ void    cd_home(t_minishell *data, char *old_pwd)
     if (!home || chdir(home) == -1)
     {
         ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-        data->exit_code = 1;
+        global_exit_flag = 1;
         return ;
     }
     free(home);
@@ -54,7 +54,7 @@ void    cd_home(t_minishell *data, char *old_pwd)
         !update_env_value_in_list(data->exported, "OLDPWD", old_pwd))
     {
         perror("update_env_value_in_list");
-        data->exit_code = 1;
+        global_exit_flag = 1;
         return ;
     }
 }
@@ -67,13 +67,13 @@ void    cd_dash(t_minishell *data, char *old_pwd)
     if (!prev_oldpwd)
     {
         ft_putstr_fd("minishell: cd: OLDPWD not set", 2);
-        data->exit_code = 1;
+        global_exit_flag = 1;
         free(prev_oldpwd);
         return ;
     }
     if (chdir(prev_oldpwd) == -1)
     {
-        error_chdir(data, prev_oldpwd);
+        error_chdir(prev_oldpwd);
         return ;
     }
     ft_putstr_fd(prev_oldpwd, 1);
@@ -83,7 +83,7 @@ void    cd_dash(t_minishell *data, char *old_pwd)
         !update_env_value_in_list(data->exported, "OLDPWD", old_pwd))
     {
         perror("update_env_value_in_list");
-        data->exit_code = 1;
+        global_exit_flag = 1;
         return ;
     }
 }
@@ -94,7 +94,7 @@ void    cd_to_path(t_minishell *data, char *path, char *old_pwd)
     {
         ft_putstr_fd("minishell: cd: ", 2);
         perror(path);
-        data->exit_code = 1;
+        global_exit_flag = 1;
         return ;
     }
     cd_update_pwd(data, old_pwd);
@@ -106,7 +106,7 @@ void builtin_cd(t_minishell *data, t_pars_cmd *cmd)
     
     if (strlen_array(cmd->args) > 2)
     {
-        data->exit_code = 1;
+        global_exit_flag = 1;
         ft_putstr_fd("minishell: cd: too many arguments\n", 2);
         return ;
     }
@@ -114,7 +114,7 @@ void builtin_cd(t_minishell *data, t_pars_cmd *cmd)
     if (!old_pwd)
     {
         perror("getcwd");
-        data->exit_code = 1;
+        global_exit_flag = 1;
         return ;
     }
     if (cmd->args[1] == NULL || ft_strcmp(cmd->args[1], "~") == 0)

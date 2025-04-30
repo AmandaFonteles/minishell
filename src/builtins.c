@@ -40,24 +40,24 @@ void single_builtin(t_minishell *data, t_pars_cmd *cmd)
     fd_out = dup(STDOUT_FILENO);
     if (fd_in == -1 || fd_out == -1)
     {
-        error_and_prompt_back(data, "dup");
+        error_and_prompt_back("dup");
         return ;
     }
-    if (!setup_redirections(cmd, data))
+    if (!setup_redirections(cmd))
     {
-        if (dup_and_close(fd_in, fd_out, data) == 0)
+        if (dup_and_close(fd_in, fd_out) == 0)
             return ;
     }
     builtin_hub(data, cmd);
-    if (dup_and_close(fd_in, fd_out, data) == 0)
+    if (dup_and_close(fd_in, fd_out) == 0)
         return ;
 }
 
-int dup_and_close(int fd_in, int fd_out, t_minishell *data)
+int dup_and_close(int fd_in, int fd_out)
 {
-    if (safe_dup2(fd_in, STDIN_FILENO, data) == 0)
+    if (safe_dup2(fd_in, STDIN_FILENO) == 0)
         return (0);
-    if (safe_dup2(fd_out, STDOUT_FILENO, data) == 0)
+    if (safe_dup2(fd_out, STDOUT_FILENO) == 0)
         return (0);
     close(fd_in);
     close(fd_out);
@@ -69,11 +69,11 @@ void builtin_hub(t_minishell *data, t_pars_cmd *cmd)
     if (!cmd || !cmd->args || !cmd->args[0])
         return ;
     if (ft_strcmp(cmd->args[0], "echo") == 0)
-        builtin_echo(data, cmd);
+        builtin_echo(cmd);
     else if (ft_strcmp(cmd->args[0], "cd") == 0)
         builtin_cd(data, cmd);
     else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-        builtin_pwd(data, cmd);
+        builtin_pwd(cmd);
     else if (ft_strcmp(cmd->args[0], "export") == 0)
         builtin_export(data, cmd);
     else if (ft_strcmp(cmd->args[0], "unset") == 0)

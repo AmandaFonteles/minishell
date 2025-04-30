@@ -30,7 +30,7 @@ static char *gen_heredoc_filename(int index)
 	return (name);
 }
 
-int write_heredoc_file(t_minishell *data, char *filename, char *delimiter)
+int write_heredoc_file(char *filename, char *delimiter)
 {
 	int fd; 
 	char *line;
@@ -38,7 +38,7 @@ int write_heredoc_file(t_minishell *data, char *filename, char *delimiter)
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		error_and_prompt_back(data, filename);
+		error_and_prompt_back(filename);
 		free(filename);
 		return (0);		
 	}
@@ -56,17 +56,17 @@ int write_heredoc_file(t_minishell *data, char *filename, char *delimiter)
 	return (1);
 }
 
-static int handle_heredoc(t_minishell *data, t_pars_cmd *cmd, int i, int *hd_count)
+static int handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count)
 {
 	char *filename;
 
 	filename = gen_heredoc_filename(*hd_count);
 	if (!filename)
 	{
-		error_and_prompt_back(data, "malloc heredoc filename");		
+		error_and_prompt_back("malloc heredoc filename");		
 		return (0);
 	}
-	if (!write_heredoc_file(data, filename, cmd->delimiters[i]))
+	if (!write_heredoc_file(filename, cmd->delimiters[i]))
 	{
 		free(filename);
 		return (0);
@@ -90,11 +90,11 @@ int generate_heredocs(t_minishell *data)
 		{
 			cmd->heredoc = malloc(sizeof(char *) * (cmd->hd_nb + 1));
 			if (!cmd->heredoc)			
-				return (error_and_prompt_back(data, "malloc heredoc"), 0);
+				return (error_and_prompt_back("malloc heredoc"), 0);
 			i = 0;
 			while (i < cmd->hd_nb)
 			{
-				if (!handle_heredoc(data, cmd, i, &hd_count))
+				if (!handle_heredoc(cmd, i, &hd_count))
 					return (0);
 				i++;
 			}
@@ -115,18 +115,18 @@ char *last_heredoc_path(t_pars_cmd *cmd)
 	return (cmd->heredoc[i]);
 }
 
-int redirect_heredoc(t_minishell *data, t_pars_cmd *cmd)
+int redirect_heredoc(t_pars_cmd *cmd)
 {
 	char *path;
 	int fd_hd;
 	
 	path = last_heredoc_path(cmd);
 	if (!path)
-    	return (error_and_prompt_back(data, "heredoc: path not found\n"));
+    	return (error_and_prompt_back("heredoc: path not found\n"));
 	fd_hd = open(path, O_RDONLY);
 	if (fd_hd == -1)
-		return (error_and_prompt_back(data, path));
-	if (safe_dup2(fd_hd, STDIN_FILENO, data) == 0)
+		return (error_and_prompt_back(path));
+	if (safe_dup2(fd_hd, STDIN_FILENO) == 0)
 		return (0);
 	close(fd_hd);
 	return (1);

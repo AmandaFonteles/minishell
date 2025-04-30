@@ -31,6 +31,8 @@
 # include "structs.h"
 # include "../libft/inc/libft.h"
 
+extern int global_exit_flag;
+
 /*TEST*/
 void basic_parse_input(t_minishell *data);
 
@@ -46,16 +48,16 @@ int add_env(t_minishell *data, char *env, t_env **list);
 
 /*error*/
 void error_to_exit(t_minishell *data, char *msg); //exit the program
-int    error_and_prompt_back(t_minishell *data, char *msg);
-int safe_dup2(int oldfd, int newfd, t_minishell *data);
-int    print_invalid_option(t_minishell *data, char *builtin, char *arg);
-void    error_chdir(t_minishell *data, char *path);
+int    error_and_prompt_back(char *msg);
+int safe_dup2(int oldfd, int newfd);
+int    print_invalid_option(char *builtin, char *arg);
+void    error_chdir(char *path);
 
 /* EXECVE_HUB.C */
 void    execute(t_minishell *data, t_pars_cmd *cur_cmd);
 char *exec_make_path(t_minishell *data, t_pars_cmd *cmd);
 void    resolve_and_exec(t_minishell *data, t_pars_cmd *cmd);
-char *build_path(t_minishell *data ,char *path, char *cmd);
+char *build_path(char *path, char *cmd);
 void    execve_error(t_minishell *data, char *cmd_path);
 int check_full_path(char *cmd);
 
@@ -76,20 +78,20 @@ void    close_unused_pipes(t_minishell *data, t_pars_cmd *cur_cmd);
 void    close_all_pipes(t_minishell *data);
 
 /* REDIRECTIONS */
-int setup_redirections(t_pars_cmd *cmd, t_minishell *data);
-int open_infile(t_pars_cmd *cmd, t_minishell *data);
-int open_outfile(t_pars_cmd *cmd, t_minishell *data, int append);
+int setup_redirections(t_pars_cmd *cmd);
+int open_infile(t_pars_cmd *cmd);
+int open_outfile(t_pars_cmd *cmd, int append);
 
 /* HEREDOC.C */
-int write_heredoc_file(t_minishell *data, char *filename, char *delimiter);
+int write_heredoc_file(char *filename, char *delimiter);
 int generate_heredocs(t_minishell *data);
 char *last_heredoc_path(t_pars_cmd *cmd);
-int redirect_heredoc(t_minishell *data, t_pars_cmd *cmd);
+int redirect_heredoc(t_pars_cmd *cmd);
 
 /* BUILTINS.C */
 int is_builtin(t_pars_cmd *command);
 void single_builtin(t_minishell *data, t_pars_cmd *cmd);
-int dup_and_close(int fd_in, int fd_out, t_minishell *data);
+int dup_and_close(int fd_in, int fd_out);
 void builtin_hub(t_minishell *data, t_pars_cmd *cmd);
 
 
@@ -100,8 +102,8 @@ void remove_tenv(t_env *list, char *arg);
 int strlen_array(char **arr);
 
 /* PWD_ECHO_EXIT_UNSET.C */
-void builtin_pwd(t_minishell *data, t_pars_cmd *cmd);
-void builtin_echo(t_minishell *data, t_pars_cmd *cmd);
+void builtin_pwd(t_pars_cmd *cmd);
+void builtin_echo(t_pars_cmd *cmd);
 void builtin_exit(t_minishell *data, t_pars_cmd *cmd);
 void builtin_unset(t_minishell *data, t_pars_cmd *cmd);
 
@@ -138,7 +140,7 @@ void free_env(t_env *list);
 void print_cmd_not_found(t_minishell *data, char *cmd);
 void ft_error(t_minishell *data, char *msg); //arrumar
 void print_exit_error(char *arg, char *msg);
-void print_invalid_identifier(t_minishell *data, char *arg);
+void print_invalid_identifier(char *arg);
 
 /* UTILS.C */
 long long	ft_atoll(const char *str);

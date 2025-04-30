@@ -23,10 +23,9 @@
  */
 #include "../inc/minishell.h"
 
-// TODO: add free_cmd_list(), free_pipe_ends() here before reinitializing
 //TODO: check if all the malloc from libft func was freed!!!
-// TOO: Create a global variable to store the exit code
-//loop that will keep the minishell running - return the prompt to user
+int global_exit_flag;
+
 void main_loop(t_minishell *data)
 {
     while (1)
@@ -66,5 +65,5 @@ int main(int ac, char **av, char **envp)
         return (1);
     main_loop(data); 
     //free all the memory allocated
-    return (data->exit_code);
+    return (global_exit_flag);
 }
