@@ -42,7 +42,7 @@ void    multiple_cmds(t_minishell *data)
     data->pipe_ends = (int **)malloc(sizeof(int *) * (data->cmd_nb - 1));
     if (!data->pipe_ends)
     {
-        error_and_prompt_back(data, "error malloc pipe_ends"); // Error allocating memory
+        error_and_prompt_back("error malloc pipe_ends"); // Error allocating memory
         return ;
     }
     while (i < data->cmd_nb - 1)
@@ -50,7 +50,7 @@ void    multiple_cmds(t_minishell *data)
         data->pipe_ends[i] = (int *)malloc(sizeof(int) * 2);
         if (!data->pipe_ends[i])
         {
-            error_and_prompt_back(data, "error malloc pipe_ends"); // Error allocating memory
+            error_and_prompt_back("error malloc pipe_ends"); // Error allocating memory
             return ;
         }
         i++;
@@ -77,18 +77,18 @@ void exec_uniq_cmd(t_minishell *data)
     cmd->pid = fork();
     if (cmd->pid == -1)
     {
-        error_and_prompt_back(data, "error fork"); // Error forking process
+        error_and_prompt_back("error fork"); // Error forking process
         return ;
     }
     if (cmd->pid == 0)
     {
-        if (!setup_redirections(cmd, data))
+        if (!setup_redirections(cmd))
             exit(1);        
         execute(data, cmd);
     }
     waitpid(cmd->pid, &status, 0);
     if (WIFEXITED(status))
-        data->exit_code = WEXITSTATUS(status);
+        global_exit_flag = WEXITSTATUS(status);
     else if (WIFSIGNALED(status))
-        data->exit_code = 128 + WTERMSIG(status); // bash behavior
+        global_exit_flag = 128 + WTERMSIG(status); // bash behavior
 }

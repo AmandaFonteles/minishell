@@ -19,13 +19,13 @@ void builtin_env(t_minishell *data, t_pars_cmd *cmd)
     cur_env_node = data->env;
     if (!cur_env_node)
     {
-        data->exit_code = 1;
+        global_exit_flag = 1;
         return ;
     }
     if (cmd->args[1])
     {
         ft_putstr_fd("minishell: env: doesn't accept arguments\n", 2);
-        data->exit_code = 1;
+        global_exit_flag = 1;
         return ;
     }
     while (cur_env_node)
@@ -34,7 +34,7 @@ void builtin_env(t_minishell *data, t_pars_cmd *cmd)
             printf("%s=%s\n", cur_env_node->title, cur_env_node->value);
         cur_env_node = cur_env_node->next;
     }  
-    data->exit_code = 0;
+    global_exit_flag = 0;
 }
 
 void builtin_export(t_minishell *data, t_pars_cmd *cmd)
@@ -45,14 +45,14 @@ void builtin_export(t_minishell *data, t_pars_cmd *cmd)
     if (!cmd->args[i] || (ft_strcmp(cmd->args[i], "--") == 0 && !cmd->args[i + 1]))
     {
         print_exported(data->exported);
-        data->exit_code = 0;
+        global_exit_flag = 0;
         return ;
     }
     if (ft_strcmp(cmd->args[i], "--") == 0 && cmd->args[i + 1])
         i++;
     if (ft_strncmp(cmd->args[i], "-", 1) == 0 && cmd->args[i][1] != '\0')
     {
-        print_invalid_option(data, cmd->args[0], cmd->args[i]);
+        print_invalid_option(cmd->args[0], cmd->args[i]);
         return ;
     }
     while (cmd->args[i])
@@ -60,7 +60,7 @@ void builtin_export(t_minishell *data, t_pars_cmd *cmd)
         check_exp(data, cmd->args[i]);
         i++;
     }
-    data->exit_code = 0;
+    global_exit_flag = 0;
 }
 
 //learn how to put quotes in the value
@@ -141,7 +141,7 @@ void export_or_update(t_minishell *data, char *arg)
     has_equal = 0;
     if (!extract_key_value(arg, &key, &value))
     {
-        error_and_prompt_back(data, "malloc");
+        error_and_prompt_back("malloc");
         return ;
     }
     if (ft_strchr(arg, '='))
@@ -165,7 +165,7 @@ void check_exp(t_minishell *data, char *arg)
 {
 	if (!is_valid_identifier(arg))
 	{
-		print_invalid_identifier(data, arg);
+		print_invalid_identifier(arg);
 		return ;
 	}
 	export_or_update(data, arg);
@@ -178,7 +178,7 @@ void check_env(t_minishell *data, char *arg)
 
 	if (!extract_key_value(arg, &key, &value))
 	{
-		error_and_prompt_back(data, "malloc");
+		error_and_prompt_back("malloc");
 		return ;
 	}
 	if (!update_env_value_in_list(data->env, key, value))

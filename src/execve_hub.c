@@ -19,7 +19,7 @@ void    execute(t_minishell *data, t_pars_cmd *cur_cmd)
     {
         print_cmd_not_found(data, NULL);
         free_to_exit(data);
-        exit(data->exit_code);
+        exit(global_exit_flag);
     }
     if (is_builtin(cur_cmd))
     {
@@ -43,14 +43,14 @@ char *exec_make_path(t_minishell *data, t_pars_cmd *cmd)
     {
         print_cmd_not_found(data, cmd->args[0]);
         free_to_exit(data);
-        exit(data->exit_code);
+        exit(global_exit_flag);
     }
-    cmd_path = build_path(data, path, cmd->args[0]);
+    cmd_path = build_path(path, cmd->args[0]);
     if (!cmd_path)
     {
         print_cmd_not_found(data, cmd->args[0]);
         free_to_exit(data);
-        exit(data->exit_code);
+        exit(global_exit_flag);
     }
     return (cmd_path);
 }
@@ -69,7 +69,7 @@ void    resolve_and_exec(t_minishell *data, t_pars_cmd *cmd)
             print_cmd_not_found(data, cmd->args[0]);
             free(cmd_path);
             free_to_exit(data);
-            exit(data->exit_code);
+            exit(global_exit_flag);
         }
     }
     if (execve(cmd_path, cmd->args, data->envp) == -1)
@@ -77,7 +77,7 @@ void    resolve_and_exec(t_minishell *data, t_pars_cmd *cmd)
     free(cmd_path);
 }
 
-char *build_path(t_minishell *data ,char *path, char *cmd)
+char *build_path(char *path, char *cmd)
 {
     char *full_path;
     char *tmp;
@@ -87,7 +87,7 @@ char *build_path(t_minishell *data ,char *path, char *cmd)
     i = 0;
     possible_paths = ft_split(path, ':');
     if (!possible_paths)
-        error_and_prompt_back(data, "error malloc"); // Error allocating memory
+        error_and_prompt_back("error malloc"); // Error allocating memory
     while (possible_paths[i])
     {
         tmp = ft_strjoin(possible_paths[i], "/");
@@ -108,14 +108,14 @@ char *build_path(t_minishell *data ,char *path, char *cmd)
 void    execve_error(t_minishell *data, char *cmd_path)
 {
     perror(data->cmd_list->args[0]);
-    data->exit_code = 127;
+    global_exit_flag = 127;
     free(cmd_path);
     if (errno == ENOENT)
-        data->exit_code = 127; // Error command not found
+        global_exit_flag = 127; // Error command not found
     else if (errno == EACCES)
-        data->exit_code = 126; // Error permission denied
+        global_exit_flag = 126; // Error permission denied
     else
-        data->exit_code = 1; // Error other
+        global_exit_flag = 1; // Error other
     free_to_exit(data);
 }
 
