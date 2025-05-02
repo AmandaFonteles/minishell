@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/25 18:03:14 by adregis          ###   ########.fr       */
+/*   Updated: 2025/04/30 11:09:04 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # include "structs.h"
 # include "token.h"
 # include "../libft/inc/libft.h"
+
+/// Global variables
+extern int	global_exit_status;
 
 /*TEST*/
 void basic_parse_input(t_minishell *data);
@@ -125,6 +128,8 @@ void check_env(t_minishell *data, char *arg);
 
 /* ENV_MANAGEMENT.C */
 char    *ft_getenv(char *variable, t_minishell *data);
+t_env	**get_adress(void);
+char	*white_get_env(char *name);
 
 /* FREE.C */
 void free_pipes(t_minishell *data);

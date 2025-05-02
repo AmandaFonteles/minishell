@@ -10,8 +10,8 @@ char	**ft_shell_split(char *str, char sep, int d, int s)
 	j = 0;
 	tab = ft_calloc(ft_nb_word(str, sep) + 1, sizeof(char *));
 	tab[j] = ft_shell_strdup(str, '|');
-	// if (!tab[j++])
-	// 	return (ft_free_tab(tab, 0), NULL);
+	if (!tab[j++])
+		return (ft_free_tab(tab, 0), NULL);
   	if (!tab[j++])
 		return (NULL);
 	while (str[i])
@@ -20,10 +20,8 @@ char	**ft_shell_split(char *str, char sep, int d, int s)
 		if (str[i] == sep && (!(d % 2) && !(s % 2)))
 		{
 			tab[j] = ft_shell_strdup(&str[i + 1], sep);
-			// if (!tab[j++])
-			// 	return (ft_free_tab(tab, 0), NULL);
-      	if (!tab[j++])
-				return (NULL);
+			if (!tab[j++])
+				return (ft_free_tab(tab, 0), NULL);
 		}
 		i++;
 	}

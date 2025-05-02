@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/25 10:44:58 by adregis          ###   ########.fr       */
+/*   Updated: 2025/04/30 11:36:34 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void main_loop(t_minishell *data)
         if (data->user_input[0] != '\0')
             add_history(data->user_input);
         // basic_parse_input(data);
-        parse_input(data);
+        process_input(data);
         setup_exec(data);
         free_all(data);
     }
@@ -51,6 +51,7 @@ int main(int ac, char **av, char **envp)
 {
     t_minishell *data;
 
+    global_exit_status = 0;
     (void)av;
     if (ac != 1)
     {

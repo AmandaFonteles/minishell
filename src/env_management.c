@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:45:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/28 17:24:48 by adregis          ###   ########.fr       */
+/*   Updated: 2025/04/30 11:08:23 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,27 @@ char    *ft_getenv(char *variable, t_minishell *data)
         cur_env_node = cur_env_node->next;
     }
     return (NULL);
+}
+
+t_env	**get_adress(void)
+{
+	static t_env	*new = NULL;
+
+	return (&new);
+}
+
+char	*white_get_env(char *name)
+{
+	t_env	**env_list;
+	t_env	*cur;
+
+	env_list = get_adress();
+	cur = *env_list;
+	while (cur)
+	{
+		if (!ft_strcmp(cur->title, name))
+			return (cur->value);
+		cur = cur->next;
+	}
+	return (NULL);
 }
