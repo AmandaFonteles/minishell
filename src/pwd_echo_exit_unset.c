@@ -12,25 +12,25 @@
 
 #include "../inc/minishell.h"
 
-void builtin_pwd(t_minishell *data, t_pars_cmd *cmd) //pwd can have arguments
+void builtin_pwd(t_pars_cmd *cmd) //pwd can have arguments
 {
     char *cwd;
     
     if (cmd->args[1] && cmd->args[1][0] == '-' && cmd->args[1][1] != '\0')
     {
-        print_invalid_option(data, cmd->args[0], cmd->args[1]);
+        print_invalid_option(cmd->args[0], cmd->args[1]);
         return;
     }
     cwd = getcwd(NULL, 0);
     if (!cwd)
     {
-        error_and_prompt_back(data, "getcwd");
+        error_and_prompt_back("getcwd");
         return ;
     }
     ft_putstr_fd(cwd, 1);
     ft_putstr_fd("\n", 1);
     free(cwd);
-    data->exit_code = 0;    
+    global_exit_flag = 0;    
 }
 
 static int is_n(char *str)
@@ -61,7 +61,7 @@ static int parse_flag(char **args, int *i)
 }
 
 //break into smaller functions
-void builtin_echo(t_minishell *data, t_pars_cmd *cmd)
+void builtin_echo(t_pars_cmd *cmd)
 {
     int i;
     int n_flag;
@@ -77,7 +77,7 @@ void builtin_echo(t_minishell *data, t_pars_cmd *cmd)
     }
     if (!n_flag)
         ft_putstr_fd("\n", 1);
-    data->exit_code = 0;
+    global_exit_flag = 0;
 }
 
 void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
@@ -89,7 +89,7 @@ void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
     {
         if (cmd->args[i][0] == '-')
         {
-            print_invalid_option(data, cmd->args[0], cmd->args[i]);
+            print_invalid_option(cmd->args[0], cmd->args[i]);
             return ;
         }
         else
@@ -99,13 +99,13 @@ void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
         }
         i++;
     }
-    data->exit_code = 0;
+    global_exit_flag = 0;
 }
-static int too_many_args(t_minishell *data, char **args, int i)
+static int too_many_args(char **args, int i)
 {
     if (args[i] && args[i + 1])
     {
-        data->exit_code = 1;
+        global_exit_flag = 1;
         print_exit_error(NULL, "too many arguments");
         return (1);
     }
@@ -132,7 +132,7 @@ void builtin_exit(t_minishell *data, t_pars_cmd *cmd)
         free_to_exit(data);
         exit(2);
     }
-    if (too_many_args(data,cmd->args, i))
+    if (too_many_args(cmd->args, i))
         return ;
     ft_putstr_fd("exit\n", 1);
     arg = ft_atoll(cmd->args[i]);

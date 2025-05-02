@@ -12,25 +12,25 @@
 
 #include "../inc/minishell.h"
 
-int setup_redirections(t_pars_cmd *cmd, t_minishell *data)
+int setup_redirections(t_pars_cmd *cmd)
 {
     if (cmd->infile)
     {
-        if (!open_infile(cmd, data))
+        if (!open_infile(cmd))
             return 0; //fail
     }
     else if (cmd->heredoc && cmd->heredoc[0])
-        if (!redirect_heredoc(data, cmd))
+        if (!redirect_heredoc(cmd))
             return 0; //fail
     if (cmd->outfile)
     {
-        if (!open_outfile(cmd, data, cmd->append))
+        if (!open_outfile(cmd, cmd->append))
             return 0; //fail
     }
     return 1;
 }
 
-int open_infile(t_pars_cmd *cmd, t_minishell *data)
+int open_infile(t_pars_cmd *cmd)
 {
     int fd_in;
 
@@ -39,16 +39,16 @@ int open_infile(t_pars_cmd *cmd, t_minishell *data)
     {
         ft_putstr_fd("minishell: ", 2);
         perror(cmd->infile);
-        data->exit_code = 1; //verify this! Can be another error code
+        global_exit_flag = 1; //verify this! Can be another error code
         return 0; //fail
     }
-    if (!safe_dup2(fd_in, STDIN_FILENO, data))
+    if (!safe_dup2(fd_in, STDIN_FILENO))
         return 0; //fail
     close(fd_in);
     return 1; //success
 }
 
-int open_outfile(t_pars_cmd *cmd, t_minishell *data, int append)
+int open_outfile(t_pars_cmd *cmd, int append)
 {
     int fd_out;
     
@@ -57,8 +57,8 @@ int open_outfile(t_pars_cmd *cmd, t_minishell *data, int append)
     else
         fd_out = open(cmd->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (fd_out == -1)
-        return (error_and_prompt_back(data, cmd->outfile)); //fail
-    if (safe_dup2(fd_out, STDOUT_FILENO, data) == 0)
+        return (error_and_prompt_back(cmd->outfile)); //fail
+    if (safe_dup2(fd_out, STDOUT_FILENO) == 0)
         return 0; //fail
     close(fd_out);
     return 1; //success

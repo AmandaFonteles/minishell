@@ -22,7 +22,7 @@ int    create_processes(t_minishell *data)
         cur_cmd->pid = fork();
         if (cur_cmd->pid == -1)
         {
-            error_and_prompt_back(data, "error forking"); // Error forking
+            error_and_prompt_back("error forking"); // Error forking
             close_all_pipes(data);
             return (0);
         }
@@ -37,7 +37,7 @@ int    create_processes(t_minishell *data)
             else
                 middle_child_process(data, cur_cmd);*/
             execute(data, cur_cmd);
-            exit(data->exit_code); // exit the child process
+            exit(global_exit_flag); // exit the child process
         }
         cur_cmd = cur_cmd->next;
     }
@@ -71,7 +71,7 @@ void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
         }
     }
     close_unused_pipes(data, cur_cmd);
-    if (!setup_redirections(cur_cmd, data))
+    if (!setup_redirections(cur_cmd))
         exit(1); // exit the child process
 }
 
@@ -84,7 +84,7 @@ void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
         if (fd_in == -1)
         {
             ft_error(data, "error opening infile"); // Error opening infile
-            data->exit_code = 1;
+            global_exit_flag = 1;
         }
     }
     else
@@ -120,7 +120,7 @@ void last_child_process(t_minishell *data, t_pars_cmd *cur_cmd)
         if (fd_out == -1)
         {
             ft_error(data, "error opening outfile"); // Error opening outfile
-            data->exit_code = 1;
+            global_exit_flag = 1;
         }
     }
     dup2(fd_out, STDOUT_FILENO);
@@ -136,9 +136,9 @@ void wait_loop(t_minishell *data)
     {
         waitpid(cur_cmd->pid, &status, 0);
         if (WIFEXITED(status))
-            data->exit_code = WEXITSTATUS(status);
+            global_exit_flag = WEXITSTATUS(status);
         else if (WIFSIGNALED(status))
-            data->exit_code = 128 + WTERMSIG(status);
+            global_exit_flag = 128 + WTERMSIG(status);
         cur_cmd = cur_cmd->next;
     }
 }

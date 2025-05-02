@@ -23,16 +23,16 @@ void error_to_exit(t_minishell *data, char *msg)
 }
 //this displays the error, set the exit code and return to the prompt
 //inside main_loop, but didin't fork yet
-int    error_and_prompt_back(t_minishell *data, char *msg)
+int    error_and_prompt_back(char *msg)
 {
     ft_putstr_fd("minishell: ", 2);
     if (msg)
         perror(msg);
-    data->exit_code = 1;
+    global_exit_flag = 1;
     return (0);
 }
 //dup2 and check for errors
-int safe_dup2(int oldfd, int newfd, t_minishell *data)
+int safe_dup2(int oldfd, int newfd)
 {
     if (dup2(oldfd, newfd) == -1)
     {
@@ -40,7 +40,7 @@ int safe_dup2(int oldfd, int newfd, t_minishell *data)
         perror("dup2");
         //do I need to close oldfd and newfd?
         close(oldfd);
-        data->exit_code = 1;
+        global_exit_flag = 1;
         return (0);
     }
     return (1);
@@ -54,7 +54,7 @@ void print_cmd_not_found(t_minishell *data, char *cmd)
         ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(data->cmd_list->args[0], 2);
         ft_putstr_fd(": command not found\n", 2);
-        data->exit_code = 127;
+        global_exit_flag = 127;
     }
 }
 
@@ -71,15 +71,15 @@ void print_exit_error(char *arg, char *msg)
     ft_putstr_fd("\n", 2);
 }
 
-void print_invalid_identifier(t_minishell *data, char *arg)
+void print_invalid_identifier(char *arg)
 {
     ft_putstr_fd("minishell: export: '", 2);
     ft_putstr_fd(arg, 2);
     ft_putstr_fd("': not a valid identifier\n", 2);
-    data->exit_code = 1;
+    global_exit_flag = 1;
 }
 
-int    print_invalid_option(t_minishell *data, char *builtin, char *arg)
+int    print_invalid_option(char *builtin, char *arg)
 {
     ft_putstr_fd("minishell: ", 2);
     ft_putstr_fd(builtin, 2);
@@ -87,18 +87,18 @@ int    print_invalid_option(t_minishell *data, char *builtin, char *arg)
     ft_putchar_fd(arg[0], 2);
     ft_putchar_fd(arg[1], 2);
     ft_putstr_fd("': invalid option\n", 2);
-    data->exit_code = 1;
+    global_exit_flag = 1;
     return (0);
 }
 
-void    error_chdir(t_minishell *data, char *path)
+void    error_chdir(char *path)
 {
     ft_putstr_fd("minishell: cd: ", 2);
     ft_putstr_fd(path, 2);
     ft_putstr_fd(": ", 2);
     perror("chdir");
     free(path);
-    data->exit_code = 1;
+    global_exit_flag = 1;
 }
 
 void ft_error(t_minishell *data, char *msg)

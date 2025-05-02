@@ -48,7 +48,6 @@ typedef struct s_minishell
     t_pars_cmd *cmd_list; //pointer to the first command in the list
     int     cmd_nb; //number of commands in the list
     int     **pipe_ends; //array with the pipe[2] for each command
-    int     exit_code; //use a global variable to store the exit code (?)
 }   t_minishell;
 
 #endif
