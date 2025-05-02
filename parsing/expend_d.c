@@ -16,7 +16,7 @@ int	ft_get_value_d(char **str)
 		if (!(*str)[1])
 			tmp = ft_strdup("$");
 		else if ((*str)[1] && (*str)[1] == '?')
-			tmp = ft_itoa(global_exit_status);
+			tmp = ft_itoa(global_exit_flag);
 		else
 			tmp = ft_strdup(white_get_env(*str + 1));
 		free(*str);

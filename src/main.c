@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/30 11:36:34 by adregis          ###   ########.fr       */
+/*   Updated: 2025/05/02 16:59:34 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int main(int ac, char **av, char **envp)
 {
     t_minishell *data;
 
-    global_exit_status = 0;
+    global_exit_flag = 0;
     (void)av;
     if (ac != 1)
     {

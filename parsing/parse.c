@@ -98,5 +98,5 @@ int	process_input(t_minishell *data)
 	else
 		free(data->user_input);
   }
-	return (data->exit_code);
+	return (global_exit_flag);
 }
