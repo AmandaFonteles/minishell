@@ -88,15 +88,16 @@ int	process_input(t_minishell *data)
 		{
 			if (ft_tokenise(cmds))
 			{
-				//Temporairement commenté pour le test de parsing
-				// global_exit_status = setup_exec(data);
+				if (data->cmd_list)
+					free_cmd_node(data->cmd_list);
+				data->cmd_list = *cmds;
 				setup_exec(data);
-        // il va falloir se poser la question de la variable globale ici
+			}
+			else
+				free_cmd_node(*cmds);
 		}
-		// free_cmd_node(*cmds);
 	}
 	else
 		free(data->user_input);
-  }
 	return (global_exit_flag);
 }

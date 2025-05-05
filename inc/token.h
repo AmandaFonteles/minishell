@@ -58,6 +58,8 @@ t_token	*ft_lstlast_token(t_token *token);
 t_token	*ft_lstnew_token(char *word);
 void	ft_lstadd_back_token(t_token **token, t_token *new);
 void	set_next_type(t_token *current);
+int	ft_set_type(t_token **token);
+int	ft_expend_words(t_token **token);
 
 ///////////////////// FREE PARSE /////////////////////
 
@@ -82,6 +84,7 @@ char	*ft_join_parts(char **tab, int len_tab);
 int	ft_create_str(char *str, char **part);
 int	ft_get_value(char **part, char *tmp);
 char	*ft_quote_value(char *str);
+int	ft_expend_isalnum(char c);
 
 ///////////////////// EXPEND D /////////////////////
 
@@ -90,5 +93,9 @@ int	ft_get_value_d(char **str);
 int	nb_str_d(char *str, int i, int nw);
 int	ft_create_str_d(char *str, char **part);
 char	*ft_join_parts_d(char **tab, int len_tab);
+
+///////////////////// HEREDOC PARSING /////////////////////
+
+int	fill_heredocs(t_pars_cmd *cmd);
 
 #endif

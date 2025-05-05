@@ -64,6 +64,8 @@ int	ft_tokenise(t_pars_cmd **cmds)
 			return (0);
 		if (!ft_remove_quote(current))
 			return (0);
+		if (!fill_heredocs(current))
+			return (0);
 		current = current->next;
 	}
 	return (1);

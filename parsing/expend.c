@@ -75,7 +75,7 @@ int	find_stop_index(char *str, int i)
 		i++;
 		if (str[i] == '?')
 			return (++i);
-		while (str[i] && ft_darkisalnum(str[i]) && str[i] != 34 && str[i] != 39)
+		while (str[i] && ft_expend_isalnum(str[i]) && str[i] != 34 && str[i] != 39)
 			i++;
 		return (i);
 	}
@@ -115,4 +115,3 @@ char	*ft_expend(char *str, enum type type, int i, int j)
 	ft_free_tab(tab, 0);
 	return (res);
 }
-
