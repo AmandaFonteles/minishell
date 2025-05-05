@@ -39,7 +39,7 @@ char	*ft_shell_strdup(const char *str, char sep);
 void	handle_special_chars(char *str, int *i, int *d, int *s);
 int	calculate_len_w(const char *str, char sep);
 int	ft_nb_word(char *str, char c);
-t_pars_cmd	*ft_lstnew_cmd(char *cmd, t_pars_cmd **cmds, int cmd_index);
+t_pars_cmd	*ft_lstnew_cmd(char *cmd, int cmd_index);
 t_pars_cmd	*ft_lstlast_cmds(t_pars_cmd *cmd);
 void		ft_shell_add_back(t_pars_cmd **cmds, t_pars_cmd *new);
 
@@ -60,11 +60,12 @@ void	ft_lstadd_back_token(t_token **token, t_token *new);
 void	set_next_type(t_token *current);
 int	ft_set_type(t_token **token);
 int	ft_expend_words(t_token **token);
+int	update_quotes(char *str, int i, int *d, int *s);
 
 ///////////////////// FREE PARSE /////////////////////
 
 void	ft_free_tab(char **tab, int nb);
-
+void	ft_free_env(t_env **env);
 ///////////////////// ERROR PARSING /////////////////////
 
 int	ft_parse_error(char **words);

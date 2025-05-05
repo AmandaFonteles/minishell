@@ -16,7 +16,7 @@ int	process_special_chars(char *str, int *i)
 	else if (str[*i] && str[*i] == '$')
 	{
 		(*i)++;
-		while (str[*i] && ft_darkisalnum(str[*i]) && str[*i] != 34
+		while (str[*i] && ft_expend_isalnum(str[*i]) && str[*i] != 34
 			&& str[*i] != 39)
 			(*i)++;
 	}

@@ -6,11 +6,13 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:45:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/30 11:08:23 by adregis          ###   ########.fr       */
+/*   Updated: 2025/05/05 11:17:55 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int global_exit_flag = 0;  // Ajout de la définition de la variable globale
 
 char    *ft_getenv(char *variable, t_minishell *data)
 {

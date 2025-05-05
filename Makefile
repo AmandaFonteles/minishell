@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: afontele <afontele@student.42.fr>          +#+  +:+       +#+         #
+#    By: adregis <adregis@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/04/09 12:52:51 by afontele         ###   ########.fr        #
+#    Updated: 2025/05/05 10:42:28 by adregis          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ SRC = $(SRCDIR)main.c \
 		$(SRCDIR)env_management.c \
 		$(SRCDIR)init.c \
 		$(SRCDIR)test.c \
-		
+
 # Objects
 OBJ = $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 LIBFT = -L $(LIBFTDIR) -lft
@@ -82,6 +82,6 @@ fclean: clean
 		@echo "\033[31m[Executable removed]\033[0m"
 
 # Rule to recompile everything
-re: fclean all		
+re: fclean all
 
 .PHONY: all clean fclean re

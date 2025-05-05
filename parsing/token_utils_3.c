@@ -1,6 +1,6 @@
 #include "../inc/minishell.h"
 
-static int	ft_isset(char c, const char *set)
+int	ft_isset(char c, const char *set)
 {
 	while (*set)
 		if (c == *set++)

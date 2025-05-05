@@ -1,5 +1,6 @@
 #include "../inc/minishell.h"
 #include <stdio.h>
+#include <string.h>  // Pour strdup
 
 // Affiche le contenu d'une commande parsée
 void print_cmd(t_pars_cmd *cmd)
@@ -57,54 +58,116 @@ void print_all_cmds(t_pars_cmd **cmds)
     }
 }
 
-int main(void)
+void print_cmd_structure(t_pars_cmd *cmd)
 {
-    t_pars_cmd **cmds;
-    char *test_cases[] = {
-        "ls -l",
-        "echo 'hello' | grep h",
-        "cat file.txt | grep test | wc -l",
-        "echo \"hello $USER\" | cat",
-        "cat < infile > outfile",
-        "echo test >> out.txt",
-        "cat << EOF",
-        "cat << 'EOF' | grep test",
-        "echo \"a | b\" | wc",
-        "ls | grep .c > result.txt",
-        "cat << EOF > out.txt",
-        "echo $HOME",
-        "echo \"'$HOME'\"",
-        "echo '\"$HOME\"'",
-        NULL
-    };
+    printf("\n=== Command Structure ===\n");
+    printf("Command: %s\n", cmd->cmd);
+    printf("Command Index: %d\n", cmd->cmd_index);
+    printf("PID: %d\n", cmd->pid);
+    printf("HD Number: %d\n", cmd->hd_nb);
 
-    printf("=== Testing parse_input ===\n\n");
-
-    for (int i = 0; test_cases[i]; i++)
+    if (cmd->heredoc)
     {
-        printf("\nTest case %d: '%s'\n", i + 1, test_cases[i]);
-        printf("-------------------\n");
+        printf("Heredoc: ");
+        for (int i = 0; cmd->heredoc[i]; i++)
+            printf("[%s] ", cmd->heredoc[i]);
+        printf("\n");
+    }
+    if (cmd->delimiters)
+    {
+        printf("Delimiters: ");
+        for (int i = 0; cmd->delimiters[i]; i++)
+            printf("[%s] ", cmd->delimiters[i]);
+        printf("\n");
+    }
+    if (cmd->infile)
+        printf("Infile: %s\n", cmd->infile);
+    if (cmd->outfile)
+        printf("Outfile: %s\n", cmd->outfile);
+    printf("Append: %d\n", cmd->append);
 
-        cmds = parse_input(ft_strdup(test_cases[i]));
-        if (cmds)
-        {
-            if (ft_tokenise(cmds)) {
-                // Appelle ici fill_heredocs/fill_redirections si besoin
-                t_pars_cmd *cur = *cmds;
-                while (cur) {
-                    fill_heredocs(cur);
-                    // fill_redirections(cur); // à faire si tu veux tester aussi les redirections
-                    cur = cur->next;
-                }
-                print_all_cmds(cmds);
-            }
-            // free_cmd_node(*cmds); // Décommente pour libérer la mémoire si besoin
-        }
-        else
-        {
-            printf("Parsing failed!\n");
-        }
+    if (cmd->args)
+    {
+        printf("Args: ");
+        for (int i = 0; cmd->args[i]; i++)
+            printf("[%s] ", cmd->args[i]);
+        printf("\n");
+    }
+    printf("=====================\n\n");
+}
+
+void test_parse_input(const char *input)
+{
+    printf("\n=== Testing: '%s' ===\n", input);
+
+    t_minishell data;
+    data.user_input = strdup(input);
+    if (!data.user_input)
+    {
+        printf("Error: Failed to allocate memory for input\n");
+        return;
     }
 
+    printf("1. Input copied to data.user_input\n");
+
+    t_pars_cmd **cmds = parse_input(data.user_input);
+    if (!cmds)
+    {
+        printf("2. parse_input returned NULL\n");
+        free(data.user_input);
+        return;
+    }
+    printf("2. parse_input successful\n");
+
+    if (!*cmds)
+    {
+        printf("3. *cmds is NULL\n");
+        free(cmds);
+        free(data.user_input);
+        return;
+    }
+    printf("3. *cmds is valid\n");
+
+    if (ft_tokenise(cmds))
+    {
+        printf("4. Tokenization successful\n");
+        t_pars_cmd *current = *cmds;
+        while (current)
+        {
+            print_cmd_structure(current);
+            current = current->next;
+        }
+    }
+    else
+    {
+        printf("4. Tokenization failed\n");
+    }
+
+    free_cmd_node(*cmds);
+    free(cmds);
+    free(data.user_input);
+}
+
+int main(void)
+{
+    printf("\n=== Starting Parsing Tests ===\n\n");
+
+    // Test cases
+    test_parse_input("ls -l");
+    test_parse_input("echo 'hello' | grep h");
+    test_parse_input("cat file.txt | grep test | wc -l");
+    test_parse_input("echo \"hello $USER\" | cat");
+    test_parse_input("cat < infile > outfile");
+    test_parse_input("echo test >> out.txt");
+    test_parse_input("cat << EOF");
+    test_parse_input("cat << 'EOF' | grep test");
+    test_parse_input("echo \"a | b\" | wc");
+    test_parse_input("ls | grep .c > result.txt");
+    test_parse_input("cat << EOF > out.txt");
+    test_parse_input("echo $HOME");
+    test_parse_input("echo \"'$HOME'\"");
+    test_parse_input("echo '\"$HOME\"'");
+
+    printf("\n=== Parsing Tests Completed ===\n");
     return 0;
 }
