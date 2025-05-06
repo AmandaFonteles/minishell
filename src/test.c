@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:51:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/22 19:42:27 by afontele         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:06:13 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,3 @@ void basic_parse_input(t_minishell *data)
 
     free_arraystr(tokens);
 }
-
-

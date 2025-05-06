@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/04/22 23:45:36 by afontele         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:26:06 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include "structs.h"
+# include "token.h"
 # include "../libft/inc/libft.h"
 
 extern int global_exit_flag;
@@ -126,6 +127,10 @@ void check_env(t_minishell *data, char *arg);
 
 /* ENV_MANAGEMENT.C */
 char    *ft_getenv(char *variable, t_minishell *data);
+t_env	**get_adress(void);
+char	*white_get_env(char *name);
+void	init_env_list(void);
+t_minishell *get_minishell(void);
 
 /* FREE.C */
 void free_pipes(t_minishell *data);
@@ -145,5 +150,6 @@ void print_invalid_identifier(char *arg);
 /* UTILS.C */
 long long	ft_atoll(const char *str);
 unsigned int ft_strcmp(char *s1, char *s2);
+
 
 #endif
