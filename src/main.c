@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by tautin--          #+#    #+#             */
-/*   Updated: 2025/05/02 16:59:34 by adregis          ###   ########.fr       */
+/*   Updated: 2025/05/07 00:49:06 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,57 @@ void main_loop(t_minishell *data)
             add_history(data->user_input);
         // basic_parse_input(data);
         process_input(data);
+        // Debug print avant l'exécution (if needed for debug)
+        // t_pars_cmd *cur = data->cmd_list;
+        // while (cur)
+        // {
+        //     debug_print_cmd(cur);
+        //     cur = cur->next;
+        // }
         setup_exec(data);
         free_all(data);
     }
 }
+
+void    debug_print_cmd(t_pars_cmd *cmd)
+{
+    int i;
+
+    printf("\n=== Command Structure ===\n");
+    printf("Command: %s\n", cmd->cmd);
+    printf("Command Index: %d\n", cmd->cmd_index);
+    printf("PID: %d\n", cmd->pid);
+    printf("HD Number: %d\n", cmd->hd_nb);
+    if (cmd->infile)
+        printf("Infile: %s\n", cmd->infile);
+    if (cmd->outfile)
+        printf("Outfile: %s\n", cmd->outfile);
+    printf("Append: %d\n", cmd->append);
+    if (cmd->args)
+    {
+        printf("Args: ");
+        i = 0;
+        while (cmd->args[i])
+        {
+            printf("[%s] ", cmd->args[i]);
+            i++;
+        }
+        printf("\n");
+    }
+    if (cmd->delimiters)
+    {
+        printf("Delimiters: ");
+        i = 0;
+        while (cmd->delimiters[i])
+        {
+            printf("[%s] ", cmd->delimiters[i]);
+            i++;
+        }
+        printf("\n");
+    }
+    printf("=====================\n\n");
+}
+
 //change nbr of returning errors for different errors
 int main(int ac, char **av, char **envp)
 {

@@ -70,6 +70,7 @@ void	ft_free_env(t_env **env);
 
 int	ft_parse_error(char **words);
 int	ft_check_dir(char *str);
+void debug_print_cmd(t_pars_cmd *cmd);
 
 ///////////////////// EXPEND /////////////////////
 
@@ -98,5 +99,6 @@ char	*ft_join_parts_d(char **tab, int len_tab);
 ///////////////////// HEREDOC PARSING /////////////////////
 
 int	fill_heredocs(t_pars_cmd *cmd);
+
 
 #endif

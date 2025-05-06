@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/23 00:53:38 by afontele         ###   ########.fr       */
+/*   Updated: 2025/05/07 00:45:18 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void   setup_exec(t_minishell *data)
 void    multiple_cmds(t_minishell *data)
 {
     int i;
-    
+
     i = 0;
     if (data->cmd_nb < 2)
         return ;
@@ -83,7 +83,7 @@ void exec_uniq_cmd(t_minishell *data)
     if (cmd->pid == 0)
     {
         if (!setup_redirections(cmd))
-            exit(1);        
+            exit(1);
         execute(data, cmd);
     }
     waitpid(cmd->pid, &status, 0);
