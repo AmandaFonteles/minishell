@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/05/02 16:57:38 by adregis          ###   ########.fr       */
+/*   Updated: 2025/05/05 16:26:06 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ void check_env(t_minishell *data, char *arg);
 char    *ft_getenv(char *variable, t_minishell *data);
 t_env	**get_adress(void);
 char	*white_get_env(char *name);
+void	init_env_list(void);
+t_minishell *get_minishell(void);
 
 /* FREE.C */
 void free_pipes(t_minishell *data);

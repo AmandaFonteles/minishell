@@ -148,11 +148,30 @@ void test_parse_input(const char *input)
     free(data.user_input);
 }
 
-int main(void)
+int main(int ac, char **av, char **envp)
 {
+    t_minishell *data;
+
+    global_exit_flag = 0;
+    (void)av;
+    if (ac != 1)
+    {
+        ft_putstr_fd("Error: minishell don't take arguments\n", 2);
+        return (1);
+    }
+    data = malloc(sizeof(t_minishell));
+    if (!data)
+    {
+        ft_putstr_fd("Error: malloc failed\n", 2);
+        return (1);
+    }
+    if (!init_data(data, envp))
+        return (1);
     printf("\n=== Starting Parsing Tests ===\n\n");
 
-    // Test cases
+    test_parse_input("echo $HOME");
+    test_parse_input("echo \"'$HOME'\"");
+    test_parse_input("echo '\"$HOME\"'");
     test_parse_input("ls -l");
     test_parse_input("echo 'hello' | grep h");
     test_parse_input("cat file.txt | grep test | wc -l");
@@ -164,10 +183,32 @@ int main(void)
     test_parse_input("echo \"a | b\" | wc");
     test_parse_input("ls | grep .c > result.txt");
     test_parse_input("cat << EOF > out.txt");
-    test_parse_input("echo $HOME");
-    test_parse_input("echo \"'$HOME'\"");
-    test_parse_input("echo '\"$HOME\"'");
 
     printf("\n=== Parsing Tests Completed ===\n");
-    return 0;
+
+    //free all the memory allocated
+    return (0);
 }
+// int main(void)
+// {
+//     printf("\n=== Starting Parsing Tests ===\n\n");
+
+//     // Test cases
+//     // test_parse_input("ls -l");
+//     // test_parse_input("echo 'hello' | grep h");
+//     // test_parse_input("cat file.txt | grep test | wc -l");
+//     // test_parse_input("echo \"hello $USER\" | cat");
+//     // test_parse_input("cat < infile > outfile");
+//     // test_parse_input("echo test >> out.txt");
+//     // test_parse_input("cat << EOF");
+//     // test_parse_input("cat << 'EOF' | grep test");
+//     // test_parse_input("echo \"a | b\" | wc");
+//     // test_parse_input("ls | grep .c > result.txt");
+//     // test_parse_input("cat << EOF > out.txt");
+//     test_parse_input("echo $HOME");
+//     test_parse_input("echo \"'$HOME'\"");
+//     test_parse_input("echo '\"$HOME\"'");
+
+//     printf("\n=== Parsing Tests Completed ===\n");
+//     return 0;
+// }

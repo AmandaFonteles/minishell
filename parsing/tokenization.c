@@ -1,5 +1,37 @@
 #include "../inc/minishell.h"
 
+int	ft_manage_redir(t_pars_cmd *cmd)
+{
+	t_token	*cur;
+
+	cur = (*cmd->token);
+	while (cur)
+	{
+		if (cur->type == FILE_IN && cur->next && cur->next->type == OPEN_FILE)
+		{
+			cmd->infile = ft_strdup(cur->next->word);
+			if (!cmd->infile)
+				return (0);
+		}
+		else if (cur->type == FILE_OUT && cur->next && cur->next->type == EXIT_FILE)
+		{
+			cmd->outfile = ft_strdup(cur->next->word);
+			cmd->append = 0;
+			if (!cmd->outfile)
+				return (0);
+		}
+		else if (cur->type == FILE_OUT_SUR && cur->next && cur->next->type == EXIT_FILE_RET)
+		{
+			cmd->outfile = ft_strdup(cur->next->word);
+			cmd->append = 1;
+			if (!cmd->outfile)
+				return (0);
+		}
+		cur = cur->next;
+	}
+	return (1);
+}
+
 int	ft_create_args(t_pars_cmd *cmd)
 {
 	t_token	*cur;
@@ -59,6 +91,8 @@ int	ft_tokenise(t_pars_cmd **cmds)
 	{
 		current->token = ft_create_token(current->cmd);
 		if (!current->token)
+			return (0);
+		if (!ft_manage_redir(current))
 			return (0);
 		if (!ft_create_args(current))
 			return (0);

@@ -2,26 +2,30 @@
 
 int	ft_get_value(char **str, char *tmp)
 {
-	if ((*str)[0] == 34)
+	if ((*str)[0] == 34)  // Double quotes
 	{
 		tmp = ft_expend_d(ft_strtrim((*str), "\""), 0, -1);
 		free(*str);
 		(*str) = tmp;
 	}
-	else if ((*str)[0] == 39)
+	else if ((*str)[0] == 39)  // Single quotes
 	{
 		tmp = ft_strtrim((*str), "\'");
 		free(*str);
 		(*str) = tmp;
 	}
-	else if ((*str) && (*str)[0] == '$')
+	else if ((*str) && (*str)[0] == '$')  // Variable
 	{
 		if (!(*str)[1])
 			tmp = ft_strdup("$");
 		else if ((*str)[1] && (*str)[1] == '?')
 			tmp = ft_itoa(global_exit_flag);
 		else
-			tmp = ft_strdup(white_get_env(*str + 1));
+		{
+			char *var_name = *str + 1;
+			char *var_value = white_get_env(var_name);
+			tmp = var_value ? ft_strdup(var_value) : ft_strdup("");
+		}
 		free(*str);
 		(*str) = tmp;
 	}
