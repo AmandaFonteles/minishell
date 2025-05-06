@@ -75,6 +75,21 @@ void	ft_shell_add_back(t_pars_cmd **cmds, t_pars_cmd *new)
 		temp->next = new;
 }
 
+static int	count_cmds(t_pars_cmd *cmd_list)
+{
+	t_pars_cmd	*cur;
+	int			count;
+
+	count = 0;
+	cur = cmd_list;
+	while (cur)
+	{
+		count++;
+		cur = cur->next;
+	}
+	return (count);
+}
+
 int	process_input(t_minishell *data)
 {
 	t_pars_cmd	**cmds;
@@ -95,6 +110,7 @@ int	process_input(t_minishell *data)
 				if (data->cmd_list)
 					free_cmd_node(data->cmd_list);
 				data->cmd_list = *cmds;
+				data->cmd_nb = count_cmds(data->cmd_list);
 				// setup_exec(data);
 			}
 			else

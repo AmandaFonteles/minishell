@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by tautin--          #+#    #+#             */
-/*   Updated: 2025/05/07 00:18:48 by adregis          ###   ########.fr       */
+/*   Updated: 2025/05/07 00:49:06 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ void main_loop(t_minishell *data)
             add_history(data->user_input);
         // basic_parse_input(data);
         process_input(data);
-        // Debug print avant l'exécution
-        t_pars_cmd *cur = data->cmd_list;
-        while (cur)
-        {
-            debug_print_cmd(cur);
-            cur = cur->next;
-        }
+        // Debug print avant l'exécution (if needed for debug)
+        // t_pars_cmd *cur = data->cmd_list;
+        // while (cur)
+        // {
+        //     debug_print_cmd(cur);
+        //     cur = cur->next;
+        // }
         setup_exec(data);
         free_all(data);
     }
