@@ -6,7 +6,7 @@
 #    By: adregis <adregis@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/05/05 10:42:28 by adregis          ###   ########.fr        #
+#    Updated: 2025/05/06 15:02:17 by adregis          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ INC = ./inc/minishell.h
 
 # Directories
 SRCDIR = src/
+PARS = parsing/
 OBJDIR = obj/
 INCDIR = inc/
 LIBFTDIR = libft/
@@ -45,6 +46,23 @@ SRC = $(SRCDIR)main.c \
 		$(SRCDIR)env_management.c \
 		$(SRCDIR)init.c \
 		$(SRCDIR)test.c \
+		$(PARS)parse.c \
+		$(PARS)tokenization.c \
+		$(PARS)parse_utils.c \
+		$(PARS)token_utils.c \
+		$(PARS)token_utils_2.c \
+		$(PARS)token_utils_3.c \
+		$(PARS)token_utils_4.c \
+		$(PARS)token_utils_5.c \
+		$(PARS)expend.c \
+		$(PARS)expend_utils.c \
+		$(PARS)expend_utils2.c \
+		$(PARS)expend_d.c \
+		$(PARS)error_pars.c \
+		$(PARS)free_parse.c \
+		$(PARS)syntax_check.c \
+		$(PARS)heredoc_parsing.c \
+		$(PARS)env_pars.c
 
 # Objects
 OBJ = $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
