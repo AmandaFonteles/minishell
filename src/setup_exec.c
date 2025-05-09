@@ -18,7 +18,6 @@ void   setup_exec(t_minishell *data)
 {
     if (!data->cmd_list)
         return ;
-    //printf("[DEBUG] Executing %d command(s)\n", data->cmd_nb);
     if (!generate_heredocs(data))
         return ;
     if (data->cmd_nb == 1)

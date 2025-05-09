@@ -60,7 +60,7 @@ void    close_all_pipes(t_minishell *data)
         {
             close(data->pipe_ends[i][0]);
             close(data->pipe_ends[i][1]);
-            free(data->pipe_ends[i]);
+            //free(data->pipe_ends[i]); -- check if this is needed
         }
         i++;
     }
