@@ -58,6 +58,7 @@ void    error_chdir(char *path);
 void    execute(t_minishell *data, t_pars_cmd *cur_cmd);
 char *exec_make_path(t_minishell *data, t_pars_cmd *cmd);
 void    resolve_and_exec(t_minishell *data, t_pars_cmd *cmd);
+char *safe_join(char *str, char* cmd);
 char *build_path(char *path, char *cmd);
 void    execve_error(t_minishell *data, char *cmd_path);
 int check_full_path(char *cmd);

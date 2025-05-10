@@ -77,10 +77,24 @@ void    resolve_and_exec(t_minishell *data, t_pars_cmd *cmd)
     free(cmd_path);
 }
 
+char *safe_join(char *str, char* cmd)
+{
+    char *tmp;
+    char *full_path;
+
+    tmp = ft_strjoin(str, "/");
+    if (!tmp)
+        return (NULL);
+    full_path = ft_strjoin(tmp, cmd);
+    free(tmp);
+    if (!full_path)
+        return (NULL);
+    return (full_path);
+}
+
 char *build_path(char *path, char *cmd)
 {
     char *full_path;
-    char *tmp;
     char **possible_paths;
     int i;
 
@@ -90,9 +104,9 @@ char *build_path(char *path, char *cmd)
         error_and_prompt_back("error malloc"); // Error allocating memory
     while (possible_paths[i])
     {
-        tmp = ft_strjoin(possible_paths[i], "/");
-        full_path = ft_strjoin(tmp, cmd);
-        free(tmp);
+        full_path = safe_join(possible_paths[i], cmd);
+        if (!full_path)
+            return (free_arraystr(possible_paths), NULL);
         if (access(full_path, X_OK) == 0)
         {
             free_arraystr(possible_paths);
