@@ -102,15 +102,16 @@ void	free_all(t_minishell *data)
 
 void free_to_exit(t_minishell *data)
 {
-	free_all(data);
-	if (data->env)
-		free_env(data->env);
-	if (data->exported)
-		free_env(data->exported);
-		//should I free exit_code?
 	if (data)
+	{
+		free_all(data);
+		if (data->env)
+			free_env(data->env);
+		if (data->exported)
+			free_env(data->exported);
 		free(data);
-		
+		data = NULL;
+	}
 }
 
 void free_env(t_env *list)

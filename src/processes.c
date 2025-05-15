@@ -55,25 +55,26 @@ void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
     {
         if (idx > 0)
         {
-            if (dup2(data->pipe_ends[idx - 1][0], STDIN_FILENO) == -1)
+            if (!safe_dup2(data->pipe_ends[idx - 1][0], STDIN_FILENO))
             {
                 close_all_pipes(data);
-                error_to_exit(data, "error dup2"); // Error duplicating pipe
+                error_to_exit(data, "dup2 in setup_child (stdin)");
             }
         }
         if (idx < data->cmd_nb - 1)
         {
-            if (dup2(data->pipe_ends[idx - 1][0], STDIN_FILENO) == -1)
+            if (!safe_dup2(data->pipe_ends[idx][1], STDOUT_FILENO))
             {
                 close_all_pipes(data);
-                error_to_exit(data, "error dup2"); // Error duplicating pipe
+                error_to_exit(data, "dup2 in setup_child (stdout)");
             }
         }
     }
     close_unused_pipes(data, cur_cmd);
     if (!setup_redirections(cur_cmd))
-        exit(1); // exit the child process
+        exit(1);
 }
+
 
 /*void    first_child_process(t_minishell *data, t_pars_cmd *cur_cmd)
 {

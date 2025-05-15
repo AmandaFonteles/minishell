@@ -24,7 +24,7 @@
 #include "../inc/minishell.h"
 
 //TODO: check if all the malloc from libft func was freed!!!
-int global_exit_flag;
+//int global_exit_flag;
 
 void main_loop(t_minishell *data)
 {
