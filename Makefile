@@ -6,7 +6,7 @@
 #    By: adregis <adregis@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/05/06 15:02:17 by adregis          ###   ########.fr        #
+#    Updated: 2025/05/15 09:15:10 by adregis          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME = minishell
 
 # Compiler and flags
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 LDFLAGS = -lreadline
 
