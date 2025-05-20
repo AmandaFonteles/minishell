@@ -12,7 +12,11 @@ t_pars_cmd	**parse_input(char *str)
 	if (!cmds)
 		return (NULL);
 	if (!ft_check(str, 0, 0, 0))
-		return (free_cmd_node(*cmds), NULL);
+	{
+    free_cmd_node(*cmds);
+    free(cmds);
+    return (NULL);
+  }
 	tab = ft_shell_split(str, '|', 0, 0);
 	if (!tab)
 		return (NULL);
@@ -97,7 +101,7 @@ int	process_input(t_minishell *data)
 	cmds = NULL;
 	if (data->user_input == NULL)
 	{
-		free_cmd_node(*cmds);
+		// free_cmd_node(*cmds);
 		return (1);
 	}
 	if (*data->user_input != '\0')
@@ -116,7 +120,7 @@ int	process_input(t_minishell *data)
 				free_cmd_node(*cmds);
 		}
 	}
-	else
-		free(data->user_input);
+	// else
+	// 	free(data->user_input);
 	return (global_exit_flag);
 }

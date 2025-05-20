@@ -66,6 +66,7 @@ int	update_quotes(char *str, int i, int *d, int *s);
 
 void	ft_free_tab(char **tab, int nb);
 void	ft_free_env(t_env **env);
+void free_token_list(t_token **token);
 ///////////////////// ERROR PARSING /////////////////////
 
 int	ft_parse_error(char **words);

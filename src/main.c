@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by tautin--          #+#    #+#             */
-/*   Updated: 2025/05/07 00:49:06 by adregis          ###   ########.fr       */
+/*   Updated: 2025/05/20 12:19:18 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void main_loop(t_minishell *data)
         if (data->user_input[0] != '\0')
             add_history(data->user_input);
         // basic_parse_input(data);
-        process_input(data);
+        if (process_input(data) == 0)
+            setup_exec(data);
         // Debug print avant l'exécution (if needed for debug)
         // t_pars_cmd *cur = data->cmd_list;
         // while (cur)
@@ -48,7 +49,7 @@ void main_loop(t_minishell *data)
         //     debug_print_cmd(cur);
         //     cur = cur->next;
         // }
-        setup_exec(data);
+
         free_all(data);
     }
 }
@@ -111,8 +112,12 @@ int main(int ac, char **av, char **envp)
         return (1);
     }
     if (!init_data(data, envp))
+    {
+        free(data);
         return (1);
+    }
     main_loop(data);
+    free_to_exit(data);
     //free all the memory allocated
     return (global_exit_flag);
 }

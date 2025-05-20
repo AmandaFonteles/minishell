@@ -112,7 +112,7 @@ t_token	**ft_create_token(char *str)
 	t_token	*new;
 	int		i;
 
-	token = ft_calloc(1, sizeof(token));
+	token = ft_calloc(1, sizeof(t_token *));
 	i = 1;
 	tab = ft_split_token(str);
 	if (!ft_parse_error(tab))

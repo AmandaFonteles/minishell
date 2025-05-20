@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:24:55 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/23 00:38:40 by afontele         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:30:47 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void cleanup_heredocs(t_minishell *data)
 void	free_cmd_node(t_pars_cmd *cmd)
 {
 	t_pars_cmd *temp;
-	
+
 	while (cmd)
 	{
 		temp = cmd->next;
@@ -87,17 +87,44 @@ void	free_cmd_node(t_pars_cmd *cmd)
 	}
 }
 
-void	free_all(t_minishell *data)
+// void	free_all(t_minishell *data)
+// {
+// 	if (data->cmd_list)
+// 	{
+// 		cleanup_heredocs(data);
+// 		free_cmd_node(data->cmd_list);
+// 	}
+// 	if (data->user_input)
+// 		free(data->user_input);
+// 	if (data->pipe_ends)
+// 		free_pipes(data);
+// }
+
+void free_all(t_minishell *data)
 {
-	if (data->cmd_list)
-	{
-		cleanup_heredocs(data);
-		free_cmd_node(data->cmd_list);
-	}
-	if (data->user_input)
-		free(data->user_input);
-	if (data->pipe_ends)
-		free_pipes(data);
+    if (data->cmd_list)
+    {
+        cleanup_heredocs(data);
+        t_pars_cmd *cur = data->cmd_list;
+        while (cur)
+        {
+            if (cur->token)
+                free_token_list(cur->token);
+            cur = cur->next;
+        }
+        free_cmd_node(data->cmd_list);
+        data->cmd_list = NULL;
+    }
+    if (data->user_input)
+    {
+        free(data->user_input);
+        data->user_input = NULL;
+    }
+    if (data->pipe_ends)
+    {
+        free_pipes(data);
+        data->pipe_ends = NULL;
+    }
 }
 
 void free_to_exit(t_minishell *data)
@@ -128,4 +155,23 @@ void free_env(t_env *list)
 			free(temp->value);
 		free(temp);
 	}
+}
+
+void free_token_list(t_token **token)
+{
+    t_token *cur;
+    t_token *next;
+
+    if (!token || !*token)
+        return;
+    cur = *token;
+    while (cur)
+    {
+        next = cur->next;
+        if (cur->word)
+            free(cur->word);
+        free(cur);
+        cur = next;
+    }
+    free(token);
 }

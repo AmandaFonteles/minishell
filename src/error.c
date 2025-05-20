@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:08:03 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/23 00:42:36 by afontele         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:59:13 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,15 @@ int safe_dup2(int oldfd, int newfd)
 
 void print_cmd_not_found(t_minishell *data, char *cmd)
 {
-    if (!cmd)
-    {
-        ft_putstr_fd("minishell: ", 2);
+    ft_putstr_fd("minishell: ", 2);
+    if (cmd)
+        ft_putstr_fd(cmd, 2);
+    else if (data->cmd_list && data->cmd_list->args && data->cmd_list->args[0])
         ft_putstr_fd(data->cmd_list->args[0], 2);
-        ft_putstr_fd(": command not found\n", 2);
-        global_exit_flag = 127;
-    }
+    else
+        ft_putstr_fd("command", 2);
+    ft_putstr_fd(": command not found\n", 2);
+    global_exit_flag = 127;
 }
 
 void print_exit_error(char *arg, char *msg)

@@ -5,7 +5,6 @@ int fill_heredocs(t_pars_cmd *cmd) {
     int hd_count = 0;
     int i = 0;
 
-    // Compter le nombre de heredocs
     while (cur) {
         if (cur->type == HERE_DOC && cur->next)
             hd_count++;
@@ -14,12 +13,10 @@ int fill_heredocs(t_pars_cmd *cmd) {
     if (hd_count == 0)
         return 1;
 
-    // Allouer le tableau de délimiteurs
     cmd->delimiters = malloc(sizeof(char *) * (hd_count + 1));
     if (!cmd->delimiters)
         return 0;
 
-    // Remplir le tableau de délimiteurs
     cur = *(cmd->token);
     while (cur) {
         if (cur->type == HERE_DOC && cur->next) {

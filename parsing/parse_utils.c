@@ -40,7 +40,7 @@ char	*ft_shell_strdup(const char *str, char sep)
 	s = 0;
 	d = 0;
 	len = calculate_len_w(str, sep);
-	tab = (char *)ft_calloc((len + 1), sizeof(char *));
+	tab = (char *)ft_calloc((len + 1), sizeof(char));
 	if (!tab)
 		return (NULL);
 	while (str[i] && (!(str[i] == sep && (!(d % 2) && !(s % 2)))))

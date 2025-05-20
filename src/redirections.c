@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:56:58 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/16 20:25:19 by afontele         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:53:32 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int open_infile(t_pars_cmd *cmd)
 int open_outfile(t_pars_cmd *cmd, int append)
 {
     int fd_out;
-    
+
     if (append == 0)
         fd_out = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     else
