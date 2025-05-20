@@ -111,7 +111,6 @@ int	process_input(t_minishell *data)
 					free_cmd_node(data->cmd_list);
 				data->cmd_list = *cmds;
 				data->cmd_nb = count_cmds(data->cmd_list);
-				// setup_exec(data);
 			}
 			else
 				free_cmd_node(*cmds);
