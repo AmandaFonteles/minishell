@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:48:45 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/21 18:01:42 by afontele         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:45:41 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void    cd_home(t_minishell *data, char *old_pwd)
         global_exit_flag = 1;
         return ;
     }
-    free(home);
     if (!update_env_value_in_list(data->env, "OLDPWD", old_pwd) ||
         !update_env_value_in_list(data->exported, "OLDPWD", old_pwd))
     {
