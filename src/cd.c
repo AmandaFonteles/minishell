@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:48:45 by afontele          #+#    #+#             */
-/*   Updated: 2025/05/26 18:45:41 by afontele         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:22:52 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void    cd_dash(t_minishell *data, char *old_pwd)
     {
         ft_putstr_fd("minishell: cd: OLDPWD not set", 2);
         global_exit_flag = 1;
-        free(prev_oldpwd);
         return ;
     }
     if (chdir(prev_oldpwd) == -1)
@@ -77,7 +76,6 @@ void    cd_dash(t_minishell *data, char *old_pwd)
     }
     ft_putstr_fd(prev_oldpwd, 1);
     ft_putstr_fd("\n", 1);
-    free(prev_oldpwd);
     if (!update_env_value_in_list(data->env, "OLDPWD", old_pwd) ||
         !update_env_value_in_list(data->exported, "OLDPWD", old_pwd))
     {
