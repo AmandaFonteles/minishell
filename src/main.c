@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by tautin--          #+#    #+#             */
-/*   Updated: 2025/05/27 17:16:31 by afontele         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:42:22 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ void main_loop(t_minishell *data)
         // basic_parse_input(data);
         process_input(data);
         // Debug print avant l'exécution (if needed for debug)
-         t_pars_cmd *cur = data->cmd_list;
-         while (cur)
-         {
-             debug_print_cmd(cur);
-             cur = cur->next;
-         }
+        // t_pars_cmd *cur = data->cmd_list;
+        // while (cur)
+        // {
+        //     debug_print_cmd(cur);
+        //     cur = cur->next;
+        // }
         setup_exec(data);
         free_all(data);
     }

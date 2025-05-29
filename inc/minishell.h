@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/05/27 18:42:46 by afontele         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:36:46 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ void free_env(t_env *list);
 
 /* ERROR.C */
 void print_cmd_not_found(t_minishell *data, char *cmd);
-void ft_error(t_minishell *data, char *msg); //arrumar
 void print_exit_error(char *arg, char *msg);
 void print_invalid_identifier(char *arg);
 
