@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:17:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/05/29 20:18:09 by afontele         ###   ########.fr       */
+/*   Updated: 2025/05/29 21:16:52 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void builtin_env(t_minishell *data, t_pars_cmd *cmd)
     
     cur_env_node = data->env;
     global_exit_flag = 0;
-    if (!cur_env_node)
+    if (!ft_getenv("PATH", data))
     {
-        global_exit_flag = 1;
+        ft_putstr_fd("minishell: env: No such file or directory\n", 2);
+        global_exit_flag = 127;
         return ;
     }
     if (cmd->args[1])
