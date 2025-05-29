@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:56:58 by afontele          #+#    #+#             */
-/*   Updated: 2025/05/28 17:31:39 by afontele         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:45:51 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,20 @@ int open_infile(t_pars_cmd *cmd)
 int open_outfile(t_pars_cmd *cmd, int append)
 {
     int fd_out;
-    char *outfile;
+    char *out;
     
     if (cmd->outfile[0] == '"' || cmd->outfile[0] == '\'')
-        outfile = ft_substr(cmd->outfile, 1, ft_strlen(cmd->outfile) - 2);
+        out = ft_substr(cmd->outfile, 1, ft_strlen(cmd->outfile) - 2);
     else
-        outfile = cmd->outfile;
+        out = cmd->outfile;
     if (append == 0)
-        fd_out = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        fd_out = open(out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     else
-        fd_out = open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        fd_out = open(out, O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (fd_out == -1)
-        return (error_and_prompt_back(outfile));
+        return (error_and_prompt_back(out));
     if (safe_dup2(fd_out, STDOUT_FILENO) == 0)
         return 0;
-    free(outfile);
     close(fd_out);
     return 1;
 }
