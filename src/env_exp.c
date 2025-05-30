@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:17:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/19 16:43:12 by afontele         ###   ########.fr       */
+/*   Updated: 2025/05/29 21:16:52 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ void builtin_env(t_minishell *data, t_pars_cmd *cmd)
     t_env *cur_env_node;
     
     cur_env_node = data->env;
-    if (!cur_env_node)
+    global_exit_flag = 0;
+    if (!ft_getenv("PATH", data))
     {
-        global_exit_flag = 1;
+        ft_putstr_fd("minishell: env: No such file or directory\n", 2);
+        global_exit_flag = 127;
         return ;
     }
     if (cmd->args[1])
@@ -34,7 +36,6 @@ void builtin_env(t_minishell *data, t_pars_cmd *cmd)
             printf("%s=%s\n", cur_env_node->title, cur_env_node->value);
         cur_env_node = cur_env_node->next;
     }  
-    global_exit_flag = 0;
 }
 
 void builtin_export(t_minishell *data, t_pars_cmd *cmd)
@@ -42,10 +43,10 @@ void builtin_export(t_minishell *data, t_pars_cmd *cmd)
     int i;
 
     i = 1;
+    global_exit_flag = 0;
     if (!cmd->args[i] || (ft_strcmp(cmd->args[i], "--") == 0 && !cmd->args[i + 1]))
     {
         print_exported(data->exported);
-        global_exit_flag = 0;
         return ;
     }
     if (ft_strcmp(cmd->args[i], "--") == 0 && cmd->args[i + 1])
@@ -60,7 +61,6 @@ void builtin_export(t_minishell *data, t_pars_cmd *cmd)
         check_exp(data, cmd->args[i]);
         i++;
     }
-    global_exit_flag = 0;
 }
 
 //learn how to put quotes in the value

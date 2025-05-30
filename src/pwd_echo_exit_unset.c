@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:34:22 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/10 21:36:13 by afontele         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:19:24 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void builtin_pwd(t_pars_cmd *cmd) //pwd can have arguments
 {
     char *cwd;
     
+    global_exit_flag = 0;
     if (cmd->args[1] && cmd->args[1][0] == '-' && cmd->args[1][1] != '\0')
     {
         print_invalid_option(cmd->args[0], cmd->args[1]);
@@ -30,7 +31,6 @@ void builtin_pwd(t_pars_cmd *cmd) //pwd can have arguments
     ft_putstr_fd(cwd, 1);
     ft_putstr_fd("\n", 1);
     free(cwd);
-    global_exit_flag = 0;    
 }
 
 static int is_n(char *str)
@@ -67,6 +67,7 @@ void builtin_echo(t_pars_cmd *cmd)
     int n_flag;
 
     i = 1;
+    global_exit_flag = 0;
     n_flag = parse_flag(cmd->args, &i);
     while (cmd->args[i])
     {
@@ -77,7 +78,6 @@ void builtin_echo(t_pars_cmd *cmd)
     }
     if (!n_flag)
         ft_putstr_fd("\n", 1);
-    global_exit_flag = 0;
 }
 
 void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
@@ -85,6 +85,7 @@ void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
     int i;
 
     i = 1;
+    global_exit_flag = 0;
     while (cmd->args[i])
     {
         if (cmd->args[i][0] == '-')
@@ -99,7 +100,6 @@ void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
         }
         i++;
     }
-    global_exit_flag = 0;
 }
 static int too_many_args(char **args, int i)
 {
