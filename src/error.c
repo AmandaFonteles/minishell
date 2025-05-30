@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:08:03 by afontele          #+#    #+#             */
-/*   Updated: 2025/05/20 12:59:13 by adregis          ###   ########.fr       */
+/*   Updated: 2025/05/30 14:45:19 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,21 @@ int safe_dup2(int oldfd, int newfd)
 
 void print_cmd_not_found(t_minishell *data, char *cmd)
 {
-    ft_putstr_fd("minishell: ", 2);
-    if (cmd)
+    if (check_full_path(cmd))
+    {
+        ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(cmd, 2);
-    else if (data->cmd_list && data->cmd_list->args && data->cmd_list->args[0])
-        ft_putstr_fd(data->cmd_list->args[0], 2);
+        ft_putstr_fd(": No such file or directory\n", 2);
+    }
     else
-        ft_putstr_fd("command", 2);
-    ft_putstr_fd(": command not found\n", 2);
+    {
+            ft_putstr_fd("minishell: ", 2);
+        if (cmd)
+            ft_putstr_fd(cmd, 2);
+        else if (data->cmd_list && data->cmd_list->args && data->cmd_list->args[0])
+            ft_putstr_fd(data->cmd_list->args[0], 2);
+        ft_putstr_fd(": command not found\n", 2);
+    }
     global_exit_flag = 127;
 }
 
@@ -101,15 +108,4 @@ void    error_chdir(char *path)
     perror("chdir");
     free(path);
     global_exit_flag = 1;
-}
-
-void ft_error(t_minishell *data, char *msg)
-{
-    free_pipes(data);
-    perror(msg);
-    //free_processes(data);
-    //free_commands(data);
-    //free_env(data);
-    //free_exported(data);
-    //free(data);
 }
