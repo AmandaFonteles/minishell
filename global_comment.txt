@@ -3,3 +3,4 @@ Adrien:
 Encore quelques valgrind erreurs mais globalement ça va mieux.
 Beaucoup d'erreurs valgrind à cause de readline mais on est d'accord que ça nous concerne pas ?
 Pour la partie exec : je crois que le append ne fonctionne pas >>, il faut double check ça 
+hello
