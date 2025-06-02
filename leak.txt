@@ -1,0 +1,34 @@
+==80868==    by 0x10D7C0: ft_create_token (tokenization.c:115)
+==80868==    by 0x10D70B: ft_tokenise (tokenization.c:92)
+==80868==    by 0x10D33B: process_input (parse.c:108)
+==80868==    by 0x10931A: main_loop (main.c:43)
+==80868==    by 0x1095C5: main (main.c:115)
+==80868==
+==80868== 392 bytes in 3 blocks are definitely lost in loss record 32 of 83
+==80868==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==80868==    by 0x110184: ft_calloc (in /home/adregis/Documents/minishell-groupe/minishell)
+==80868==    by 0x10DAEA: ft_shell_strdup (parse_utils.c:43)
+==80868==    by 0x10D95C: ft_shell_split (parse_utils.c:14)
+==80868==    by 0x10D07D: parse_input (parse.c:16)
+==80868==    by 0x10D324: process_input (parse.c:105)
+==80868==    by 0x10931A: main_loop (main.c:43)
+==80868==    by 0x1095C5: main (main.c:115)
+==80868==
+==80868== 10,578 (56 direct, 10,522 indirect) bytes in 1 blocks are definitely lost in loss record 80 of 83
+==80868==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==80868==    by 0x109578: main (main.c:107)
+==80868==
+==80868== LEAK SUMMARY:
+==80868==    definitely lost: 505 bytes in 11 blocks
+==80868==    indirectly lost: 10,769 bytes in 340 blocks
+==80868==      possibly lost: 0 bytes in 0 blocks
+==80868==    still reachable: 213,598 bytes in 393 blocks
+==80868==         suppressed: 0 bytes in 0 blocks
+==80868== Reachable blocks (those to which a pointer was found) are not shown.
+==80868== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==80868==
+==80868== For lists of detected and suppressed errors, rerun with: -s
+==80868== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 0 from 0)
+➜  minishell-groupe git:(fix-leak) ✗
+>> leak.txt 
+zsh: =80868== not found
