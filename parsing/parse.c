@@ -8,19 +8,16 @@ t_pars_cmd	**parse_input(char *str)
 	t_pars_cmd	*cmd;
 
 	i = 1;
-	cmds = ft_calloc(1, sizeof(t_pars_cmd *));
-	if (!cmds)
-		return (NULL);
-	if (!ft_check(str, 0, 0, 0))
-		return (free_cmd_node(*cmds), NULL);
+	cmds = ft_calloc(1, sizeof(t_pars_cmd **));
+	if (!cmds || !ft_check(str, 0, 0, 0))
+		return (ft_free_cmds_lst(cmds), NULL);
 	tab = ft_shell_split(str, '|', 0, 0);
+	free(str);
 	if (!tab)
 		return (NULL);
-
 	*cmds = ft_lstnew_cmd(tab[0], 0);
 	if (*cmds == NULL)
 		return (free(tab), NULL);
-
 	while (tab[i])
 	{
 		cmd = ft_lstnew_cmd(tab[i], i);
@@ -97,7 +94,7 @@ int	process_input(t_minishell *data)
 	cmds = NULL;
 	if (data->user_input == NULL)
 	{
-		free_cmd_node(*cmds);
+		ft_free_cmds_lst(cmds);
 		return (1);
 	}
 	if (*data->user_input != '\0')
@@ -108,13 +105,14 @@ int	process_input(t_minishell *data)
 			if (ft_tokenise(cmds))
 			{
 				if (data->cmd_list)
-					free_cmd_node(data->cmd_list);
+					ft_free_cmds_lst(&data->cmd_list);
 				data->cmd_list = *cmds;
+				free(cmds); 
 				data->cmd_nb = count_cmds(data->cmd_list);
 				// setup_exec(data);
 			}
 			else
-				free_cmd_node(*cmds);
+				ft_free_cmds_lst(cmds);
 		}
 	}
 	else

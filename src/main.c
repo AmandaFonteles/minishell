@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by tautin--          #+#    #+#             */
-/*   Updated: 2025/05/29 17:42:22 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:41:01 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void main_loop(t_minishell *data)
         //     cur = cur->next;
         // }
         setup_exec(data);
-        free_all(data);
+        ft_free_cmds_lst(&data->cmd_list);
     }
 }
 
@@ -113,6 +113,7 @@ int main(int ac, char **av, char **envp)
     if (!init_data(data, envp))
         return (1);
     main_loop(data);
+    free_to_exit(data);
     //free all the memory allocated
     return (global_exit_flag);
 }
