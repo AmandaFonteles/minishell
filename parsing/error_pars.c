@@ -15,7 +15,8 @@ int	ft_parse_error(char **words)
 	i = 0;
 	while (words[i])
 	{
-		if (words[i][0] == '>' || words[i][0] == '<')
+		if (words[i][0] == '>' || words[i][0] == '<' || words[i][0] == '&')
+		
 		{
 			if (!ft_check_dir(words[i]))
 				return (0);

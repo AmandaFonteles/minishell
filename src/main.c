@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by tautin--          #+#    #+#             */
-/*   Updated: 2025/06/03 13:41:01 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/03 16:27:10 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int main(int ac, char **av, char **envp)
     }
     if (!init_data(data, envp))
         return (1);
+
     main_loop(data);
     free_to_exit(data);
     //free all the memory allocated
