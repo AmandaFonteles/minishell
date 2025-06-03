@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/05/29 17:36:46 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:11:29 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ void free_cmd_node(t_pars_cmd *cmd);
 void free_all(t_minishell *data);
 void free_to_exit(t_minishell *data);
 void free_env(t_env *list);
+void	ft_free_cmds_lst(t_pars_cmd **cmds);
 
 /* ERROR.C */
 void print_cmd_not_found(t_minishell *data, char *cmd);

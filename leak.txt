@@ -1,34 +1,128 @@
-==80868==    by 0x10D7C0: ft_create_token (tokenization.c:115)
-==80868==    by 0x10D70B: ft_tokenise (tokenization.c:92)
-==80868==    by 0x10D33B: process_input (parse.c:108)
-==80868==    by 0x10931A: main_loop (main.c:43)
-==80868==    by 0x1095C5: main (main.c:115)
-==80868==
-==80868== 392 bytes in 3 blocks are definitely lost in loss record 32 of 83
-==80868==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==80868==    by 0x110184: ft_calloc (in /home/adregis/Documents/minishell-groupe/minishell)
-==80868==    by 0x10DAEA: ft_shell_strdup (parse_utils.c:43)
-==80868==    by 0x10D95C: ft_shell_split (parse_utils.c:14)
-==80868==    by 0x10D07D: parse_input (parse.c:16)
-==80868==    by 0x10D324: process_input (parse.c:105)
-==80868==    by 0x10931A: main_loop (main.c:43)
-==80868==    by 0x1095C5: main (main.c:115)
-==80868==
-==80868== 10,578 (56 direct, 10,522 indirect) bytes in 1 blocks are definitely lost in loss record 80 of 83
-==80868==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==80868==    by 0x109578: main (main.c:107)
-==80868==
-==80868== LEAK SUMMARY:
-==80868==    definitely lost: 505 bytes in 11 blocks
-==80868==    indirectly lost: 10,769 bytes in 340 blocks
-==80868==      possibly lost: 0 bytes in 0 blocks
-==80868==    still reachable: 213,598 bytes in 393 blocks
-==80868==         suppressed: 0 bytes in 0 blocks
-==80868== Reachable blocks (those to which a pointer was found) are not shown.
-==80868== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==80868==
-==80868== For lists of detected and suppressed errors, rerun with: -s
-==80868== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 0 from 0)
-➜  minishell-groupe git:(fix-leak) ✗
->> leak.txt 
-zsh: =80868== not found
+==44072== 8 bytes in 1 blocks are indirectly lost in loss record 3 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x1109A9: ft_strdup (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x10E588: ft_split_word (token_utils_2.c:64)
+==44072==    by 0x10D58F: ft_create_args (tokenization.c:47)
+==44072==    by 0x10D73D: ft_tokenise (tokenization.c:97)
+==44072==    by 0x10D32E: process_input (parse.c:105)
+==44072==    by 0x10931A: main_loop (main.c:43)
+==44072==    by 0x1095B9: main (main.c:115)
+
+==44072== 20 bytes in 4 blocks are indirectly lost in loss record 12 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x1110BC: alloc_substr (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x110FEF: ft_substr (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x10E6AE: dark_strtrim (token_utils_2.c:88)
+==44072==    by 0x10D5DA: ft_create_args (tokenization.c:53)
+==44072==    by 0x10D73D: ft_tokenise (tokenization.c:97)
+==44072==    by 0x10D32E: process_input (parse.c:105)
+==44072==    by 0x10931A: main_loop (main.c:43)
+==44072==    by 0x1095B9: main (main.c:115)
+
+24 bytes in 3 blocks are indirectly lost in loss record 14 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x110354: ft_calloc (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x10D7B3: ft_create_token (tokenization.c:115)
+==44072==    by 0x10D6FE: ft_tokenise (tokenization.c:92)
+==44072==    by 0x10D32E: process_input (parse.c:105)
+==44072==    by 0x10931A: main_loop (main.c:43)
+==44072==    by 0x1095B9: main (main.c:115)
+
+44072== 26 bytes in 3 blocks are indirectly lost in loss record 17 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x110354: ft_calloc (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x10DACB: ft_shell_strdup (parse_utils.c:41)
+==44072==    by 0x10D93D: ft_shell_split (parse_utils.c:12)
+==44072==    by 0x10D064: parse_input (parse.c:14)
+==44072==    by 0x10D317: process_input (parse.c:102)
+==44072==    by 0x10931A: main_loop (main.c:43)
+==44072==    by 0x1095B9: main (main.c:115)
+
+==44072== 64 bytes in 3 blocks are indirectly lost in loss record 24 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x110354: ft_calloc (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x10D54B: ft_create_args (tokenization.c:42)
+==44072==    by 0x10D73D: ft_tokenise (tokenization.c:97)
+==44072==    by 0x10D32E: process_input (parse.c:105)
+==44072==    by 0x10931A: main_loop (main.c:43)
+==44072==    by 0x1095B9: main (main.c:115)
+
+== 72 bytes in 3 blocks are indirectly lost in loss record 26 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x110354: ft_calloc (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x10E9A9: ft_lstnew_token (token_utils_4.c:52)
+==44072==    by 0x10D7F7: ft_create_token (tokenization.c:120)
+==44072==    by 0x10D6FE: ft_tokenise (tokenization.c:92)
+==44072==    by 0x10D32E: process_input (parse.c:105)
+==44072==    by 0x10931A: main_loop (main.c:43)
+==44072==    by 0x1095B9: main (main.c:115)
+
+== 264 bytes in 3 blocks are indirectly lost in loss record 34 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x110354: ft_calloc (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x10D15C: ft_lstnew_cmd (parse.c:37)
+==44072==    by 0x10D099: parse_input (parse.c:18)
+==44072==    by 0x10D317: process_input (parse.c:102)
+==44072==    by 0x10931A: main_loop (main.c:43)
+==44072==    by 0x1095B9: main (main.c:115)
+
+72== 578 (24 direct, 554 indirect) bytes in 3 blocks are definitely lost in loss record 35 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x110354: ft_calloc (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x10D009: parse_input (parse.c:11)
+==44072==    by 0x10D317: process_input (parse.c:102)
+==44072==    by 0x10931A: main_loop (main.c:43)
+==44072==    by 0x1095B9: main (main.c:115)
+==44072== 
+
+== 698 bytes in 54 blocks are still reachable in loss record 38 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x1110BC: alloc_substr (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x110FEF: ft_substr (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x10C9B2: create_env_node (init.c:81)
+==44072==    by 0x10C7AB: init_data (init.c:27)
+==44072==    by 0x1095A2: main (main.c:113)
+==44072== 
+==44072== 698 bytes in 54 blocks are indirectly lost in loss record 39 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x1110BC: alloc_substr (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x110FEF: ft_substr (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x10C9B2: create_env_node (init.c:81)
+==44072==    by 0x10CA7F: add_env (init.c:103)
+==44072==    by 0x10C8CF: init_envp (init.c:61)
+==44072==    by 0x10C762: init_data (init.c:19)
+==44072==    by 0x1095A2: main (main.c:113)
+==44072== 
+==44072== 698 bytes in 54 blocks are indirectly lost in loss record 40 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x1110BC: alloc_substr (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x110FEF: ft_substr (in /home/adregis/Documents/minishell-groupe/minishell)
+==44072==    by 0x10C9B2: create_env_node (init.c:81)
+==44072==    by 0x10CA7F: add_env (init.c:103)
+==44072==    by 0x10C908: init_envp (init.c:63)
+==44072==    by 0x10C762: init_data (init.c:19)
+==44072==    by 0x1095A2: main (main.c:113)
+
+= 1,728 bytes in 54 blocks are still reachable in loss record 53 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x10C95C: create_env_node (init.c:75)
+==44072==    by 0x10C7AB: init_data (init.c:27)
+==44072==    by 0x1095A2: main (main.c:113)
+==44072== 
+==44072== 1,728 bytes in 54 blocks are indirectly lost in loss record 54 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x10C95C: create_env_node (init.c:75)
+==44072==    by 0x10CA7F: add_env (init.c:103)
+==44072==    by 0x10C8CF: init_envp (init.c:61)
+==44072==    by 0x10C762: init_data (init.c:19)
+==44072==    by 0x1095A2: main (main.c:113)
+==44072== 
+==44072== 1,728 bytes in 54 blocks are indirectly lost in loss record 55 of 86
+==44072==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==44072==    by 0x10C95C: create_env_node (init.c:75)
+==44072==    by 0x10CA7F: add_env (init.c:103)
+==44072==    by 0x10C908: init_envp (init.c:63)
+==44072==    by 0x10C762: init_data (init.c:19)
+==44072==    by 0x1095A2: main (main.c:113)
+==44072== 
+
