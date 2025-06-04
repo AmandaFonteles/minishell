@@ -102,12 +102,12 @@ int	process_input(t_minishell *data)
 		cmds = parse_input(data->user_input);
 		if (cmds)
 		{
-			if (ft_tokenise(cmds))
+			if (ft_tokenise(cmds, data))
 			{
 				if (data->cmd_list)
 					ft_free_cmds_lst(&data->cmd_list);
 				data->cmd_list = *cmds;
-				free(cmds); 
+				free(cmds);
 				data->cmd_nb = count_cmds(data->cmd_list);
 				// setup_exec(data);
 			}

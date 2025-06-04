@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:45:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/05/05 18:00:16 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/04 09:52:39 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,11 @@ t_env	**get_adress(void)
 	return (&new);
 }
 
-char	*white_get_env(char *name)
+char	*white_get_env(char *name, t_minishell *data)
 {
-	t_env	**env_list;
 	t_env	*cur;
 
-	env_list = get_adress();
-	cur = *env_list;
+	cur = data->env;
 	while (cur)
 	{
 		if (!ft_strcmp(cur->title, name))

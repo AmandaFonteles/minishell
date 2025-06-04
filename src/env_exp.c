@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_exp.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:17:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/05/29 21:16:52 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/04 09:26:27 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void builtin_env(t_minishell *data, t_pars_cmd *cmd)
 {
     t_env *cur_env_node;
-    
+
     cur_env_node = data->env;
     global_exit_flag = 0;
     if (!ft_getenv("PATH", data))
@@ -35,7 +35,7 @@ void builtin_env(t_minishell *data, t_pars_cmd *cmd)
         if (cur_env_node->value)
             printf("%s=%s\n", cur_env_node->title, cur_env_node->value);
         cur_env_node = cur_env_node->next;
-    }  
+    }
 }
 
 void builtin_export(t_minishell *data, t_pars_cmd *cmd)

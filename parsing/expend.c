@@ -88,7 +88,7 @@ int	find_stop_index(char *str, int i)
 	return (i);
 }
 
-char	*ft_expend(char *str, enum type type, int i, int j)
+char	*ft_expend(char *str, enum type type, int i, int j, t_minishell *data)
 {
 	char	**tab;
 	char	*res;
@@ -103,7 +103,7 @@ char	*ft_expend(char *str, enum type type, int i, int j)
 		i += ft_create_str(&str[i], &tab[++j]);
 		if (!i)
 			return (ft_free_tab(tab, 0), NULL);
-		ft_get_value(&tab[j], tmp);
+		ft_get_value(&tab[j], tmp, data);
 	}
 	if (tab[j])
 		j++;

@@ -1,10 +1,10 @@
 #include "../inc/minishell.h"
 
-int	ft_get_value(char **str, char *tmp)
+int	ft_get_value(char **str, char *tmp, t_minishell *data)
 {
 	if ((*str)[0] == 34)  // Double quotes
 	{
-		tmp = ft_expend_d(ft_strtrim((*str), "\""), 0, -1);
+		tmp = ft_expend_d(ft_strtrim((*str), "\""), 0, -1, data);
 		free(*str);
 		(*str) = tmp;
 	}
@@ -23,7 +23,7 @@ int	ft_get_value(char **str, char *tmp)
 		else
 		{
 			char *var_name = *str + 1;
-			char *var_value = white_get_env(var_name);
+			char *var_value = white_get_env(var_name, data);
 			tmp = var_value ? ft_strdup(var_value) : ft_strdup("");
 		}
 		free(*str);
