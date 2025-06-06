@@ -110,6 +110,7 @@ void free_to_exit(t_minishell *data)
 			free_env(data->env);
 		if (data->exported)
 			free_env(data->exported);
+		ft_free_env(get_adress()); //should we include that in free_all?
 		free(data);
 		data = NULL;
 	}
