@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:24:55 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/23 00:38:40 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/03 21:41:06 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ void	free_all(t_minishell *data)
 	if (data->cmd_list)
 	{
 		cleanup_heredocs(data);
-		free_cmd_node(data->cmd_list);
+		//free_cmd_node(data->cmd_list);
+		ft_free_cmds_lst(&data->cmd_list);
 	}
 	if (data->user_input)
 		free(data->user_input);

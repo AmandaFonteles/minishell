@@ -49,12 +49,12 @@ int is_valid_identifier(char *s)
     return (1);
 }
 
-void    remove_tenv(t_env *list, char *arg)
+void    remove_tenv(t_env **list, char *arg)
 {
     t_env *cur_env_node;
     t_env *prev_env_node;
 
-    cur_env_node = list;
+    cur_env_node = *list;
     prev_env_node = NULL;
     while (cur_env_node)
     {
@@ -63,7 +63,7 @@ void    remove_tenv(t_env *list, char *arg)
             if (prev_env_node)
                 prev_env_node->next = cur_env_node->next;
             else
-                list = cur_env_node->next;
+                *list = cur_env_node->next;
             if (cur_env_node->value)
                 free(cur_env_node->value);           
             free(cur_env_node->title);

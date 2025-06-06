@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:03:09 by afontele          #+#    #+#             */
-/*   Updated: 2025/05/05 18:00:02 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/04 18:19:44 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void    init_structs(t_minishell *data)
     data->user_input = NULL;
     data->cmd_list = NULL; //included in the parser (some parts will be included in the exec part)
     data->cmd_nb = 0; //included in the parser
-    data->pipe_ends = NULL; //icluded in the pipe manager
+    data->pipe_ends = NULL; //included in the pipe manager
 }
 
 int init_envp(t_minishell *data)
