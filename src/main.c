@@ -49,7 +49,8 @@ void main_loop(t_minishell *data)
         //     cur = cur->next;
         // }
         setup_exec(data);
-        ft_free_cmds_lst(&data->cmd_list);
+        //ft_free_cmds_lst(&data->cmd_list);
+        free_all(data);
     }
 }
 

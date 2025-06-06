@@ -100,7 +100,7 @@ void builtin_hub(t_minishell *data, t_pars_cmd *cmd);
 /* BUILTIN_UTILS.C */
 int isnbr(char *str);
 int is_valid_identifier(char *s);
-void remove_tenv(t_env *list, char *arg);
+void remove_tenv(t_env **list, char *arg);
 int strlen_array(char **arr);
 
 /* PWD_ECHO_EXIT_UNSET.C */
