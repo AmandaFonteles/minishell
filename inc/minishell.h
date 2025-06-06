@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/06/04 09:53:08 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/06 09:02:59 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include "structs.h"
+#include <signal.h>
 # include "token.h"
 # include "../libft/inc/libft.h"
 
@@ -151,6 +152,11 @@ void print_invalid_identifier(char *arg);
 /* UTILS.C */
 long long	ft_atoll(const char *str);
 unsigned int ft_strcmp(char *s1, char *s2);
+
+/* SIGNALS.C */
+void	ft_signal(int sig);
+void	ft_signal_cat(int sig);
+void	ft_handle_heredoc_signal(int sig);
 
 
 #endif

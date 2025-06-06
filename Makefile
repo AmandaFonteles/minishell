@@ -6,7 +6,7 @@
 #    By: adregis <adregis@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/05/06 15:02:17 by adregis          ###   ########.fr        #
+#    Updated: 2025/06/06 08:51:33 by adregis          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRC = $(SRCDIR)main.c \
 		$(SRCDIR)env_management.c \
 		$(SRCDIR)init.c \
 		$(SRCDIR)test.c \
+		$(SRCDIR)signal.c \
 		$(PARS)parse.c \
 		$(PARS)tokenization.c \
 		$(PARS)parse_utils.c \

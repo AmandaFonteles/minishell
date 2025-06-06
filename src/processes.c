@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/23 01:02:41 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/06 09:11:09 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int    create_processes(t_minishell *data)
 {
     t_pars_cmd *cur_cmd;
-    
+
     cur_cmd = data->cmd_list;
     while (cur_cmd)
     {
@@ -48,6 +48,8 @@ int    create_processes(t_minishell *data)
 
 void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
 {
+    signal(SIGINT, ft_signal_cat);
+    signal(SIGQUIT, ft_signal_cat);
     int idx;
 
     idx = cur_cmd->cmd_index;
