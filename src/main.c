@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by intaut--          #+#    #+#             */
-/*   Updated: 2025/06/07 10:06:41 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/07 10:30:21 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void main_loop(t_minishell *data)
     {
         init_structs(data);
         signal(SIGQUIT, SIG_IGN);
-	    signal(SIGINT, ft_signal);
+	      signal(SIGINT, ft_signal);
         data->user_input = readline("minishell$> ");
         if (!data->user_input)
         {

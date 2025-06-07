@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/07 09:42:05 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/07 10:34:20 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,10 +143,8 @@ void wait_loop(t_minishell *data)
 		else if (WIFSIGNALED(status))
 		{
 			int sig = WTERMSIG(status);
-			if (sig == SIGINT)
-				write(1, "\n", 1); 
-			else if (sig == SIGQUIT)
-				write(2, "Quit (core dumped)\n", 20); 
+			if (sig == SIGQUIT)
+				write(2, "Quit (core dumped)\n", 20);
 			global_exit_flag = 128 + sig;
 		}
 		cur_cmd = cur_cmd->next;
