@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by tautin--          #+#    #+#             */
-/*   Updated: 2025/06/06 08:50:32 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/07 09:49:18 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void main_loop(t_minishell *data)
     {
         init_structs(data);
         signal(SIGQUIT, SIG_IGN);
-		    signal(SIGINT, ft_signal);
+	    signal(SIGINT, ft_signal);
         data->user_input = readline("minishell$> ");
         if (!data->user_input)
         {
@@ -114,7 +114,6 @@ int main(int ac, char **av, char **envp)
     }
     if (!init_data(data, envp))
         return (1);
-
     main_loop(data);
     free_to_exit(data);
     //free all the memory allocated

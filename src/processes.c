@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/06 09:11:09 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/07 09:42:05 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,17 +131,24 @@ void last_child_process(t_minishell *data, t_pars_cmd *cur_cmd)
 }*/
 void wait_loop(t_minishell *data)
 {
-    t_pars_cmd *cur_cmd;
-    int status;
+	t_pars_cmd *cur_cmd;
+	int status;
 
-    cur_cmd = data->cmd_list;
-    while (cur_cmd)
-    {
-        waitpid(cur_cmd->pid, &status, 0);
-        if (WIFEXITED(status))
-            global_exit_flag = WEXITSTATUS(status);
-        else if (WIFSIGNALED(status))
-            global_exit_flag = 128 + WTERMSIG(status);
-        cur_cmd = cur_cmd->next;
-    }
+	cur_cmd = data->cmd_list;
+	while (cur_cmd)
+	{
+		waitpid(cur_cmd->pid, &status, 0);
+		if (WIFEXITED(status))
+			global_exit_flag = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+		{
+			int sig = WTERMSIG(status);
+			if (sig == SIGINT)
+				write(1, "\n", 1); 
+			else if (sig == SIGQUIT)
+				write(2, "Quit (core dumped)\n", 20); 
+			global_exit_flag = 128 + sig;
+		}
+		cur_cmd = cur_cmd->next;
+	}
 }
