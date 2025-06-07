@@ -112,6 +112,7 @@ int	process_input(t_minishell *data)
 	if (*data->user_input != '\0')
 	{
 		cmds = parse_input(data->user_input);
+		data->user_input = NULL;
 		if (cmds)
 		{
 			if (ft_tokenise(cmds, data))
@@ -128,6 +129,9 @@ int	process_input(t_minishell *data)
 		}
 	}
 	else
+	{
 		free(data->user_input);
+		data->user_input = NULL;
+	}
 	return (global_exit_flag);
 }

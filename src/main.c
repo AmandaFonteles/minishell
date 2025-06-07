@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 17:01:52 by tautin--          #+#    #+#             */
-/*   Updated: 2025/06/07 09:49:18 by adregis          ###   ########.fr       */
+/*   Created: 2025/03/05 17:01:52 by intaut--          #+#    #+#             */
+/*   Updated: 2025/06/07 10:06:41 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
  * main.c: Initialization, input loop, and program entry.
  *      - initializes the minishell struct
  *      - loop:
- *         - promp for input
+ *         - prompt for input
  *         - parse the input
  *         - lexes and validates syntax
- *         - exec cmg
+ *         - exec cmd
  *         - wait for the command to finish
  *         - free memory
  */
@@ -51,7 +51,8 @@ void main_loop(t_minishell *data)
         //     cur = cur->next;
         // }
         setup_exec(data);
-        ft_free_cmds_lst(&data->cmd_list);
+        //ft_free_cmds_lst(&data->cmd_list);
+        free_all(data);
     }
 }
 
@@ -116,6 +117,5 @@ int main(int ac, char **av, char **envp)
         return (1);
     main_loop(data);
     free_to_exit(data);
-    //free all the memory allocated
     return (global_exit_flag);
 }

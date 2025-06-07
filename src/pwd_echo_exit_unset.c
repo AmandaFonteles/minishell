@@ -95,8 +95,8 @@ void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
         }
         else
         {
-            remove_tenv(data->exported, cmd->args[i]);
-            remove_tenv(data->env, cmd->args[i]);            
+            remove_tenv(&data->exported, cmd->args[i]);
+            remove_tenv(&data->env, cmd->args[i]);            
         }
         i++;
     }

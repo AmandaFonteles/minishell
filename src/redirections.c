@@ -68,6 +68,7 @@ int open_outfile(t_pars_cmd *cmd, int append)
         return (error_and_prompt_back(out));
     if (safe_dup2(fd_out, STDOUT_FILENO) == 0)
         return 0;
+    free(out);
     close(fd_out);
     return 1;
 }
