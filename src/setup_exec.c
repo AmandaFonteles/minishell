@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/07 09:56:10 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/07 10:49:43 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ void exec_uniq_cmd(t_minishell *data)
     else if (WIFSIGNALED(status))
     {
         if (WTERMSIG(status) == SIGINT)
+        {
             write(1, "\n", 1);
+            global_exit_flag = 0;
+        }
         else if (WTERMSIG(status) == SIGQUIT)
             write(2, "Quit (core dumped)\n", 20);
         global_exit_flag = 128 + WTERMSIG(status);

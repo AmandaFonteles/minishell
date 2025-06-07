@@ -1,0 +1,39 @@
+1. Erreur : /bin
+minishell$> /bin
+/bin: Permission denied
+free(): double free detected in tcache 2
+
+2.  espaces et tab
+Segmentation fault (core dumped)
+
+3.  minishell$> echo '"$USER"'
+$USER
+ERREUR PARSING
+
+bash-5.1$ echo $USER
+adregis
+bash-5.1$ echo "$USER"
+adregis
+bash-5.1$ echo '$USER'
+$USER
+bash-5.1$ echo "'$USER'"
+'adregis'
+bash-5.1$ echo '"$USER"'
+"$USER"
+bash-5.1$ echo '"hello"'
+"hello"
+
+bash-5.1$ ./minishell
+minishell$> echo $USER
+adregis
+minishell$> echo "$USER"
+adregis
+minishell$> echo '$USER'
+$USER
+minishell$> echo "'$USER'"
+'adregis'
+minishell$> echo '"$USER"'
+$USER
+minishell$> echo '"hello"'
+"hello"
+
