@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:52:34 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/08 12:01:39 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/08 12:16:51 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_signal(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		write(2, "DEBUG: ft_signal called\n", 23);
+		write(2, "DEBUG: ft_signal (PARENT) called\n", 33);
 	}
 	if (sig == SIGQUIT)
 	{
@@ -37,7 +37,7 @@ void	ft_signal_cat(int sig)
 	if (sig == 2)
 	{
 		global_exit_flag = 130;
-		write(2, "DEBUG: ft_signal_cat called\n", 27);
+		write(2, "DEBUG: ft_signal_cat (CHILD) called\n", 35);
 		exit(130);
 	}
 	if (sig == SIGQUIT)

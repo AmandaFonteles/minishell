@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/08 10:03:49 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/08 12:17:01 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
 {
     signal(SIGQUIT, SIG_DFL);
     signal(SIGINT, ft_signal_cat);
-    int idx;
+    write(2, "DEBUG: Child process signals configured\n", 38);  // Debug signal setup
 
+    int idx;
     idx = cur_cmd->cmd_index;
     if (data->cmd_nb > 1)
     {

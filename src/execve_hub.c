@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:59:29 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/08 12:02:23 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/08 12:17:14 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 void    execute(t_minishell *data, t_pars_cmd *cur_cmd)
 {
+    write(2, "DEBUG: Entering execute function\n", 32);  // Debug function entry
+
     if (!cur_cmd->args || !cur_cmd->args[0])
     {
         print_cmd_not_found(data, NULL);
