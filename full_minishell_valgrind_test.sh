@@ -5,67 +5,6 @@ echo "[TEST LOG - $(date)]" > "$LOGFILE"
 
 echo 'Running test #1: ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
 
-[FR] ATTENTION
-Les comportements présents dans cet Excel ne sont pas tous a gérer dans la Mandatory du projet Minishell !
-Ne vous mettez pas la pression pour essayer de tous les gérer !
-Vérifiez juste pour ces cas non gerables s'ils ne Segfault pas, ou n'effectuent pas un comportement suspect !
-Utilisez votre bon sens pour exploiter au mieux ce document et faire un Minishell pas trop ambitieux, selon votre situation du projet.
-(Par contre, si vous etes chauds pour tout gérer, GG à vous !)
-
-
-Bon courage et n'hésitez pas à m'envoyer un MP si besoin ! 
-
---------------------------------------------------------
-
-[EN] WARNING
-The behaviors listed in this Excel file are not all required to be handled in the mandatory part of the Minishell project!
-Don't stress yourself out trying to handle all of them!
-Just make sure that these unmanageable cases don't cause a segfault or exhibit suspicious behavior!
-Use your common sense to make the best use of this document and create a Minishell that is not overly ambitious, depending on your project situation.
-(However, if you're up for handling everything, GG to you!)
-
-Good luck, and feel free to DM me if needed!
-
-
-(GitHub : vietdu91   /   Discord : vietdu91   /   Intra : emtran)
-
-Faites des dons svp
-⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️' >> "$LOGFILE"
-echo "⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
-
-[FR] ATTENTION
-Les comportements présents dans cet Excel ne sont pas tous a gérer dans la Mandatory du projet Minishell !
-Ne vous mettez pas la pression pour essayer de tous les gérer !
-Vérifiez juste pour ces cas non gerables s'ils ne Segfault pas, ou n'effectuent pas un comportement suspect !
-Utilisez votre bon sens pour exploiter au mieux ce document et faire un Minishell pas trop ambitieux, selon votre situation du projet.
-(Par contre, si vous etes chauds pour tout gérer, GG à vous !)
-
-
-Bon courage et n'hésitez pas à m'envoyer un MP si besoin ! 
-
---------------------------------------------------------
-
-[EN] WARNING
-The behaviors listed in this Excel file are not all required to be handled in the mandatory part of the Minishell project!
-Don't stress yourself out trying to handle all of them!
-Just make sure that these unmanageable cases don't cause a segfault or exhibit suspicious behavior!
-Use your common sense to make the best use of this document and create a Minishell that is not overly ambitious, depending on your project situation.
-(However, if you're up for handling everything, GG to you!)
-
-Good luck, and feel free to DM me if needed!
-
-
-(GitHub : vietdu91   /   Discord : vietdu91   /   Intra : emtran)
-
-Faites des dons svp
-⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
-exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
-echo '------------------------------------------------------------' >> "$LOGFILE"
-
-echo 'Running test #2: << << << << << << << << << << << << << << << <<  < REDIRECTIONS >  >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >>' >> "$LOGFILE"
-echo "<< << << << << << << << << << << << << << << <<  < REDIRECTIONS >  >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >>
-exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
-echo '------------------------------------------------------------' >> "$LOGFILE"
 
 echo 'Running test #3: $> \n (touche entrée)' >> "$LOGFILE"
 echo "$> \n (touche entrée)
@@ -1210,16 +1149,16 @@ $> env
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #218: $> export HOLA="bonjour      "  
+echo 'Running test #218: $> export HOLA="bonjour      "
 $> echo $HOLA | cat -e' >> "$LOGFILE"
-echo "$> export HOLA="bonjour      "  
+echo "$> export HOLA="bonjour      "
 $> echo $HOLA | cat -e
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #219: $> export HOLA="   -n bonjour   "  
+echo 'Running test #219: $> export HOLA="   -n bonjour   "
 $> echo $HOLA' >> "$LOGFILE"
-echo "$> export HOLA="   -n bonjour   "  
+echo "$> export HOLA="   -n bonjour   "
 $> echo $HOLA
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -1252,58 +1191,58 @@ $> env
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #224: $> export HOLA="cat Makefile | grep NAME"  
+echo 'Running test #224: $> export HOLA="cat Makefile | grep NAME"
 $> echo $HOLA' >> "$LOGFILE"
-echo "$> export HOLA="cat Makefile | grep NAME"  
+echo "$> export HOLA="cat Makefile | grep NAME"
 $> echo $HOLA
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #225: $> export HOLA=hey 
+echo 'Running test #225: $> export HOLA=hey
 $> echo $HOLA$HOLA$HOLA=hey$HOLA' >> "$LOGFILE"
-echo "$> export HOLA=hey 
+echo "$> export HOLA=hey
 $> echo $HOLA$HOLA$HOLA=hey$HOLA
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #226: $> export HOLA="  bonjour  hey  "  
+echo 'Running test #226: $> export HOLA="  bonjour  hey  "
 $> echo $HOLA | cat -e' >> "$LOGFILE"
-echo "$> export HOLA="  bonjour  hey  "  
+echo "$> export HOLA="  bonjour  hey  "
 $> echo $HOLA | cat -e
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #227: $> export HOLA="  bonjour  hey  "  
+echo 'Running test #227: $> export HOLA="  bonjour  hey  "
 $> echo """$HOLA""" | cat -e' >> "$LOGFILE"
-echo "$> export HOLA="  bonjour  hey  "  
+echo "$> export HOLA="  bonjour  hey  "
 $> echo """$HOLA""" | cat -e
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #228: $> export HOLA="  bonjour  hey  "  
+echo 'Running test #228: $> export HOLA="  bonjour  hey  "
 $> echo wesh"$HOLA" | cat -e' >> "$LOGFILE"
-echo "$> export HOLA="  bonjour  hey  "  
+echo "$> export HOLA="  bonjour  hey  "
 $> echo wesh"$HOLA" | cat -e
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #229: $> export HOLA="  bonjour  hey  "  
+echo 'Running test #229: $> export HOLA="  bonjour  hey  "
 $> echo wesh""$HOLA.' >> "$LOGFILE"
-echo "$> export HOLA="  bonjour  hey  "  
+echo "$> export HOLA="  bonjour  hey  "
 $> echo wesh""$HOLA.
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #230: $> export HOLA="  bonjour  hey  "  
+echo 'Running test #230: $> export HOLA="  bonjour  hey  "
 $> echo wesh$""HOLA.' >> "$LOGFILE"
-echo "$> export HOLA="  bonjour  hey  "  
+echo "$> export HOLA="  bonjour  hey  "
 $> echo wesh$""HOLA.
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #231: $> export HOLA="  bonjour  hey  "  
+echo 'Running test #231: $> export HOLA="  bonjour  hey  "
 $> echo wesh$"HOLA HOLA".' >> "$LOGFILE"
-echo "$> export HOLA="  bonjour  hey  "  
+echo "$> export HOLA="  bonjour  hey  "
 $> echo wesh$"HOLA HOLA".
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -1342,37 +1281,37 @@ $> echo $HOLA
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #236: $> export HOLA="s -la" 
+echo 'Running test #236: $> export HOLA="s -la"
 $> l$HOLA' >> "$LOGFILE"
-echo "$> export HOLA="s -la" 
+echo "$> export HOLA="s -la"
 $> l$HOLA
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #237: $> export HOLA="s -la" 
+echo 'Running test #237: $> export HOLA="s -la"
 $> l"$HOLA"' >> "$LOGFILE"
-echo "$> export HOLA="s -la" 
+echo "$> export HOLA="s -la"
 $> l"$HOLA"
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #238: $> export HOLA="s -la" 
+echo 'Running test #238: $> export HOLA="s -la"
 $> l'$HOLA'' >> "$LOGFILE"
-echo "$> export HOLA="s -la" 
+echo "$> export HOLA="s -la"
 $> l'$HOLA'
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #239: $> export HOLA="l" 
+echo 'Running test #239: $> export HOLA="l"
 $> $HOLAs' >> "$LOGFILE"
-echo "$> export HOLA="l" 
+echo "$> export HOLA="l"
 $> $HOLAs
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #240: $> export HOLA="l" 
+echo 'Running test #240: $> export HOLA="l"
 $> "$HOLA"s' >> "$LOGFILE"
-echo "$> export HOLA="l" 
+echo "$> export HOLA="l"
 $> "$HOLA"s
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -1384,9 +1323,9 @@ $> env
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #242: $> export HOLA="l" 
+echo 'Running test #242: $> export HOLA="l"
 $> '$HOLA's' >> "$LOGFILE"
-echo "$> export HOLA="l" 
+echo "$> export HOLA="l"
 $> '$HOLA's
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -3756,13 +3695,13 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 
 echo 'Running test #626: $> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
-$> >srcs/bonjour <prout >srcs/hello 
-$> cat srcs/bonjour 
+$> >srcs/bonjour <prout >srcs/hello
+$> cat srcs/bonjour
 $> cat srcs/hello' >> "$LOGFILE"
 echo "$> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
-$> >srcs/bonjour <prout >srcs/hello 
-$> cat srcs/bonjour 
+$> >srcs/bonjour <prout >srcs/hello
+$> cat srcs/bonjour
 $> cat srcs/hello
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -3770,13 +3709,13 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 echo 'Running test #627: $> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> rm srcs/bonjour srcs/hello
-$> >srcs/bonjour <prout >srcs/hello 
+$> >srcs/bonjour <prout >srcs/hello
 $> ls srcs
 $> cat srcs/bonjour' >> "$LOGFILE"
 echo "$> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> rm srcs/bonjour srcs/hello
-$> >srcs/bonjour <prout >srcs/hello 
+$> >srcs/bonjour <prout >srcs/hello
 $> ls srcs
 $> cat srcs/bonjour
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
@@ -3810,13 +3749,13 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 
 echo 'Running test #630: $> echo hola > ../bonjour
 $> echo hey > ../hello
-$> >../bonjour <prout >../hello 
-$> cat ../bonjour 
+$> >../bonjour <prout >../hello
+$> cat ../bonjour
 $> cat ../hello' >> "$LOGFILE"
 echo "$> echo hola > ../bonjour
 $> echo hey > ../hello
-$> >../bonjour <prout >../hello 
-$> cat ../bonjour 
+$> >../bonjour <prout >../hello
+$> cat ../bonjour
 $> cat ../hello
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -3824,13 +3763,13 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 echo 'Running test #631: $> echo hola > ../bonjour
 $> echo hey > ../hello
 $> rm ../bonjour ../hello
-$> >../bonjour <prout >../hello 
+$> >../bonjour <prout >../hello
 $> ls ..
 $> cat ../bonjour' >> "$LOGFILE"
 echo "$> echo hola > ../bonjour
 $> echo hey > ../hello
 $> rm ../bonjour ../hello
-$> >../bonjour <prout >../hello 
+$> >../bonjour <prout >../hello
 $> ls ..
 $> cat ../bonjour
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
@@ -3839,12 +3778,12 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 echo 'Running test #632: $> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> >srcs/bonjour >>srcs/hello <prout
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello' >> "$LOGFILE"
 echo "$> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> >srcs/bonjour >>srcs/hello <prout
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -3852,12 +3791,12 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 echo 'Running test #633: $> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> >>srcs/bonjour >srcs/hello <prout
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello' >> "$LOGFILE"
 echo "$> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> >>srcs/bonjour >srcs/hello <prout
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -3865,12 +3804,12 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 echo 'Running test #634: $> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> >>srcs/bonjour >>srcs/hello <prout
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello' >> "$LOGFILE"
 echo "$> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> >>srcs/bonjour >>srcs/hello <prout
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -3878,12 +3817,12 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 echo 'Running test #635: $> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> >srcs/bonjour <prout >>srcs/hello
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello' >> "$LOGFILE"
 echo "$> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> >srcs/bonjour <prout >>srcs/hello
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -3891,12 +3830,12 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 echo 'Running test #636: $> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> >>srcs/bonjour <prout >srcs/hello
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello' >> "$LOGFILE"
 echo "$> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> >>srcs/bonjour <prout >srcs/hello
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -3904,12 +3843,12 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 echo 'Running test #637: $> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> >>srcs/bonjour <prout >>srcs/hello
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello' >> "$LOGFILE"
 echo "$> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> >>srcs/bonjour <prout >>srcs/hello
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -3917,12 +3856,12 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 echo 'Running test #638: $> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> <prout >>srcs/bonjour >>srcs/hello
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello' >> "$LOGFILE"
 echo "$> echo hola > srcs/bonjour
 $> echo hey > srcs/hello
 $> <prout >>srcs/bonjour >>srcs/hello
-$> cat srcs/bonjour 
+$> cat srcs/bonjour
 $> cat srcs/hello
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -3930,12 +3869,12 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 echo 'Running test #639: $> echo hola > bonjour
 $> echo hey > hello
 $> <bonjour >hello
-$> cat bonjour 
+$> cat bonjour
 $> cat hello' >> "$LOGFILE"
 echo "$> echo hola > bonjour
 $> echo hey > hello
 $> <bonjour >hello
-$> cat bonjour 
+$> cat bonjour
 $> cat hello
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -3943,12 +3882,12 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 echo 'Running test #640: $> echo hola > bonjour
 $> echo hey > hello
 $> >bonjour >hello < prout
-$> cat bonjour 
+$> cat bonjour
 $> cat hello' >> "$LOGFILE"
 echo "$> echo hola > bonjour
 $> echo hey > hello
 $> >bonjour >hello < prout
-$> cat bonjour 
+$> cat bonjour
 $> cat hello
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -3957,13 +3896,13 @@ echo 'Running test #641: $> echo hola > bonjour
 $> echo hey > hello
 $> rm bonjour hello
 $> >bonjour >hello < prout
-$> cat bonjour 
+$> cat bonjour
 $> cat hello' >> "$LOGFILE"
 echo "$> echo hola > bonjour
 $> echo hey > hello
 $> rm bonjour hello
 $> >bonjour >hello < prout
-$> cat bonjour 
+$> cat bonjour
 $> cat hello
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -3971,12 +3910,12 @@ echo '------------------------------------------------------------' >> "$LOGFILE
 echo 'Running test #642: $> echo hola > bonjour
 $> echo hey > hello
 $> >bonjour <prout hello
-$> cat bonjour 
+$> cat bonjour
 $> cat hello' >> "$LOGFILE"
 echo "$> echo hola > bonjour
 $> echo hey > hello
 $> >bonjour <prout hello
-$> cat bonjour 
+$> cat bonjour
 $> cat hello
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -6302,9 +6241,9 @@ $>
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #948: bash: syntax error near unexpected token `newline' 
+echo 'Running test #948: bash: syntax error near unexpected token `newline'
 $>' >> "$LOGFILE"
-echo "bash: syntax error near unexpected token `newline' 
+echo "bash: syntax error near unexpected token `newline'
 $>
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
@@ -6772,16 +6711,16 @@ $>
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #992: bash: syntax error near unexpected token `>' 
+echo 'Running test #992: bash: syntax error near unexpected token `>'
 $>' >> "$LOGFILE"
-echo "bash: syntax error near unexpected token `>' 
+echo "bash: syntax error near unexpected token `>'
 $>
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
 
-echo 'Running test #993: bash: syntax error near unexpected token `<<' 
+echo 'Running test #993: bash: syntax error near unexpected token `<<'
 $>' >> "$LOGFILE"
-echo "bash: syntax error near unexpected token `<<' 
+echo "bash: syntax error near unexpected token `<<'
 $>
 exit" | valgrind --leak-check=full --errors-for-leak-kinds=all ./minishell >> "$LOGFILE" 2>&1
 echo '------------------------------------------------------------' >> "$LOGFILE"
