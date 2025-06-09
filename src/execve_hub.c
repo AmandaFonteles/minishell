@@ -15,16 +15,12 @@
 
 void    execute(t_minishell *data, t_pars_cmd *cur_cmd)
 {
-    write(2, "DEBUG: Entering execute function\n", 32);  // Debug function entry
-
     if (!cur_cmd->args || !cur_cmd->args[0])
     {
         print_cmd_not_found(data, NULL);
         free_to_exit(data);
         exit(global_exit_flag);
     }
-    signal(SIGQUIT, SIG_DFL);
-    signal(SIGINT, ft_signal_cat);
     if (is_builtin(cur_cmd))
     {
         builtin_hub(data, cur_cmd);

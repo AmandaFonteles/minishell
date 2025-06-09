@@ -22,7 +22,6 @@ void	ft_signal(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		write(2, "DEBUG: ft_signal (PARENT) called\n", 33);
 	}
 	if (sig == SIGQUIT)
 	{
@@ -37,8 +36,10 @@ void	ft_signal_cat(int sig)
 	if (sig == 2)
 	{
 		global_exit_flag = 130;
-		write(2, "DEBUG: ft_signal_cat (CHILD) called\n", 35);
-		exit(130);
+    write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+    
 	}
 	if (sig == SIGQUIT)
 	{
