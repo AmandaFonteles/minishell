@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:59:29 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/07 09:46:23 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/08 12:17:14 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void    execute(t_minishell *data, t_pars_cmd *cur_cmd)
         free_to_exit(data);
         exit(global_exit_flag);
     }
-    signal(SIGINT, ft_signal_cat);
-    signal(SIGQUIT, ft_signal_cat);
     if (is_builtin(cur_cmd))
     {
         builtin_hub(data, cur_cmd);

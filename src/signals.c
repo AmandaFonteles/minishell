@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:52:34 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/07 09:25:49 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/08 12:16:51 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,10 @@ void	ft_signal_cat(int sig)
 	if (sig == 2)
 	{
 		global_exit_flag = 130;
-		write(1, "\n", 1);
-		// rl_on_new_line();
-		// rl_replace_line("", 0);
-		// rl_redisplay();
-		exit(130);
+    write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+    
 	}
 	if (sig == SIGQUIT)
 	{
@@ -51,11 +50,13 @@ void	ft_signal_cat(int sig)
 
 void    ft_handle_heredoc_signal(int sig)
 {
-    if (sig == SIGINT)  
+    if (sig == SIGINT)
     {
         write(1, "\n", 1);
         rl_on_new_line();
         rl_replace_line("", 0);
+        signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
         exit(130);
     }
 }

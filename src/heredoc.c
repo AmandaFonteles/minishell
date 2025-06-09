@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/07 08:59:20 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/08 10:02:46 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int write_heredoc_file(char *filename, char *delimiter)
 		free(filename);
 		return (0);
 	}
-    signal(SIGINT, ft_handle_heredoc_signal);
+	signal(SIGINT, ft_handle_heredoc_signal);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		line = readline("> ");
@@ -52,7 +53,8 @@ int write_heredoc_file(char *filename, char *delimiter)
 		write(fd, "\n", 1);
 		free(line);
 	}
-    signal(SIGINT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	free(line);
 	close(fd);
 	return (1);
@@ -68,14 +70,14 @@ static int handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count)
 		error_and_prompt_back("malloc heredoc filename");
 		return (0);
 	}
-if (!write_heredoc_file(filename, cmd->delimiters[i]))
-{
-    free(filename);
-    while (--i >= 0)
-        free(cmd->heredoc[i]);
-    free(cmd->heredoc);
-    return (0);
-}
+	if (!write_heredoc_file(filename, cmd->delimiters[i]))
+	{
+		free(filename);
+		while (--i >= 0)
+			free(cmd->heredoc[i]);
+		free(cmd->heredoc);
+		return (0);
+	}
 	cmd->heredoc[i] = filename;
 	(*hd_count)++;
 	return (1);
@@ -127,7 +129,7 @@ int redirect_heredoc(t_pars_cmd *cmd)
 
 	path = last_heredoc_path(cmd);
 	if (!path)
-    	return (error_and_prompt_back("heredoc: path not found\n"));
+		return (error_and_prompt_back("heredoc: path not found\n"));
 	fd_hd = open(path, O_RDONLY);
 	if (fd_hd == -1)
 		return (error_and_prompt_back(path));

@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:31 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/07 09:51:38 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/08 09:25:46 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,13 @@ int	ft_get_value_d(char **str, t_minishell *data)
 		else if ((*str)[1] && (*str)[1] == '?')
 			tmp = ft_itoa(global_exit_flag);
 		else
-			tmp = ft_strdup(white_get_env(*str + 1, data));
+		{
+			char *var_value = white_get_env(*str + 1, data);
+			if (var_value)
+				tmp = ft_strdup(var_value);
+			else
+				tmp = ft_strdup(*str);
+		}
 		free(*str);
 		(*str) = tmp;
 	}

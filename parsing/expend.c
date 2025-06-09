@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:52 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/07 09:51:55 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/08 09:51:55 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ char	*ft_expend(char *str, enum type type, int i, int j, t_minishell *data)
 	res = ft_join_parts(tab, j);
 	if (!res)
 		return (NULL);
-	if (!ft_check_dollars(str) && type != FILE_IN && type != EXIT_FILE)
+	if (type != FILE_IN && type != EXIT_FILE)
 		res = ft_quote_value(res);
 	ft_free_tab(tab, 0);
 	return (res);

@@ -6,11 +6,11 @@
 #    By: adregis <adregis@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/06/06 13:01:52 by adregis          ###   ########.fr        #
+#    Updated: 2025/06/08 11:20:31 by adregis          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Name of the executable
+
 NAME = minishell
 
 # Compiler and flags

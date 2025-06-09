@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:54 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/07 09:52:58 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/08 09:53:27 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ int	ft_create_args(t_pars_cmd *cmd)
 	cmd->args = ft_calloc(ft_count_args(cmd) + 1, sizeof(char *));
 	while (cur)
 	{
-		if (cur->word[0] != 34 && cur->type == ARG)
+		if (cur->word && cur->word[0] != 34 && cur->type == ARG)
 		{
 			i += ft_split_word(cur->word, cmd->args, i);
 			if (i == -1)
 				return (0);
 		}
-		else if (cur->type == ARG)
+		else if (cur->type == ARG && cur->word)
 		{
 			cmd->args[i] = dark_strtrim(cur->word, "\"");
 			if (!cmd->args[i])
