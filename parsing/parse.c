@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
+/*   Updated: 2025/06/07 09:52:17 by adregis          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 t_pars_cmd	**parse_input(char *str)
@@ -103,12 +115,12 @@ int	process_input(t_minishell *data)
 		data->user_input = NULL;
 		if (cmds)
 		{
-			if (ft_tokenise(cmds))
+			if (ft_tokenise(cmds, data))
 			{
 				if (data->cmd_list)
 					ft_free_cmds_lst(&data->cmd_list);
 				data->cmd_list = *cmds;
-				free(cmds); 
+				free(cmds);
 				data->cmd_nb = count_cmds(data->cmd_list);
 				// setup_exec(data);
 			}

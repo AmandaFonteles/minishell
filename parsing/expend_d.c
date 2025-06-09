@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expend_d.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/07 09:51:31 by adregis           #+#    #+#             */
+/*   Updated: 2025/06/07 09:51:38 by adregis          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 int	ft_isalnum_d(char c)
@@ -7,7 +19,7 @@ int	ft_isalnum_d(char c)
 	return (0);
 }
 
-int	ft_get_value_d(char **str)
+int	ft_get_value_d(char **str, t_minishell *data)
 {
 	char	*tmp;
 
@@ -18,7 +30,7 @@ int	ft_get_value_d(char **str)
 		else if ((*str)[1] && (*str)[1] == '?')
 			tmp = ft_itoa(global_exit_flag);
 		else
-			tmp = ft_strdup(white_get_env(*str + 1));
+			tmp = ft_strdup(white_get_env(*str + 1, data));
 		free(*str);
 		(*str) = tmp;
 	}
@@ -80,7 +92,7 @@ int	ft_create_str_d(char *str, char **part)
 	return (i);
 }
 
-char	*ft_expend_d(char *str, int i, int j)
+char	*ft_expend_d(char *str, int i, int j, t_minishell *data)
 {
 	char	**tab;
 	char	*res;
@@ -95,7 +107,7 @@ char	*ft_expend_d(char *str, int i, int j)
 		i += ft_create_str_d(&str[i], &tab[++j]);
 		if (!i)
 			return (ft_free_tab(tab, 0), NULL);
-		ft_get_value_d(&tab[j]);
+		ft_get_value_d(&tab[j], data);
 	}
 	if (tab[j])
 		j++;

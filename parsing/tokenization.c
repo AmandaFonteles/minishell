@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenization.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/07 09:52:54 by adregis           #+#    #+#             */
+/*   Updated: 2025/06/07 09:52:58 by adregis          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 int	ft_manage_redir(t_pars_cmd *cmd)
@@ -82,14 +94,14 @@ int	ft_remove_quote(t_pars_cmd *cmd)
 	return (1);
 }
 
-int	ft_tokenise(t_pars_cmd **cmds)
+int	ft_tokenise(t_pars_cmd **cmds, t_minishell *data)
 {
 	t_pars_cmd	*current;
 
 	current = (*cmds);
 	while (current)
 	{
-		current->token = ft_create_token(current->cmd);
+		current->token = ft_create_token(current->cmd, data);
 		if (!current->token)
 			return (0);
 		if (!ft_manage_redir(current))
@@ -105,7 +117,7 @@ int	ft_tokenise(t_pars_cmd **cmds)
 	return (1);
 }
 
-t_token	**ft_create_token(char *str)
+t_token	**ft_create_token(char *str, t_minishell *data)
 {
 	char	**tab;
 	t_token	**token;
@@ -128,7 +140,7 @@ t_token	**ft_create_token(char *str)
 		ft_lstadd_back_token(token, new);
 		i++;
 	}
-	if (!ft_set_type(token) || !ft_expend_words(token))
+	if (!ft_set_type(token) || !ft_expend_words(token, data))
 		return (NULL);
 	ft_free_tab(tab, 1);
 	return (token);

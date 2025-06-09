@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error_pars.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/07 09:51:27 by adregis           #+#    #+#             */
+/*   Updated: 2025/06/07 09:51:29 by adregis          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 void	ft_print_exit_free_all(t_pars_cmd **cmds)
@@ -15,7 +27,8 @@ int	ft_parse_error(char **words)
 	i = 0;
 	while (words[i])
 	{
-		if (words[i][0] == '>' || words[i][0] == '<')
+		if (words[i][0] == '>' || words[i][0] == '<' || words[i][0] == '&')
+		
 		{
 			if (!ft_check_dir(words[i]))
 				return (0);

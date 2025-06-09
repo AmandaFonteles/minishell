@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_utils_4.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/07 09:52:41 by adregis           #+#    #+#             */
+/*   Updated: 2025/06/07 09:52:43 by adregis          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
-int	ft_expend_words(t_token **token)
+int	ft_expend_words(t_token **token, t_minishell *data)
 {
 	t_token	*current;
 	char	*tmp;
@@ -11,7 +23,7 @@ int	ft_expend_words(t_token **token)
 		if (current->type != LIMITOR)
 		{
 			tmp = current->word;
-			current->word = ft_expend(current->word, current->type, 0, -1);
+			current->word = ft_expend(current->word, current->type, 0, -1, data);
 			free(tmp);
 		}
 		current = current->next;
@@ -69,4 +81,3 @@ void	ft_lstadd_back_token(t_token **token, t_token *new)
 	else
 		temp->next = new;
 }
-
