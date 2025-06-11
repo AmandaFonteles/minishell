@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/16 20:31:44 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/08 10:02:46 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static char *gen_heredoc_filename(int index)
 {
-	char *num; 
+	char *num;
 	char *name;
-	
+
 	num = ft_itoa(index);
 	if (!num)
 		return NULL;
@@ -32,16 +32,18 @@ static char *gen_heredoc_filename(int index)
 
 int write_heredoc_file(char *filename, char *delimiter)
 {
-	int fd; 
+	int fd;
 	char *line;
-	
+
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
 		error_and_prompt_back(filename);
 		free(filename);
-		return (0);		
+		return (0);
 	}
+	signal(SIGINT, ft_handle_heredoc_signal);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		line = readline("> ");
@@ -51,6 +53,8 @@ int write_heredoc_file(char *filename, char *delimiter)
 		write(fd, "\n", 1);
 		free(line);
 	}
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	free(line);
 	close(fd);
 	return (1);
@@ -63,17 +67,17 @@ static int handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count)
 	filename = gen_heredoc_filename(*hd_count);
 	if (!filename)
 	{
-		error_and_prompt_back("malloc heredoc filename");		
+		error_and_prompt_back("malloc heredoc filename");
 		return (0);
 	}
-if (!write_heredoc_file(filename, cmd->delimiters[i]))
-{
-    free(filename);
-    while (--i >= 0)
-        free(cmd->heredoc[i]);
-    free(cmd->heredoc);
-    return (0);
-}
+	if (!write_heredoc_file(filename, cmd->delimiters[i]))
+	{
+		free(filename);
+		while (--i >= 0)
+			free(cmd->heredoc[i]);
+		free(cmd->heredoc);
+		return (0);
+	}
 	cmd->heredoc[i] = filename;
 	(*hd_count)++;
 	return (1);
@@ -92,7 +96,7 @@ int generate_heredocs(t_minishell *data)
 		if (cmd->delimiters)
 		{
 			cmd->heredoc = malloc(sizeof(char *) * (cmd->hd_nb + 1));
-			if (!cmd->heredoc)			
+			if (!cmd->heredoc)
 				return (error_and_prompt_back("malloc heredoc"), 0);
 			i = 0;
 			while (i < cmd->hd_nb)
@@ -122,10 +126,10 @@ int redirect_heredoc(t_pars_cmd *cmd)
 {
 	char *path;
 	int fd_hd;
-	
+
 	path = last_heredoc_path(cmd);
 	if (!path)
-    	return (error_and_prompt_back("heredoc: path not found\n"));
+		return (error_and_prompt_back("heredoc: path not found\n"));
 	fd_hd = open(path, O_RDONLY);
 	if (fd_hd == -1)
 		return (error_and_prompt_back(path));

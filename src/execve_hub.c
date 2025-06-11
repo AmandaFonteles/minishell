@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:59:29 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/03 13:32:12 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/08 12:17:14 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void    execute(t_minishell *data, t_pars_cmd *cur_cmd)
     {
         resolve_and_exec(data, cur_cmd);
         return ;
-    }    
+    }
 }
 
 char *exec_make_path(t_minishell *data, t_pars_cmd *cmd)

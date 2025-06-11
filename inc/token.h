@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/07 09:51:06 by adregis           #+#    #+#             */
+/*   Updated: 2025/06/07 09:51:13 by adregis          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TOKEN_H
 # define TOKEN_H
 
@@ -45,8 +57,8 @@ void		ft_shell_add_back(t_pars_cmd **cmds, t_pars_cmd *new);
 
 ///////////////////// TOKENIZATION /////////////////////
 
-t_token	**ft_create_token(char *str);
-int			ft_tokenise(t_pars_cmd **cmds);
+t_token	**ft_create_token(char *str, t_minishell *data);
+int			ft_tokenise(t_pars_cmd **cmds, t_minishell *data);
 char	**ft_split_token(char *str);
 int	ft_create_args(t_pars_cmd *cmd);
 int	ft_count_args(t_pars_cmd *cmd);
@@ -59,7 +71,7 @@ t_token	*ft_lstnew_token(char *word);
 void	ft_lstadd_back_token(t_token **token, t_token *new);
 void	set_next_type(t_token *current);
 int	ft_set_type(t_token **token);
-int	ft_expend_words(t_token **token);
+int	ft_expend_words(t_token **token, t_minishell *data);
 int	update_quotes(char *str, int i, int *d, int *s);
 
 ///////////////////// FREE PARSE /////////////////////
@@ -74,7 +86,7 @@ void debug_print_cmd(t_pars_cmd *cmd);
 
 ///////////////////// EXPEND /////////////////////
 
-char	*ft_expend(char *str, enum type type, int i, int j);
+char	*ft_expend(char *str, enum type type, int i, int j, t_minishell *data);
 int	find_stop_index(char *str, int i);
 char	*ft_create_part(char *str, int end);
 int	process_special_chars(char *str, int *i);
@@ -84,14 +96,14 @@ int	process_special_chars(char *str, int *i);
 int	ft_check_dollars(char *str);
 char	*ft_join_parts(char **tab, int len_tab);
 int	ft_create_str(char *str, char **part);
-int	ft_get_value(char **part, char *tmp);
+int	ft_get_value(char **part, char *tmp, t_minishell *data);
 char	*ft_quote_value(char *str);
 int	ft_expend_isalnum(char c);
 
 ///////////////////// EXPEND D /////////////////////
 
-char	*ft_expend_d(char *str, int i, int j);
-int	ft_get_value_d(char **str);
+char	*ft_expend_d(char *str, int i, int j, t_minishell *data);
+int	ft_get_value_d(char **str, t_minishell *data);
 int	nb_str_d(char *str, int i, int nw);
 int	ft_create_str_d(char *str, char **part);
 char	*ft_join_parts_d(char **tab, int len_tab);

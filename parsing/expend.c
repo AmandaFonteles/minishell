@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expend.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/07 09:51:52 by adregis           #+#    #+#             */
+/*   Updated: 2025/06/08 09:51:55 by adregis          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 int	process_special_chars(char *str, int *i)
@@ -88,7 +100,7 @@ int	find_stop_index(char *str, int i)
 	return (i);
 }
 
-char	*ft_expend(char *str, enum type type, int i, int j)
+char	*ft_expend(char *str, enum type type, int i, int j, t_minishell *data)
 {
 	char	**tab;
 	char	*res;
@@ -103,14 +115,14 @@ char	*ft_expend(char *str, enum type type, int i, int j)
 		i += ft_create_str(&str[i], &tab[++j]);
 		if (!i)
 			return (ft_free_tab(tab, 0), NULL);
-		ft_get_value(&tab[j], tmp);
+		ft_get_value(&tab[j], tmp, data);
 	}
 	if (tab[j])
 		j++;
 	res = ft_join_parts(tab, j);
 	if (!res)
 		return (NULL);
-	if (!ft_check_dollars(str) && type != FILE_IN && type != EXIT_FILE)
+	if (type != FILE_IN && type != EXIT_FILE)
 		res = ft_quote_value(res);
 	ft_free_tab(tab, 0);
 	return (res);

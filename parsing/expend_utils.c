@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expend_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/07 09:51:43 by adregis           #+#    #+#             */
+/*   Updated: 2025/06/08 09:52:42 by adregis          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
-int	ft_get_value(char **str, char *tmp)
+int	ft_get_value(char **str, char *tmp, t_minishell *data)
 {
 	if ((*str)[0] == 34)  // Double quotes
 	{
-		tmp = ft_expend_d(ft_strtrim((*str), "\""), 0, -1);
+		tmp = ft_expend_d(ft_strtrim((*str), "\""), 0, -1, data);
 		free(*str);
 		(*str) = tmp;
 	}
@@ -23,7 +35,7 @@ int	ft_get_value(char **str, char *tmp)
 		else
 		{
 			char *var_name = *str + 1;
-			char *var_value = white_get_env(var_name);
+			char *var_value = white_get_env(var_name, data);
 			tmp = var_value ? ft_strdup(var_value) : ft_strdup("");
 		}
 		free(*str);
@@ -72,7 +84,9 @@ char	*ft_join_parts(char **tab, int len_tab)
 	i = 0;
 	len = 0;
 	while (i < len_tab)
+	{
 		len += ft_strlen(tab[i++]);
+	}
 	str = ft_calloc((len + 1), sizeof(char));
 	i = 0;
 	j = 0;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
+/*   Updated: 2025/06/08 08:43:58 by adregis          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 t_pars_cmd	**parse_input(char *str)
@@ -90,6 +102,7 @@ static int	count_cmds(t_pars_cmd *cmd_list)
 int	process_input(t_minishell *data)
 {
 	t_pars_cmd	**cmds;
+	char		*trimmed_input;
 
 	cmds = NULL;
 	if (data->user_input == NULL)
@@ -97,20 +110,29 @@ int	process_input(t_minishell *data)
 		ft_free_cmds_lst(cmds);
 		return (1);
 	}
-	if (*data->user_input != '\0')
+
+	// Vérifier si l'input ne contient que des espaces
+	trimmed_input = ft_strtrim(data->user_input, " \t\n\v\f\r");
+	if (!trimmed_input)
+	{
+		free(data->user_input);
+		data->user_input = NULL;
+		return (1);
+	}
+
+	if (*trimmed_input != '\0')
 	{
 		cmds = parse_input(data->user_input);
 		data->user_input = NULL;
 		if (cmds)
 		{
-			if (ft_tokenise(cmds))
+			if (ft_tokenise(cmds, data))
 			{
 				if (data->cmd_list)
 					ft_free_cmds_lst(&data->cmd_list);
 				data->cmd_list = *cmds;
-				free(cmds); 
+				free(cmds);
 				data->cmd_nb = count_cmds(data->cmd_list);
-				// setup_exec(data);
 			}
 			else
 				ft_free_cmds_lst(cmds);
@@ -121,5 +143,6 @@ int	process_input(t_minishell *data)
 		free(data->user_input);
 		data->user_input = NULL;
 	}
+	free(trimmed_input);
 	return (global_exit_flag);
 }

@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/06/03 11:11:29 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/06 09:02:59 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include "structs.h"
+#include <signal.h>
 # include "token.h"
 # include "../libft/inc/libft.h"
 
@@ -79,7 +80,7 @@ int    create_pipes(t_minishell *data);
 void    close_unused_pipes(t_minishell *data, t_pars_cmd *cur_cmd);
 void    close_all_pipes(t_minishell *data);
 
-/* REDIRECTIONS */ 
+/* REDIRECTIONS */
 int setup_redirections(t_pars_cmd *cmd);
 int open_infile(t_pars_cmd *cmd);
 int open_outfile(t_pars_cmd *cmd, int append);
@@ -129,7 +130,7 @@ void check_env(t_minishell *data, char *arg);
 /* ENV_MANAGEMENT.C */
 char    *ft_getenv(char *variable, t_minishell *data);
 t_env	**get_adress(void);
-char	*white_get_env(char *name);
+char	*white_get_env(char *name, t_minishell *data);
 void	init_env_list(void);
 t_minishell *get_minishell(void);
 
@@ -151,6 +152,11 @@ void print_invalid_identifier(char *arg);
 /* UTILS.C */
 long long	ft_atoll(const char *str);
 unsigned int ft_strcmp(char *s1, char *s2);
+
+/* SIGNALS.C */
+void	ft_signal(int sig);
+void	ft_signal_cat(int sig);
+void	ft_handle_heredoc_signal(int sig);
 
 
 #endif
