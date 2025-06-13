@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 12:51:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/05/07 00:13:04 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/11 16:44:21 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-#include "minishell.h"
 
 // Helpers for memory and node creation
 static t_pars_cmd *create_cmd_node(void)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: adregis <adregis@student.42.fr>            +#+  +:+       +#+         #
+#    By: afontele <afontele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/06/08 11:20:31 by adregis          ###   ########.fr        #
+#    Updated: 2025/06/11 16:46:58 by afontele         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 LDFLAGS = -lreadline
-
+LIBFT = $(LIBFTDIR)/libft.a
+LDFLAGS += -L$(LIBFTDIR) -lft
 RM = rm -rf
 INC = ./inc/minishell.h
 
@@ -66,28 +67,28 @@ SRC = $(SRCDIR)main.c \
 		$(PARS)env_pars.c
 
 # Objects
-OBJ = $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
-LIBFT = -L $(LIBFTDIR) -lft
+OBJ = $(addprefix $(OBJDIR), $(notdir $(SRC:.c=.o)))
 
 # Rules
 # Default rule: build everything
-all: $(LIBFT) $(NAME)
-		@echo "\033[32m[Compilation complete]\033[0m"
+all: $(NAME)
 
 # Rule to compile the libft
 $(LIBFT):
 		@make -C $(LIBFTDIR)
 
 # Rule to compile the executable
-$(NAME): $(OBJ)
-		@$(CC) $(CFLAGS) -o $@ $^ $(LIBFT) $(LDFLAGS)
+$(NAME): $(OBJ) $(LIBFT)
+		@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 		@echo "\033[32m[Executable created]\033[0m"
 
 # Rule to compile the objects
 $(OBJDIR)%.o: $(SRCDIR)%.c
 		@mkdir -p $(OBJDIR)
-		@$(CC) $(CFLAGS) -I $(INCDIR) -o $@ -c $<
-		@echo "\033[33m[$@]\033[0m"
+		$(CC) $(CFLAGS) -I $(INCDIR) -o $@ -c $<
+$(OBJDIR)%.o: $(PARS)%.c
+		@mkdir -p $(OBJDIR)
+		$(CC) $(CFLAGS) -I $(INCDIR) -o $@ -c $<
 
 # Rule to clean the objects
 clean:
