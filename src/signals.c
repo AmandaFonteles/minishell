@@ -36,7 +36,10 @@ void	ft_signal_cat(int sig)
 	if (sig == 2)
 	{
 		global_exit_flag = 130;
-		exit(130);
+    write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+
 	}
 	if (sig == SIGQUIT)
 	{
