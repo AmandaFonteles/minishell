@@ -99,6 +99,11 @@ static int	count_cmds(t_pars_cmd *cmd_list)
 	return (count);
 }
 
+int check_single(char *str)
+{
+  if (str[0] == ":")
+}
+
 int	process_input(t_minishell *data)
 {
 	t_pars_cmd	**cmds;
@@ -111,9 +116,9 @@ int	process_input(t_minishell *data)
 		return (1);
 	}
 
-	// Vérifier si l'input ne contient que des espaces
+
 	trimmed_input = ft_strtrim(data->user_input, " \t\n\v\f\r");
-	if (!trimmed_input)
+	if (!trimmed_input || !check_single(data->user_input))
 	{
 		free(data->user_input);
 		data->user_input = NULL;
