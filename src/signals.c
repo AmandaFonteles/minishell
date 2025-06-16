@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:52:34 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/08 12:16:51 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/11 08:34:38 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_signal_cat(int sig)
 	}
 }
 
-void    ft_handle_heredoc_signal(int sig)
+void    ft_handle_heredoc_(int sig)
 {
     if (sig == SIGINT)
     {
