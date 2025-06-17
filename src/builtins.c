@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 14:47:11 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/16 22:34:05 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/17 19:28:38 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,13 @@ void single_builtin(t_minishell *data, t_pars_cmd *cmd)
         if (dup_and_close(fd_in, fd_out) == 0)
             return ;
     }
+    if (cmd && cmd->args && cmd->args[0]
+        && ft_strcmp(cmd->args[0], "exit") == 0)
+        {
+            dup_and_close(fd_in, fd_out);
+            builtin_exit(data, cmd);
+            return ;
+        }
     builtin_hub(data, cmd);
     if (dup_and_close(fd_in, fd_out) == 0)
         return ;
@@ -55,13 +62,16 @@ void single_builtin(t_minishell *data, t_pars_cmd *cmd)
 
 int dup_and_close(int fd_in, int fd_out)
 {
-    if (safe_dup2(fd_in, STDIN_FILENO) == 0)
-        return (0);
-    if (safe_dup2(fd_out, STDOUT_FILENO) == 0)
-        return (0);
+    int i;
+
+    i = 1;
+    if (!safe_dup2(fd_in, STDIN_FILENO))
+        i = 0;
+    if (!safe_dup2(fd_out, STDOUT_FILENO))
+        i = 0;
     close(fd_in);
     close(fd_out);
-    return (1);
+    return (i);
 }
 
 void builtin_hub(t_minishell *data, t_pars_cmd *cmd)
