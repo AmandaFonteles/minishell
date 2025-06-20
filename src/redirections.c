@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:56:58 by afontele          #+#    #+#             */
-/*   Updated: 2025/05/29 20:45:51 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:06:53 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,21 @@ int open_infile(t_pars_cmd *cmd)
 {
     int fd_in;
     char *infile;
+    int should_free;
 
-    infile = ft_substr(cmd->infile, 1, ft_strlen(cmd->infile) - 2);
+    should_free = 0;
+    if (cmd->infile[0] == '"' || cmd->infile[0] == '\'')
+    {
+        infile = ft_substr(cmd->infile, 1, ft_strlen(cmd->infile) - 2);
+        if (!infile)
+            return (error_and_prompt_back(cmd->infile));
+        should_free = 1;
+    }
+    else
+        infile = cmd->infile;
     fd_in = open(infile, O_RDONLY);
-    free(infile);
+    if (should_free)
+        free(infile);
     if (fd_in == -1)
     {
         ft_putstr_fd("minishell: ", 2);
@@ -46,7 +57,10 @@ int open_infile(t_pars_cmd *cmd)
         return 0;
     }
     if (!safe_dup2(fd_in, STDIN_FILENO))
+    {
+        close(fd_in);
         return 0;
+    }
     close(fd_in);
     return 1;
 }
@@ -55,9 +69,16 @@ int open_outfile(t_pars_cmd *cmd, int append)
 {
     int fd_out;
     char *out;
-    
+    int should_free;
+
+    should_free = 0;   
     if (cmd->outfile[0] == '"' || cmd->outfile[0] == '\'')
+    { 
         out = ft_substr(cmd->outfile, 1, ft_strlen(cmd->outfile) - 2);
+        if (!out)
+            return (error_and_prompt_back(cmd->outfile));
+        should_free = 1;
+    }
     else
         out = cmd->outfile;
     if (append == 0)
@@ -65,10 +86,20 @@ int open_outfile(t_pars_cmd *cmd, int append)
     else
         fd_out = open(out, O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (fd_out == -1)
+    {
+        if (should_free)
+            free(out);
         return (error_and_prompt_back(out));
+    }
     if (safe_dup2(fd_out, STDOUT_FILENO) == 0)
+    {
+        if (should_free)
+            free(out);
+        close(fd_out);
         return 0;
-    free(out);
+    }
+    if (should_free)
+        free(out);
     close(fd_out);
     return 1;
 }

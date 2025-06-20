@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/08 11:54:08 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/20 17:13:37 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void    multiple_cmds(t_minishell *data)
             error_and_prompt_back("error malloc pipe_ends"); // Error allocating memory
             return ;
         }
+        data->pipe_ends[i][0] = -1; // Initialize pipe ends to -1
+        data->pipe_ends[i][1] = -1; // Initialize pipe ends to -1
         i++;
     }
     if (!setup_multiple_cmd(data))
