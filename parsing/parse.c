@@ -21,7 +21,7 @@ t_pars_cmd	**parse_input(char *str)
 
 	i = 1;
 	cmds = ft_calloc(1, sizeof(t_pars_cmd **));
-	if (!cmds || !ft_chweck(str, 0, 0, 0))
+	if (!cmds || !ft_check(str, 0, 0, 0))
 		return (ft_free_cmds_lst(cmds), NULL);
 	tab = ft_shell_split(str, '|', 0, 0);
 	free(str);
