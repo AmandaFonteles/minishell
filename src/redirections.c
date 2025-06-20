@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:56:58 by afontele          #+#    #+#             */
-/*   Updated: 2025/05/29 20:45:51 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:54:50 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,16 @@ int open_outfile(t_pars_cmd *cmd, int append)
 {
     int fd_out;
     char *out;
-    
+    int should_free;
+
+    should_free = 0;   
     if (cmd->outfile[0] == '"' || cmd->outfile[0] == '\'')
+    { 
         out = ft_substr(cmd->outfile, 1, ft_strlen(cmd->outfile) - 2);
+        if (!out)
+            return (error_and_prompt_back(cmd->outfile));
+        should_free = 1;
+    }
     else
         out = cmd->outfile;
     if (append == 0)
@@ -65,10 +72,20 @@ int open_outfile(t_pars_cmd *cmd, int append)
     else
         fd_out = open(out, O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (fd_out == -1)
+    {
+        if (should_free)
+            free(out);
         return (error_and_prompt_back(out));
+    }
     if (safe_dup2(fd_out, STDOUT_FILENO) == 0)
+    {
+        if (should_free)
+            free(out);
+        close(fd_out);
         return 0;
-    free(out);
+    }
+    if (should_free)
+        free(out);
     close(fd_out);
     return 1;
 }
