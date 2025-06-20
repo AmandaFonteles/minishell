@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/20 16:25:41 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/20 16:35:14 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ int	process_input(t_minishell *data)
 	if (!trimmed_input || !check_single(data->user_input))
 	{
 		free(data->user_input);
+    free(trimmed_input);
 		data->user_input = NULL;
 		return (1);
 	}
