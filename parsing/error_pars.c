@@ -33,6 +33,7 @@ int	ft_parse_error(char **words)
 			{
 				printf("minishell: syntax error near unexpected token `>'\n");
 				return (0);
+<<<<<<< HEAD
 			}
 			else if (words[i][1] == '>' && words[i][2] == '>' && words[i][3] == '>')
 			{
@@ -91,6 +92,14 @@ int	ft_parse_error(char **words)
 				printf("minishell: syntax error near unexpected token `||'\n");
 				return (0);
 			}
+=======
+			if (!words[i + 1])
+				return (printf(
+						"minishell: syntax error near unexpected token `newline'\n"), 0);
+			if (words[i + 1] && (words[i + 1][0] == '>' || words[i
+					+ 1][0] == '<'))
+				return (printf("minishell: syntax error near unexpected token `%c'\n", words[i + 1][0]), 0);
+>>>>>>> c90c57cb13c13ec5ea3bddd3cc3a54aabe8c910b
 		}
 		i++;
 	}

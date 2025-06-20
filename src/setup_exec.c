@@ -22,6 +22,8 @@ void   setup_exec(t_minishell *data)
         return ;
     if (data->cmd_nb == 1)
     {
+        signal(SIGQUIT, SIG_DFL);
+        signal(SIGINT, ft_signal_cat);
         if (is_builtin(data->cmd_list))
             single_builtin(data, data->cmd_list);
         else
@@ -82,6 +84,8 @@ void exec_uniq_cmd(t_minishell *data)
     }
     if (cmd->pid == 0)
     {
+      /*   signal(SIGQUIT, SIG_DFL);
+        signal(SIGINT, ft_signal_cat); */
         if (!setup_redirections(cmd))
             exit(1);
         execute(data, cmd);
