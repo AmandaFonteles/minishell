@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/20 16:12:35 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/20 16:32:00 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,6 @@ void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
 {
     signal(SIGQUIT, SIG_DFL);
     signal(SIGINT, ft_signal_cat);
-<<<<<<< HEAD
-
-=======
->>>>>>> c90c57cb13c13ec5ea3bddd3cc3a54aabe8c910b
     int idx;
     idx = cur_cmd->cmd_index;
     if (data->cmd_nb > 1)
