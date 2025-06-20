@@ -6,12 +6,14 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:59:29 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/08 12:17:14 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/20 16:31:07 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-// Resolve and execute commands via execve.
+#include <dirent.h>
+#include <sys/stat.h>
+
 
 void    execute(t_minishell *data, t_pars_cmd *cur_cmd)
 {
@@ -58,22 +60,49 @@ char *exec_make_path(t_minishell *data, t_pars_cmd *cmd)
 void    resolve_and_exec(t_minishell *data, t_pars_cmd *cmd)
 {
     char *cmd_path;
+    struct stat path_stat;
 
     if (!check_full_path(cmd->args[0]))
         cmd_path = exec_make_path(data, cmd);
     else
     {
         cmd_path = ft_strdup(cmd->args[0]);
-        if (access(cmd_path, X_OK) == -1)
+        if (!cmd_path)
+        {
+            error_and_prompt_back("malloc error");
+            return;
+        }
+        if (stat(cmd_path, &path_stat) == -1)
         {
             print_cmd_not_found(data, cmd->args[0]);
             free(cmd_path);
             free_to_exit(data);
             exit(global_exit_flag);
         }
+        if (S_ISDIR(path_stat.st_mode))
+        {
+            ft_putstr_fd("minishell: ", 2);
+            ft_putstr_fd(cmd->args[0], 2);
+            ft_putstr_fd(": is a directory\n", 2);
+            free(cmd_path);
+            free_to_exit(data);
+            exit(126);
+        }
+        if (access(cmd_path, X_OK) == -1)
+        {
+            ft_putstr_fd("minishell: ", 2);
+            ft_putstr_fd(cmd->args[0], 2);
+            ft_putstr_fd(": Permission denied\n", 2);
+            free(cmd_path);
+            free_to_exit(data);
+            exit(126);
+        }
     }
     if (execve(cmd_path, cmd->args, data->envp) == -1)
+    {
         execve_error(data, cmd_path);
+        return;
+    }
     free(cmd_path);
 }
 
@@ -121,16 +150,26 @@ char *build_path(char *path, char *cmd)
 //should I exit the program if execve fail?
 void    execve_error(t_minishell *data, char *cmd_path)
 {
-    perror(data->cmd_list->args[0]);
-    global_exit_flag = 127;
-    free(cmd_path);
-    if (errno == ENOENT)
-        global_exit_flag = 127; // Error command not found
-    else if (errno == EACCES)
-        global_exit_flag = 126; // Error permission denied
+    if (errno == EACCES)
+    {
+        ft_putstr_fd("minishell: ", 2);
+        ft_putstr_fd(data->cmd_list->args[0], 2);
+        ft_putstr_fd(": Permission denied\n", 2);
+        global_exit_flag = 126;
+    }
+    else if (errno == ENOENT)
+    {
+        print_cmd_not_found(data, data->cmd_list->args[0]);
+        global_exit_flag = 127;
+    }
     else
-        global_exit_flag = 1; // Error other
+    {
+        perror(data->cmd_list->args[0]);
+        global_exit_flag = 1;
+    }
+    free(cmd_path);
     free_to_exit(data);
+    exit(global_exit_flag);
 }
 
 int check_full_path(char *cmd)
