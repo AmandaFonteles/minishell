@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:31:05 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/23 00:52:06 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:18:43 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,20 @@ void    close_unused_pipes(t_minishell *data, t_pars_cmd *cur_cmd)
     int i;
 
     i = 0;
-    if (data->cmd_nb == 1)
+    if (data->cmd_nb <= 1)
         return ;
     while (i < data->cmd_nb - 1)
     {
-        if (i != cur_cmd->cmd_index - 1)
+        if (i != cur_cmd->cmd_index - 1 && data->pipe_ends[i][0] != -1)
+        {
             close(data->pipe_ends[i][0]);
-        if (i != cur_cmd->cmd_index)
+            data->pipe_ends[i][0] = -1; // Mark as closed
+        }   
+        if (i != cur_cmd->cmd_index && data->pipe_ends[i][1] != -1)
+        {
             close(data->pipe_ends[i][1]);
+            data->pipe_ends[i][1] = -1; // Mark as closed
+        }
         i++;
     }
 }
@@ -52,15 +58,22 @@ void    close_all_pipes(t_minishell *data)
     int i;
 
     i = 0;
-    if (data->cmd_nb == 1)
+    if (data->cmd_nb <= 1 || !data->pipe_ends)
         return ;
     while (i < data->cmd_nb - 1)
     {
         if (data->pipe_ends[i])
         {
-            close(data->pipe_ends[i][0]);
-            close(data->pipe_ends[i][1]);
-            //free(data->pipe_ends[i]); -- check if this is needed
+            if (data->pipe_ends[i][0] != -1)
+            {
+                close(data->pipe_ends[i][0]);
+                data->pipe_ends[i][0] = -1; // Mark as closed
+            }
+            if (data->pipe_ends[i][1] != -1)
+            {
+                close(data->pipe_ends[i][1]);
+                data->pipe_ends[i][1] = -1; // Mark as closed
+            }
         }
         i++;
     }
