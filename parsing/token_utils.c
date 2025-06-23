@@ -115,7 +115,6 @@ char	**ft_split_token(char *str)
 	d = 0;
 	s = 0;
 	tab = ft_calloc(nb_words(str) + 1, sizeof(char *));
-  printf("DEBUG: Alloc tab at %p\n", (void *)tab);
 	while (str[i])
 	{
 		if (str[i] == 34 && (s % 2 == 0))

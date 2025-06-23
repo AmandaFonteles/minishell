@@ -24,9 +24,8 @@ t_pars_cmd	**parse_input(char *str)
 	if (!cmds)
 		return (ft_free_cmds_lst(cmds), NULL);
 
-	printf("DEBUG: About to call ft_check_advanced_syntax_str\n");
 	if (!ft_check_advanced_syntax_str(str))
-		return (ft_free_cmds_lst(cmds), NULL);
+		return (ft_free_cmds_lst(cmds), free(cmds), NULL);
 
 	if (!ft_check(str, 0, 0, 0))
 		return (ft_free_cmds_lst(cmds), NULL);
