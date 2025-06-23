@@ -6,11 +6,39 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/20 16:35:14 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 16:00:40 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+static int	check_consecutive_pipes(char *str)
+{
+	int	i;
+	int	d;
+	int	s;
+
+	i = 0;
+	d = 0;
+	s = 0;
+	while (str[i])
+	{
+		if (str[i] == 34 && (s % 2 == 0))
+			d++;
+		if (str[i] == 39 && (d % 2 == 0))
+			s++;
+		if (str[i] == '|' && !(s % 2) && !(d % 2))
+		{
+			if (str[i + 1] == '|')
+			{
+				printf("minishell: syntax error near unexpected token '||'\n");
+				return (0);
+			}
+		}
+		i++;
+	}
+	return (1);
+}
 
 t_pars_cmd	**parse_input(char *str)
 {
@@ -21,20 +49,25 @@ t_pars_cmd	**parse_input(char *str)
 
 	i = 1;
 	cmds = ft_calloc(1, sizeof(t_pars_cmd **));
-	if (!cmds || !ft_check(str, 0, 0, 0))
-		return (ft_free_cmds_lst(cmds), NULL);
+	if (!cmds)
+		return (NULL);
+	if (!check_consecutive_pipes(str))
+		return (ft_free_cmds_lst(cmds), free(cmds), NULL);
+	if (!ft_check(str, 0, 0, 0))
+		return (ft_free_cmds_lst(cmds), free(cmds), NULL);
+
 	tab = ft_shell_split(str, '|', 0, 0);
 	free(str);
 	if (!tab)
-		return (NULL);
+		return (ft_free_cmds_lst(cmds), free(cmds), NULL);
 	*cmds = ft_lstnew_cmd(tab[0], 0);
 	if (*cmds == NULL)
-		return (free(tab), NULL);
+		return (free(tab), ft_free_cmds_lst(cmds), free(cmds), NULL);
 	while (tab[i])
 	{
 		cmd = ft_lstnew_cmd(tab[i], i);
 		if (!cmd)
-			return (NULL);
+			return (free(tab), ft_free_cmds_lst(cmds), free(cmds), NULL);
 		ft_shell_add_back(cmds, cmd);
 		i++;
 	}
@@ -148,7 +181,10 @@ int	process_input(t_minishell *data)
 				data->cmd_nb = count_cmds(data->cmd_list);
 			}
 			else
+			{
 				ft_free_cmds_lst(cmds);
+				free(cmds);
+			}
 		}
 	}
 	else
