@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:27 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 14:03:15 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:08:52 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ void	ft_print_exit_free_all(t_pars_cmd **cmds)
 	exit(0);
 }
 
+static void	cleanup_syntax_error(void)
+{
+	rl_clear_history();
+	ft_free_env(get_adress());
+}
+
 int	ft_parse_error(char **words)
 {
 	int	i;
@@ -31,9 +37,9 @@ int	ft_parse_error(char **words)
 		if (words[i][0] == '>' || words[i][0] == '<')
 		{
 			if (!words[i + 1])
-				return (printf("minishell: syntax error near unexpected token `newline'\n"), rl_clear_history(), 0);
+				return (printf("minishell: syntax error near unexpected token `newline'\n"), cleanup_syntax_error(), 0);
 			if (words[i + 1] && (words[i + 1][0] == '>' || words[i + 1][0] == '<'))
-				return (printf("minishell: syntax error near unexpected token `%c'\n", words[i + 1][0]), rl_clear_history(), 0);
+				return (printf("minishell: syntax error near unexpected token `%c'\n", words[i + 1][0]), cleanup_syntax_error(), 0);
 		}
 		i++;
 	}
@@ -53,13 +59,13 @@ int	ft_check_advanced_syntax_str(char *str)
 			if (str[i + 1] == '>' && str[i + 2] == '>' && str[i + 3] != '>')
 			{
 				printf("minishell: syntax error near unexpected token `>'\n");
-				rl_clear_history();
+				cleanup_syntax_error();
 				return (0);
 			}
 			else if (str[i + 1] == '>' && str[i + 2] == '>' && str[i + 3] == '>')
 			{
 				printf("minishell: syntax error near unexpected token `>>'\n");
-				rl_clear_history();
+				cleanup_syntax_error();
 				return (0);
 			}
 		}
@@ -81,7 +87,7 @@ int	ft_check_advanced_syntax_str(char *str)
 					printf("minishell: syntax error near unexpected token `<<'\n");
 				else
 					printf("minishell: syntax error near unexpected token `<<<'\n");
-				rl_clear_history();
+				cleanup_syntax_error();
 				return (0);
 			}
 		}
@@ -91,7 +97,7 @@ int	ft_check_advanced_syntax_str(char *str)
 			if (str[i + 1] == '|')
 			{
 				printf("minishell: syntax error near unexpected token `||'\n");
-				rl_clear_history();
+				cleanup_syntax_error();
 				return (0);
 			}
 		}
