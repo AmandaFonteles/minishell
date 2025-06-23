@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 13:02:40 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 13:16:45 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,10 @@ t_pars_cmd	**parse_input(char *str)
 
 	i = 1;
 	cmds = ft_calloc(1, sizeof(t_pars_cmd **));
-	if (!cmds)
+	if (!cmds || !ft_check(str, 0, 0, 0))
 		return (ft_free_cmds_lst(cmds), NULL);
 
-	if (!ft_check_advanced_syntax_str(str))
-	{
-		printf("DEBUG: Advanced syntax failed, returning NULL\n");
-		free(cmds);
-		return (NULL);
-	}
-
-	printf("DEBUG: Advanced syntax passed, checking basic syntax\n");
-	if (!ft_check(str, 0, 0, 0))
-	{
-		printf("DEBUG: Basic syntax failed, returning NULL\n");
-		return (ft_free_cmds_lst(cmds), NULL);
-	}
+	ft_check_advanced_syntax_str(str);
 
 	tab = ft_shell_split(str, '|', 0, 0);
 	free(str);
@@ -152,7 +140,6 @@ int	process_input(t_minishell *data)
 	{
 		cmds = parse_input(data->user_input);
 		data->user_input = NULL;
-		printf("DEBUG: parse_input returned %p\n", (void *)cmds);
 		if (cmds)
 		{
 			if (ft_tokenise(cmds, data))
