@@ -6,11 +6,40 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 15:41:05 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 15:54:23 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+static int	check_consecutive_pipes(char *str)
+{
+	int	i;
+	int	d;
+	int	s;
+
+	i = 0;
+	d = 0;
+	s = 0;
+	while (str[i])
+	{
+		if (str[i] == 34 && (s % 2 == 0))
+			d++;
+		if (str[i] == 39 && (d % 2 == 0))
+			s++;
+		if (str[i] == '|' && !(s % 2) && !(d % 2))
+		{
+			if (str[i + 1] == '|')
+			{
+				printf("minishell: syntax error near unexpected token '||'\n");
+				rl_clear_history();
+				return (0);
+			}
+		}
+		i++;
+	}
+	return (1);
+}
 
 t_pars_cmd	**parse_input(char *str)
 {
@@ -23,6 +52,8 @@ t_pars_cmd	**parse_input(char *str)
 	cmds = ft_calloc(1, sizeof(t_pars_cmd **));
 	if (!cmds)
 		return (NULL);
+	if (!check_consecutive_pipes(str))
+		return (ft_free_cmds_lst(cmds), free(cmds), NULL);
 	if (!ft_check(str, 0, 0, 0))
 		return (ft_free_cmds_lst(cmds), free(cmds), NULL);
 
