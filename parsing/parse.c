@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 13:16:45 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 13:21:45 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ t_pars_cmd	**parse_input(char *str)
 
 	i = 1;
 	cmds = ft_calloc(1, sizeof(t_pars_cmd **));
-	if (!cmds || !ft_check(str, 0, 0, 0))
+	if (!cmds || ft_check_advanced_syntax_str(str) || !ft_check(str, 0, 0, 0))
 		return (ft_free_cmds_lst(cmds), NULL);
 
-	ft_check_advanced_syntax_str(str);
 
 	tab = ft_shell_split(str, '|', 0, 0);
 	free(str);

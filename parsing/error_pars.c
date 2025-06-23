@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:27 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 13:16:17 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 13:37:55 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,14 @@ int	ft_check_advanced_syntax_str(char *str)
 			if (str[i + 1] == '>' && str[i + 2] == '>' && str[i + 3] != '>')
 			{
 				printf("minishell: syntax error near unexpected token `>'\n");
-				return (1);
+				rl_clear_history();
+				return (0);
 			}
 			else if (str[i + 1] == '>' && str[i + 2] == '>' && str[i + 3] == '>')
 			{
 				printf("minishell: syntax error near unexpected token `>>'\n");
-				return (1);
+				rl_clear_history();
+				return (0);
 			}
 		}
 		// Gestion des chevrons gauches (<)
@@ -79,7 +81,8 @@ int	ft_check_advanced_syntax_str(char *str)
 					printf("minishell: syntax error near unexpected token `<<'\n");
 				else
 					printf("minishell: syntax error near unexpected token `<<<'\n");
-				return (1);
+				rl_clear_history();
+				return (0);
 			}
 		}
 		// Gestion des pipes
@@ -88,7 +91,8 @@ int	ft_check_advanced_syntax_str(char *str)
 			if (str[i + 1] == '|')
 			{
 				printf("minishell: syntax error near unexpected token `||'\n");
-				return (1);
+				rl_clear_history();
+				return (0);
 			}
 		}
 		i++;
