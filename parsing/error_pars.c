@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:27 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 14:49:11 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 15:08:40 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,47 @@ int	ft_parse_error(char **words)
 				}
 				j++;
 			}
-			// Vérifie la longueur du token de redirection
-			if (j > 2)
+			// Vérifie la longueur du token de redirection et affiche le bon message
+			if (c == '>')
 			{
-				printf("minishell: syntax error near unexpected token `%s'\n", words[i]);
-				return (0);
+				if (j == 1 || j == 2)
+				{
+					printf("minishell: syntax error near unexpected token `newline'\n");
+					return (0);
+				}
+				else if (j == 3)
+				{
+					printf("minishell: syntax error near unexpected token `>'\n");
+					return (0);
+				}
+				else if (j >= 4)
+				{
+					printf("minishell: syntax error near unexpected token `>>'\n");
+					return (0);
+				}
+			}
+			else if (c == '<')
+			{
+				if (j >= 1 && j <= 3)
+				{
+					printf("minishell: syntax error near unexpected token `newline'\n");
+					return (0);
+				}
+				else if (j == 4)
+				{
+					printf("minishell: syntax error near unexpected token `<'\n");
+					return (0);
+				}
+				else if (j == 5)
+				{
+					printf("minishell: syntax error near unexpected token `<<'\n");
+					return (0);
+				}
+				else if (j >= 6)
+				{
+					printf("minishell: syntax error near unexpected token `<<<'\n");
+					return (0);
+				}
 			}
 			// Vérifie le token suivant la redirection
 			if (!words[i + 1])
