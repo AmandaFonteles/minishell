@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/20 16:35:14 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 09:05:34 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,11 +144,15 @@ int	process_input(t_minishell *data)
 				if (data->cmd_list)
 					ft_free_cmds_lst(&data->cmd_list);
 				data->cmd_list = *cmds;
+				*cmds = NULL;
 				free(cmds);
 				data->cmd_nb = count_cmds(data->cmd_list);
 			}
 			else
+			{
 				ft_free_cmds_lst(cmds);
+				free(cmds);
+			}
 		}
 	}
 	else
