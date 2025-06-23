@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:20 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 15:32:45 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 15:48:54 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	ft_check(char *str, int i, int d, int s)
 				i++;
 			if (!str[i] || str[i] == '|')
 			{
-				printf("minishell: syntax error near unexpected token '|'\n");
+				if (str[i] == '|')
+					printf("minishell: syntax error near unexpected token '||'\n");
+				else
+					printf("minishell: syntax error near unexpected token '|'\n");
 				rl_clear_history();
 				return (0);
 			}
