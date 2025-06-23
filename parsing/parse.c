@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 12:12:58 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:17:27 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ int	process_input(t_minishell *data)
 			{
 				printf("DEBUG: Freeing cmds at %p (failure case)\n", (void *)cmds);
 				ft_free_cmds_lst(cmds);
+				free(cmds);
 			}
 		}
 	}
