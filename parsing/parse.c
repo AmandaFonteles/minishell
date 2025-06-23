@@ -20,11 +20,18 @@ t_pars_cmd	**parse_input(char *str)
 	t_pars_cmd	*cmd;
 
 	i = 1;
+  if (!ft_check_advanced_syntax_str(str))
+  {
+    global_exit_flag = 2;
+    rl_clear_history();
+    return (0);
+  }
+
 	cmds = ft_calloc(1, sizeof(t_pars_cmd **));
 	if (!cmds || !ft_check(str, 0, 0, 0))
 		return (ft_free_cmds_lst(cmds), NULL);
 
-	ft_check_advanced_syntax_str(str);
+
 
 	tab = ft_shell_split(str, '|', 0, 0);
 	free(str);

@@ -53,12 +53,12 @@ int	ft_check_advanced_syntax_str(char *str)
 			if (str[i + 1] == '>' && str[i + 2] == '>' && str[i + 3] != '>')
 			{
 				printf("minishell: syntax error near unexpected token `>'\n");
-				return (1);
+				return (0);
 			}
 			else if (str[i + 1] == '>' && str[i + 2] == '>' && str[i + 3] == '>')
 			{
 				printf("minishell: syntax error near unexpected token `>>'\n");
-				return (1);
+				return (0);
 			}
 		}
 		// Gestion des chevrons gauches (<)
@@ -79,7 +79,7 @@ int	ft_check_advanced_syntax_str(char *str)
 					printf("minishell: syntax error near unexpected token `<<'\n");
 				else
 					printf("minishell: syntax error near unexpected token `<<<'\n");
-				return (1);
+				return (0);
 			}
 		}
 		// Gestion des pipes
@@ -88,7 +88,7 @@ int	ft_check_advanced_syntax_str(char *str)
 			if (str[i + 1] == '|')
 			{
 				printf("minishell: syntax error near unexpected token `||'\n");
-				return (1);
+				return (0);
 			}
 		}
 		i++;
