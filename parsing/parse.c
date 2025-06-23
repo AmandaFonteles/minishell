@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 12:17:27 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:22:34 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ t_pars_cmd	**parse_input(char *str)
 
 	i = 1;
 	cmds = ft_calloc(1, sizeof(t_pars_cmd **));
-	printf("DEBUG: Alloc cmds at %p\n", (void *)cmds);
 	if (!cmds || !ft_check(str, 0, 0, 0))
 		return (ft_free_cmds_lst(cmds), NULL);
-
 
 	if (!ft_check_advanced_syntax_str(str))
 		return (ft_free_cmds_lst(cmds), NULL);
@@ -150,13 +148,11 @@ int	process_input(t_minishell *data)
 				if (data->cmd_list)
 					ft_free_cmds_lst(&data->cmd_list);
 				data->cmd_list = *cmds;
-				printf("DEBUG: Freeing cmds at %p (success case)\n", (void *)cmds);
 				free(cmds);
 				data->cmd_nb = count_cmds(data->cmd_list);
 			}
 			else
 			{
-				printf("DEBUG: Freeing cmds at %p (failure case)\n", (void *)cmds);
 				ft_free_cmds_lst(cmds);
 				free(cmds);
 			}

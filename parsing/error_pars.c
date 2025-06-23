@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:27 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 12:04:19 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:23:00 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,19 +107,24 @@ int	ft_check_advanced_syntax_str(char *str)
 {
 	int	i;
 
+	printf("DEBUG: Checking advanced syntax for: '%s'\n", str);
 	i = 0;
 	while (str[i])
 	{
+		printf("DEBUG: char[%d] = '%c'\n", i, str[i]);
 		// Gestion des chevrons droits (>)
 		if (str[i] == '>')
 		{
+			printf("DEBUG: Found '>' at position %d\n", i);
 			if (str[i + 1] == '>' && str[i + 2] == '>' && str[i + 3] != '>')
 			{
+				printf("DEBUG: Found '>>>' - returning error\n");
 				printf("minishell: syntax error near unexpected token `>'\n");
 				return (0);
 			}
 			else if (str[i + 1] == '>' && str[i + 2] == '>' && str[i + 3] == '>')
 			{
+				printf("DEBUG: Found '>>>>' - returning error\n");
 				printf("minishell: syntax error near unexpected token `>>'\n");
 				return (0);
 			}
@@ -127,8 +132,10 @@ int	ft_check_advanced_syntax_str(char *str)
 		// Gestion des chevrons gauches (<)
 		else if (str[i] == '<')
 		{
+			printf("DEBUG: Found '<' at position %d\n", i);
 			if (str[i + 1] == '<' && str[i + 2] == '<' && str[i + 3] == '<')
 			{
+				printf("DEBUG: Found '<<<<' - counting extra chevrons\n");
 				int count = 0;
 				int j = 3;
 				while (str[i + j] == '<')
@@ -136,6 +143,7 @@ int	ft_check_advanced_syntax_str(char *str)
 					count++;
 					j++;
 				}
+				printf("DEBUG: Found %d extra chevrons\n", count);
 				if (count == 1)
 					printf("minishell: syntax error near unexpected token `<'\n");
 				else if (count == 2)
@@ -148,13 +156,16 @@ int	ft_check_advanced_syntax_str(char *str)
 		// Gestion des pipes
 		else if (str[i] == '|')
 		{
+			printf("DEBUG: Found '|' at position %d\n", i);
 			if (str[i + 1] == '|')
 			{
+				printf("DEBUG: Found '||' - returning error\n");
 				printf("minishell: syntax error near unexpected token `||'\n");
 				return (0);
 			}
 		}
 		i++;
 	}
+	printf("DEBUG: No syntax errors found\n");
 	return (1);
 }

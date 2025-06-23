@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:54 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 12:17:10 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:22:52 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,13 +125,10 @@ t_token	**ft_create_token(char *str, t_minishell *data)
 	int		i;
 
 	token = ft_calloc(1, sizeof(token));
-	printf("DEBUG: Alloc token handle at %p\n", (void *)token);
 	i = 1;
 	tab = ft_split_token(str);
-	printf("DEBUG: Alloc tab at %p\n", (void *)tab);
 	if (!ft_parse_error(tab))
 	{
-		printf("DEBUG: ft_parse_error failed. Freeing token %p and tab %p\n", (void *)token, (void *)tab);
 		ft_free_tab(tab, 1);
 		free(token);
 		return (NULL);
