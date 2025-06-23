@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:27 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 14:39:14 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:49:11 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,50 @@ void	ft_print_exit_free_all(t_pars_cmd **cmds)
 int	ft_parse_error(char **words)
 {
 	int	i;
+	int	j;
+	char c;
 
 	i = 0;
 	while (words[i])
 	{
-		if (words[i][0] == '>' || words[i][0] == '<')
+		c = words[i][0];
+		if (c == '>' || c == '<')
 		{
+			// Vérifie que le token ne contient que des '<' ou que des '>'
+			j = 1;
+			while(words[i][j])
+			{
+				if (words[i][j] != c)
+				{
+					printf("minishell: syntax error near unexpected token `%s'\n", words[i]);
+					return (0);
+				}
+				j++;
+			}
+			// Vérifie la longueur du token de redirection
+			if (j > 2)
+			{
+				printf("minishell: syntax error near unexpected token `%s'\n", words[i]);
+				return (0);
+			}
+			// Vérifie le token suivant la redirection
 			if (!words[i + 1])
-				return (printf("minishell: syntax error near unexpected token `newline'\n"), 0);
-			if (words[i + 1] && (words[i + 1][0] == '>' || words[i + 1][0] == '<'))
-				return (printf("minishell: syntax error near unexpected token `%c'\n", words[i + 1][0]), 0);
+			{
+				printf("minishell: syntax error near unexpected token `newline'\n");
+				return (0);
+			}
+			if (words[i + 1][0] == '>' || words[i + 1][0] == '<' || words[i + 1][0] == '|')
+			{
+				printf("minishell: syntax error near unexpected token `%s'\n", words[i + 1]);
+				return (0);
+			}
+		}
+		// Gestion des pipes (si un token | est trouvé ici, c'est une erreur)
+		else if (words[i][0] == '|')
+		{
+			printf("minishell: syntax error near unexpected token `|'\n");
+			// NOTE: Un appel à rl_clear_history() est nécessaire ici pour corriger les fuites mémoire.
+			return (0);
 		}
 		i++;
 	}
