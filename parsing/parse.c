@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 12:22:34 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:28:27 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@ t_pars_cmd	**parse_input(char *str)
 
 	i = 1;
 	cmds = ft_calloc(1, sizeof(t_pars_cmd **));
-	if (!cmds || !ft_check(str, 0, 0, 0))
+	if (!cmds)
 		return (ft_free_cmds_lst(cmds), NULL);
 
+	printf("DEBUG: About to call ft_check_advanced_syntax_str\n");
 	if (!ft_check_advanced_syntax_str(str))
+		return (ft_free_cmds_lst(cmds), NULL);
+
+	if (!ft_check(str, 0, 0, 0))
 		return (ft_free_cmds_lst(cmds), NULL);
 
 	tab = ft_shell_split(str, '|', 0, 0);
