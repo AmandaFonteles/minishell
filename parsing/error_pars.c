@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:27 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 14:13:52 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:16:47 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,11 @@ int	ft_check_advanced_syntax_str(char *str)
 			if (str[i + 1] == '>' && str[i + 2] == '>' && str[i + 3] != '>')
 			{
 				printf("minishell: syntax error near unexpected token `>'\n");
-				exit_syntax_error();
 				return (0);
 			}
 			else if (str[i + 1] == '>' && str[i + 2] == '>' && str[i + 3] == '>')
 			{
 				printf("minishell: syntax error near unexpected token `>>'\n");
-				exit_syntax_error();
 				return (0);
 			}
 		}
@@ -90,7 +88,6 @@ int	ft_check_advanced_syntax_str(char *str)
 					printf("minishell: syntax error near unexpected token `<<'\n");
 				else
 					printf("minishell: syntax error near unexpected token `<<<'\n");
-				exit_syntax_error();
 				return (0);
 			}
 		}
@@ -100,7 +97,6 @@ int	ft_check_advanced_syntax_str(char *str)
 			if (str[i + 1] == '|')
 			{
 				printf("minishell: syntax error near unexpected token `||'\n");
-				exit_syntax_error();
 				return (0);
 			}
 		}

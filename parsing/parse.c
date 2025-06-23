@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 14:05:06 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:16:57 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_pars_cmd	**parse_input(char *str)
   if (!ft_check_advanced_syntax_str(str))
   {
     global_exit_flag = 2;
-    rl_clear_history();
     return (NULL);
   }
 
@@ -162,6 +161,14 @@ int	process_input(t_minishell *data)
 				ft_free_cmds_lst(cmds);
 				free(cmds);
 			}
+		}
+		else
+		{
+			// Erreur de syntaxe détectée, nettoyer readline
+			rl_clear_history();
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
 		}
 	}
 	else
