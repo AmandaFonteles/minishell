@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 13:16:45 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 14:05:06 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_pars_cmd	**parse_input(char *str)
   {
     global_exit_flag = 2;
     rl_clear_history();
-    return (0);
+    return (NULL);
   }
 
 	cmds = ft_calloc(1, sizeof(t_pars_cmd **));
