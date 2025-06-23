@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:06 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/07 09:51:13 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:03:09 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	ft_free_env(t_env **env);
 ///////////////////// ERROR PARSING /////////////////////
 
 int	ft_parse_error(char **words);
+int	ft_check_advanced_syntax(char **words);
+int	ft_check_advanced_syntax_str(char *str);
 int	ft_check_dir(char *str);
 void debug_print_cmd(t_pars_cmd *cmd);
 
