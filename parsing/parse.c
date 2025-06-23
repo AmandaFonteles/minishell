@@ -25,7 +25,11 @@ t_pars_cmd	**parse_input(char *str)
 		return (ft_free_cmds_lst(cmds), NULL);
 
 	if (!ft_check_advanced_syntax_str(str))
-		return (ft_free_cmds_lst(cmds), free(cmds), NULL);
+  {
+    ft_free_cmds_lst(cmds);
+    free(cmds);
+    return (NULL);
+  }
 
 	if (!ft_check(str, 0, 0, 0))
 		return (ft_free_cmds_lst(cmds), NULL);
