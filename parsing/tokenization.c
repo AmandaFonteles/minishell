@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:54 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 12:22:52 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 15:56:55 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,15 +103,30 @@ int	ft_tokenise(t_pars_cmd **cmds, t_minishell *data)
 	{
 		current->token = ft_create_token(current->cmd, data);
 		if (!current->token)
+		{
+			rl_clear_history();
 			return (0);
+		}
 		if (!ft_manage_redir(current))
+		{
+			rl_clear_history();
 			return (0);
+		}
 		if (!ft_create_args(current))
+		{
+			rl_clear_history();
 			return (0);
+		}
 		if (!ft_remove_quote(current))
+		{
+			rl_clear_history();
 			return (0);
+		}
 		if (!fill_heredocs(current))
+		{
+			rl_clear_history();
 			return (0);
+		}
 		current = current->next;
 	}
 	return (1);

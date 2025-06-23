@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 15:54:23 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 15:57:11 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,15 @@ t_pars_cmd	**parse_input(char *str)
 	tab = ft_shell_split(str, '|', 0, 0);
 	free(str);
 	if (!tab)
-		return (NULL);
+		return (ft_free_cmds_lst(cmds), free(cmds), rl_clear_history(), NULL);
 	*cmds = ft_lstnew_cmd(tab[0], 0);
 	if (*cmds == NULL)
-		return (free(tab), NULL);
+		return (free(tab), ft_free_cmds_lst(cmds), free(cmds), rl_clear_history(), NULL);
 	while (tab[i])
 	{
 		cmd = ft_lstnew_cmd(tab[i], i);
 		if (!cmd)
-			return (NULL);
+			return (free(tab), ft_free_cmds_lst(cmds), free(cmds), rl_clear_history(), NULL);
 		ft_shell_add_back(cmds, cmd);
 		i++;
 	}
@@ -164,6 +164,7 @@ int	process_input(t_minishell *data)
 		free(data->user_input);
     free(trimmed_input);
 		data->user_input = NULL;
+		rl_clear_history();
 		return (1);
 	}
 
@@ -185,6 +186,7 @@ int	process_input(t_minishell *data)
 			{
 				ft_free_cmds_lst(cmds);
 				free(cmds);
+				rl_clear_history();
 			}
 		}
 	}
