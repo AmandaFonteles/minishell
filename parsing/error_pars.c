@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:27 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 12:26:17 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 13:03:30 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_print_exit_free_all(t_pars_cmd **cmds)
 	(void)cmds;
 	printf("exit\n");
 	ft_free_env(get_adress());
+	rl_clear_history();
 	exit(0);
 }
 
