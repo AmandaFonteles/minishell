@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:20 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 16:00:53 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 18:39:19 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_check(char *str, int i, int d, int s)
 			if (i == 0)
 			{
 				printf("minishell: syntax error near unexpected token '|'\n");
+				global_exit_flag = 2;
 				return (0);
 			}
 			i++;
@@ -29,6 +30,7 @@ int	ft_check(char *str, int i, int d, int s)
 			if (!str[i])
 			{
 				printf("minishell: syntax error near unexpected token '|'\n");
+				global_exit_flag = 2;
 				return (0);
 			}
 		}
@@ -41,6 +43,7 @@ int	ft_check(char *str, int i, int d, int s)
 	if ((s % 2) || (d % 2))
 	{
 		printf("minishell: invalid number of quotes\n");
+		global_exit_flag = 2;
 		return (0);
 	}
 	return (1);

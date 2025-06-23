@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 16:00:40 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 18:38:41 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static int	check_consecutive_pipes(char *str)
 			if (str[i + 1] == '|')
 			{
 				printf("minishell: syntax error near unexpected token '||'\n");
+				global_exit_flag = 2;
 				return (0);
 			}
 		}
