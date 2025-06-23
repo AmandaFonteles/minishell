@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 16:24:55 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/03 21:41:06 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:26:19 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void    free_pipes(t_minishell *data)
     int i;
 
     i = 0;
-    if (data->pipe_ends == NULL)
-        return ;
+    //if (data->pipe_ends == NULL)
+        //return ;
     while (i < data->cmd_nb - 1)
     {
 		/*if (data->pipe_ends[i])
@@ -26,7 +26,8 @@ void    free_pipes(t_minishell *data)
 			close(data->pipe_ends[i][0]);
 			close(data->pipe_ends[i][1]);
 		}*/
-        free(data->pipe_ends[i]);
+		if (data->pipe_ends[i])
+        	free(data->pipe_ends[i]);
         i++;
     }
     free(data->pipe_ends);
