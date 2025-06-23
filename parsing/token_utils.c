@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:50 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/19 09:17:06 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 12:14:52 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ char	**ft_split_token(char *str)
 	d = 0;
 	s = 0;
 	tab = ft_calloc(nb_words(str) + 1, sizeof(char *));
+  printf("DEBUG: Alloc tab at %p\n", (void *)tab);
 	while (str[i])
 	{
 		if (str[i] == 34 && (s % 2 == 0))
