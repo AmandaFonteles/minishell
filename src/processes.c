@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/20 16:32:00 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/23 15:13:29 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
                 close_all_pipes(data);
                 error_to_exit(data, "dup2 in setup_child (stdin)");
             }
+            close(data->pipe_ends[idx - 1][0]);
+            data->pipe_ends[idx - 1][0] = -1; // Mark as closed
         }
         if (idx < data->cmd_nb - 1)
         {
@@ -69,6 +71,8 @@ void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
                 close_all_pipes(data);
                 error_to_exit(data, "dup2 in setup_child (stdout)");
             }
+            close(data->pipe_ends[idx][1]);
+            data->pipe_ends[idx][1] = -1; // Mark as closed
         }
     }
     close_unused_pipes(data, cur_cmd);

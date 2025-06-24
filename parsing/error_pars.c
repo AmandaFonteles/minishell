@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   error_pars.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:27 by adregis           #+#    #+#             */
 /*   Updated: 2025/06/24 16:58:22 by adregis          ###   ########.fr       */
