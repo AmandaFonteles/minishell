@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: afontele <afontele@student.42.fr>          +#+  +:+       +#+         #
+#    By: adregis <adregis@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/06/11 16:46:58 by afontele         ###   ########.fr        #
+#    Updated: 2025/06/24 18:06:35 by adregis          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = minishell
 
-# Compiler and flags
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 LDFLAGS = -lreadline
@@ -22,14 +22,14 @@ LDFLAGS += -L$(LIBFTDIR) -lft
 RM = rm -rf
 INC = ./inc/minishell.h
 
-# Directories
+
 SRCDIR = src/
 PARS = parsing/
 OBJDIR = obj/
 INCDIR = inc/
 LIBFTDIR = libft/
 
-# Sources
+
 SRC = $(SRCDIR)main.c \
 		$(SRCDIR)builtins.c \
 		$(SRCDIR)builtin_utils.c \
@@ -66,23 +66,20 @@ SRC = $(SRCDIR)main.c \
 		$(PARS)heredoc_parsing.c \
 		$(PARS)env_pars.c
 
-# Objects
+
 OBJ = $(addprefix $(OBJDIR), $(notdir $(SRC:.c=.o)))
 
-# Rules
-# Default rule: build everything
+
 all: $(NAME)
 
-# Rule to compile the libft
 $(LIBFT):
 		@make -C $(LIBFTDIR)
 
-# Rule to compile the executable
+
 $(NAME): $(OBJ) $(LIBFT)
 		@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 		@echo "\033[32m[Executable created]\033[0m"
 
-# Rule to compile the objects
 $(OBJDIR)%.o: $(SRCDIR)%.c
 		@mkdir -p $(OBJDIR)
 		$(CC) $(CFLAGS) -I $(INCDIR) -o $@ -c $<
@@ -90,18 +87,15 @@ $(OBJDIR)%.o: $(PARS)%.c
 		@mkdir -p $(OBJDIR)
 		$(CC) $(CFLAGS) -I $(INCDIR) -o $@ -c $<
 
-# Rule to clean the objects
 clean:
 		@$(RM) $(OBJDIR)
 		@echo "\033[31m[Objects removed]\033[0m"
 
-# Rule to clean everything
 fclean: clean
 		@$(RM) $(NAME)
 		@make -C $(LIBFTDIR) fclean
 		@echo "\033[31m[Executable removed]\033[0m"
 
-# Rule to recompile everything
 re: fclean all
 
 .PHONY: all clean fclean re
