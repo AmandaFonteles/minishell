@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/20 17:13:37 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:43:05 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,12 @@ void exec_uniq_cmd(t_minishell *data)
       /*   signal(SIGQUIT, SIG_DFL);
         signal(SIGINT, ft_signal_cat); */
         if (!setup_redirections(cmd))
+        {
+            free_to_exit(data);
             exit(1);
+        }
         execute(data, cmd);
+        free_to_exit(data);
         exit(1);
     }
     waitpid(cmd->pid, &status, 0);
