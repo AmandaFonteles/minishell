@@ -6,7 +6,7 @@
 #    By: adregis <adregis@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/06/24 18:06:35 by adregis          ###   ########.fr        #
+#    Updated: 2025/06/24 18:30:31 by adregis          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,6 @@ SRC = $(SRCDIR)main.c \
 		$(PARS)free_parse.c \
 		$(PARS)syntax_check.c \
 		$(PARS)heredoc_parsing.c \
-		$(PARS)env_pars.c
 
 
 OBJ = $(addprefix $(OBJDIR), $(notdir $(SRC:.c=.o)))
