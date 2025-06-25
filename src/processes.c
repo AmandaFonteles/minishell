@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/23 15:13:29 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:41:58 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int    create_processes(t_minishell *data)
             else
                 middle_child_process(data, cur_cmd);*/
             execute(data, cur_cmd);
+            free_to_exit(data);
             exit(global_exit_flag); // exit the child process
         }
         cur_cmd = cur_cmd->next;
@@ -77,7 +78,10 @@ void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
     }
     close_unused_pipes(data, cur_cmd);
     if (!setup_redirections(cur_cmd))
+    {
+        free_to_exit(data);
         exit(1);
+    }
 }
 
 
