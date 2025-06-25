@@ -35,8 +35,12 @@ int open_infile(t_pars_cmd *cmd)
     int fd_in;
     char *infile;
     int should_free;
+    int should_dup;
 
     should_free = 0;
+    should_dup = 1; // Default to dup2, unless we have a heredoc
+    if (!cmd->args || !cmd->args[0])
+        should_dup = 0; // If no args, we don't need to dup2
     if (cmd->infile[0] == '"' || cmd->infile[0] == '\'')
     {
         infile = ft_substr(cmd->infile, 1, ft_strlen(cmd->infile) - 2);
@@ -56,6 +60,11 @@ int open_infile(t_pars_cmd *cmd)
         global_exit_flag = 1;
         return 0;
     }
+    if (should_dup == 0)
+    {
+        close(fd_in);
+        return 1;
+    }
     if (!safe_dup2(fd_in, STDIN_FILENO))
     {
         close(fd_in);
@@ -70,8 +79,12 @@ int open_outfile(t_pars_cmd *cmd, int append)
     int fd_out;
     char *out;
     int should_free;
+    int should_dup;
 
-    should_free = 0;   
+    should_free = 0;
+    should_dup = 1; // Default to dup2, unless we have a heredoc
+    if (!cmd->args || !cmd->args[0])
+        should_dup = 0; // If no args, we don't need to dup2
     if (cmd->outfile[0] == '"' || cmd->outfile[0] == '\'')
     { 
         out = ft_substr(cmd->outfile, 1, ft_strlen(cmd->outfile) - 2);
@@ -90,6 +103,13 @@ int open_outfile(t_pars_cmd *cmd, int append)
         if (should_free)
             free(out);
         return (error_and_prompt_back(out));
+    }
+    if (should_dup == 0)
+    {
+        if (should_free)
+            free(out);
+        close(fd_out);
+        return 1;
     }
     if (safe_dup2(fd_out, STDOUT_FILENO) == 0)
     {

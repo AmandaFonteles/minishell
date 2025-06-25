@@ -36,9 +36,10 @@ int    create_processes(t_minishell *data)
                 last_child_process(data, cur_cmd);
             else
                 middle_child_process(data, cur_cmd);*/
-            execute(data, cur_cmd);
+            if (cur_cmd->args && cur_cmd->args[0])
+                execute(data, cur_cmd);
             free_to_exit(data);
-            exit(global_exit_flag); // exit the child process
+            exit(global_exit_flag);
         }
         cur_cmd = cur_cmd->next;
     }
