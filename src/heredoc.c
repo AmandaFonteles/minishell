@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/25 14:41:26 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/25 14:49:29 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,14 @@ int write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 			break;
 
 		if (ft_check_dollars(line))
+		{
 			expanded_line = ft_expend_d(line, 0, -1, data);
+		}
 		else
+		{
 			expanded_line = ft_strdup(line);
+			free(line);
+		}
 
 		if (expanded_line)
 		{
@@ -62,7 +67,6 @@ int write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 			write(fd, "\n", 1);
 			free(expanded_line);
 		}
-		free(line);
 	}
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
