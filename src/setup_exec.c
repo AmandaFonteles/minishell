@@ -93,7 +93,8 @@ void exec_uniq_cmd(t_minishell *data)
             free_to_exit(data);
             exit(1);
         }
-        execute(data, cmd);
+        if (cmd->args)
+            execute(data, cmd);
         free_to_exit(data);
         exit(1);
     }

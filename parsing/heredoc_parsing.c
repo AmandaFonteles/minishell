@@ -34,7 +34,11 @@ int fill_heredocs(t_pars_cmd *cmd) {
         if (cur->type == HERE_DOC && cur->next) {
             cmd->delimiters[i++] = ft_strdup(cur->next->word);
             if (!cmd->delimiters[i-1])
+            {
+                free_arraystr(cmd->delimiters);
+                cmd->delimiters = NULL;
                 return 0;
+            }
         }
         cur = cur->next;
     }
