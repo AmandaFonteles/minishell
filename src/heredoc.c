@@ -68,6 +68,10 @@ static int handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count)
 	if (!filename)
 	{
 		error_and_prompt_back("malloc heredoc filename");
+		while (--i >= 0)
+			free(cmd->heredoc[i]);
+		free(cmd->heredoc);
+		cmd->heredoc = NULL;
 		return (0);
 	}
 	if (!write_heredoc_file(filename, cmd->delimiters[i]))
@@ -76,6 +80,7 @@ static int handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count)
 		while (--i >= 0)
 			free(cmd->heredoc[i]);
 		free(cmd->heredoc);
+		cmd->heredoc = NULL;
 		return (0);
 	}
 	cmd->heredoc[i] = filename;
