@@ -39,7 +39,7 @@ int open_infile(t_pars_cmd *cmd)
 
     should_free = 0;
     should_dup = 1; // Default to dup2, unless we have a heredoc
-    if (!cmd->args)
+    if (!cmd->args || !cmd->args[0])
         should_dup = 0; // If no args, we don't need to dup2
     if (cmd->infile[0] == '"' || cmd->infile[0] == '\'')
     {
@@ -83,7 +83,7 @@ int open_outfile(t_pars_cmd *cmd, int append)
 
     should_free = 0;
     should_dup = 1; // Default to dup2, unless we have a heredoc
-    if (!cmd->args)
+    if (!cmd->args || !cmd->args[0])
         should_dup = 0; // If no args, we don't need to dup2
     if (cmd->outfile[0] == '"' || cmd->outfile[0] == '\'')
     { 

@@ -93,10 +93,10 @@ void exec_uniq_cmd(t_minishell *data)
             free_to_exit(data);
             exit(1);
         }
-        if (cmd->args)
+        if (cmd->args && cmd->args[0])
             execute(data, cmd);
         free_to_exit(data);
-        exit(1);
+        exit(0);
     }
     waitpid(cmd->pid, &status, 0);
     if (WIFEXITED(status))
