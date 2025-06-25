@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/06/06 09:02:59 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/25 14:41:49 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int open_infile(t_pars_cmd *cmd);
 int open_outfile(t_pars_cmd *cmd, int append);
 
 /* HEREDOC.C */
-int write_heredoc_file(char *filename, char *delimiter);
+int write_heredoc_file(char *filename, char *delimiter, t_minishell *data);
 int generate_heredocs(t_minishell *data);
 char *last_heredoc_path(t_pars_cmd *cmd);
 int redirect_heredoc(t_pars_cmd *cmd);
