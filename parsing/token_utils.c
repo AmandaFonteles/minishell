@@ -101,7 +101,6 @@ int	ft_create_word(char *str, char **tab, int i)
 	return (len);
 }
 
-
 char	**ft_split_token(char *str)
 {
 	char	**tab;

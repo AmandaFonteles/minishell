@@ -52,5 +52,3 @@ int	ft_set_type(t_token **token)
 	}
 	return (1);
 }
-
-

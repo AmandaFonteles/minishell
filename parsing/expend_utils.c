@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:43 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/08 09:52:42 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/26 11:49:02 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,24 @@
 
 int	ft_get_value(char **str, char *tmp, t_minishell *data)
 {
-	if ((*str)[0] == 34)  // Double quotes
+	char	*var_name;
+	char	*var_value;
+
+	var_name = *str + 1;
+	var_value = white_get_env(var_name, data);
+	if ((*str)[0] == 34)
 	{
 		tmp = ft_expend_d(ft_strtrim((*str), "\""), 0, -1, data);
 		free(*str);
 		(*str) = tmp;
 	}
-	else if ((*str)[0] == 39)  // Single quotes
+	else if ((*str)[0] == 39)
 	{
 		tmp = ft_strtrim((*str), "\'");
 		free(*str);
 		(*str) = tmp;
 	}
-	else if ((*str) && (*str)[0] == '$')  // Variable
+	else if ((*str) && (*str)[0] == '$')
 	{
 		if (!(*str)[1])
 			tmp = ft_strdup("$");
@@ -34,8 +39,6 @@ int	ft_get_value(char **str, char *tmp, t_minishell *data)
 			tmp = ft_itoa(global_exit_flag);
 		else
 		{
-			char *var_name = *str + 1;
-			char *var_value = white_get_env(var_name, data);
 			tmp = var_value ? ft_strdup(var_value) : ft_strdup("");
 		}
 		free(*str);

@@ -25,14 +25,16 @@ int	ft_manage_redir(t_pars_cmd *cmd)
 			if (!cmd->infile)
 				return (0);
 		}
-		else if (cur->type == FILE_OUT && cur->next && cur->next->type == EXIT_FILE)
+		else if (cur->type == FILE_OUT && cur->next
+			&& cur->next->type == EXIT_FILE)
 		{
 			cmd->outfile = ft_strdup(cur->next->word);
 			cmd->append = 0;
 			if (!cmd->outfile)
 				return (0);
 		}
-		else if (cur->type == FILE_OUT_SUR && cur->next && cur->next->type == EXIT_FILE_RET)
+		else if (cur->type == FILE_OUT_SUR && cur->next
+			&& cur->next->type == EXIT_FILE_RET)
 		{
 			cmd->outfile = ft_strdup(cur->next->word);
 			cmd->append = 1;

@@ -23,7 +23,8 @@ int	ft_expend_words(t_token **token, t_minishell *data)
 		if (current->type != LIMITOR)
 		{
 			tmp = current->word;
-			current->word = ft_expend(current->word, current->type, 0, -1, data);
+			current->word = ft_expend(current->word,
+					current->type, 0, -1, data);
 			free(tmp);
 		}
 		current = current->next;
