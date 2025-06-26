@@ -6,22 +6,11 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:57 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/07 09:51:59 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/26 13:03:13 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-void	ft_free_tab(char **tab, int nb)
-{
-	int	i;
-
-	(void)nb;
-	i = 0;
-	while (tab && tab[i])
-		free(tab[i++]);
-	free(tab);
-}
 
 void	ft_free_env(t_env **env)
 {

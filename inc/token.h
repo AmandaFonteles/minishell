@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:06 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 12:13:37 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/26 12:59:20 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int			ft_create_str(char *str, char **part);
 int			ft_get_value(char **part, char *tmp, t_minishell *data);
 char		*ft_quote_value(char *str);
 int			ft_expend_isalnum(char c);
+int			ft_manage_quote(char *str, int i);
 
 ///////////////////// EXPEND D /////////////////////
 
