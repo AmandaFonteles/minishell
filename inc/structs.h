@@ -17,18 +17,19 @@
 
 typedef struct s_parsed_command
 {
-    char    *cmd; //entire command before I split it to put it in args
+    char	*cmd; 
+    //entire command before I split it to put it in args
     struct token	**token; //I am also adding a token to the command structure
-    int cmd_index; //index of the command in the list
-    pid_t   pid; //pid of the child process - included in exec part
-    int hd_nb; //number of heredoc - 0 if none
-    char    **heredoc; //we need an array with the heredoc - NULL if none -included in exec part
-    char    **delimiters; //we need an array with the delimiters - NULL if none
-    char    *infile; //infile, NULL if none
-    char    *outfile; //outfile, if pipe, NULL
-    int append; //1 if append, 0 if overwrite
-    char    **args; //we need an array with the cmd and args to pass to execve
-    struct s_parsed_command *next; //pointer to the next command in the list
+    int	cmd_index; //index of the command in the list
+    pid_t	pid; //pid of the child process - included in exec part
+    int	hd_nb; //number of heredoc - 0 if none
+    char	**heredoc; //we need an array with the heredoc - NULL if none -included in exec part
+    char	**delimiters; //we need an array with the delimiters - NULL if none
+    char	*infile; //infile, NULL if none
+    char	*outfile; //outfile, if pipe, NULL
+    int	append; //1 if append, 0 if overwrite
+    char	**args; //we need an array with the cmd and args to pass to execve
+    struct s_parsed_command	*next; //pointer to the next command in the list
 }   t_pars_cmd;
 
 typedef struct s_env //structure for the environment variables

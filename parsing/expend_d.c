@@ -22,7 +22,9 @@ int	ft_isalnum_d(char c)
 int	ft_get_value_d(char **str, t_minishell *data)
 {
 	char	*tmp;
+	char	*var_value;
 
+	var_value = white_get_env(*str + 1, data);
 	if ((*str) && (*str)[0] == '$')
 	{
 		if (!(*str)[1])
@@ -31,7 +33,6 @@ int	ft_get_value_d(char **str, t_minishell *data)
 			tmp = ft_itoa(global_exit_flag);
 		else
 		{
-			char *var_value = white_get_env(*str + 1, data);
 			if (var_value)
 				tmp = ft_strdup(var_value);
 			else
