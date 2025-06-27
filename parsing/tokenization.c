@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:54 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/27 10:58:03 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:01:32 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,12 @@ t_token	**ft_create_token(char *str, t_minishell *data)
 	i = 1;
 	tab = ft_split_token(str);
 	if (!ft_parse_error(tab))
+	{
+		ft_free_tab(tab, 1);
+		free(token);
+		return (NULL);
+	}
+	if (!tab[0])
 	{
 		ft_free_tab(tab, 1);
 		free(token);

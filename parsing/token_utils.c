@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:50 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/27 10:54:49 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:00:09 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,16 @@ char	**ft_split_token(char *str)
 		while (str[i] && str[i] == ' ')
 			i++;
 		if (str[i])
+		{
 			i += ft_create_word(&str[i], tab, j++);
+		}
+		else if (i > 0 && (str[i - 1] == '|' || str[i - 1] == '<' || str[i - 1] == '>'))
+		{
+			// Handle empty token after pipe/redirection
+			tab[j] = ft_calloc(1, sizeof(char));
+			tab[j][0] = '\0';
+			j++;
+		}
 	}
 	tab[j] = NULL;
 	return (tab);
