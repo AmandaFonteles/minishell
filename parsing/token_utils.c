@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:50 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 12:14:52 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/27 10:54:49 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,18 @@ int	nb_words(char *str)
 	while (str[i])
 	{
 		i = skip_spaces(str, i);
-		if (str[i] && str[i] != '<' && str[i] != '>' && (!(d % 2) && !(s % 2)))
+		if (str[i] && str[i] != '<' && str[i] != '>' && str[i] != '|' && (!(d % 2) && !(s % 2)))
 			nw++;
-		while (str[i] && str[i] != ' ' && str[i] != '>' && str[i] != '<')
+		while (str[i] && str[i] != ' ' && str[i] != '>' && str[i] != '<' && str[i] != '|')
 		{
 			i = update_quotes(str, i, &d, &s);
 			i++;
 		}
-		if (str[i] == '<' || str[i] == '>')
+		if (str[i] == '<' || str[i] == '>' || str[i] == '|')
 			nw++;
 		while (str[i] == '<' || str[i] == '>')
+			i++;
+		if (str[i] == '|')
 			i++;
 	}
 	return (nw);
@@ -53,7 +55,7 @@ int	calculate_token_len(char *str, int d, int s)
 	int	len;
 
 	len = 0;
-	while (str[len] && str[len] != ' ' && str[len] != '>' && str[len] != '<')
+	while (str[len] && str[len] != ' ' && str[len] != '>' && str[len] != '<' && str[len] != '|')
 	{
 		if (str[len] == 34 && (s % 2 == 0))
 			(d)++;
@@ -87,6 +89,10 @@ int	ft_create_word(char *str, char **tab, int i)
 		while (str[j] && (str[j] == '<' || str[j] == '>'))
 			j++;
 		len = j;
+	}
+	else if (*str == '|')
+	{
+		len = 1;
 	}
 	else
 		len = calculate_token_len(str, d, s);
