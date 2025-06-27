@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:27 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/27 11:00:19 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:09:43 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	ft_parse_error(char **words)
 	i = 0;
 	while (words[i])
 	{
+		printf("DEBUG: words[%d] = '%s'\n", i, words[i]);
 		if (words[i][0] == '>' || words[i][0] == '<')
 		{
 			if (!ft_check_redir(words, i))
@@ -105,6 +106,7 @@ int	ft_parse_error(char **words)
 		}
 		else if (words[i][0] == '|')
 		{
+			printf("DEBUG: Found pipe at index %d\n", i);
 			if (i == 0 || (i > 0 && words[i - 1][0] == '|'))
 			{
 				printf("minishell: syntax error near unexpected token `|'\n");
