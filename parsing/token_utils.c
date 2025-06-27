@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:50 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/27 11:12:25 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:14:16 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,32 @@ int	nb_words(char *str)
 	nw = 0;
 	d = 0;
 	s = 0;
+	printf("DEBUG nb_words: str='%s'\n", str);
 	while (str[i])
 	{
+		printf("DEBUG nb_words: i=%d, str[i]='%c', nw=%d\n", i, str[i], nw);
 		i = skip_spaces(str, i);
 		if (str[i] && str[i] != '<' && str[i] != '>' && str[i] != '|' && (!(d % 2) && !(s % 2)))
+		{
 			nw++;
+			printf("DEBUG nb_words: Added word token, nw=%d\n", nw);
+		}
 		while (str[i] && str[i] != ' ' && str[i] != '>' && str[i] != '<' && str[i] != '|')
 		{
 			i = update_quotes(str, i, &d, &s);
 			i++;
 		}
 		if (str[i] == '<' || str[i] == '>' || str[i] == '|')
+		{
 			nw++;
+			printf("DEBUG nb_words: Added operator token '%c', nw=%d\n", str[i], nw);
+		}
 		while (str[i] == '<' || str[i] == '>')
 			i++;
 		if (str[i] == '|')
 			i++;
 	}
+	printf("DEBUG nb_words: Final count = %d\n", nw);
 	return (nw);
 }
 
