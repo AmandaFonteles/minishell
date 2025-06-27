@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:46 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/07 09:52:47 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/27 10:49:19 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	set_next_type(t_token *current)
 {
+	if (!current->word || !current->next)
+		return;
 	if (!ft_strcmp(current->word, "<"))
 		current->next->type = OPEN_FILE;
 	else if (!ft_strcmp(current->word, "<<"))
@@ -26,6 +28,8 @@ void	set_next_type(t_token *current)
 
 void	set_token_type(t_token *current)
 {
+	if (!current->word)
+		return;
 	if (!ft_strcmp(current->word, "<"))
 		current->type = FILE_IN;
 	else if (!ft_strcmp(current->word, "<<"))

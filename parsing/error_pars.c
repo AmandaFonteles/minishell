@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:27 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/26 11:31:42 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/27 10:50:07 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	manage_redir(char c, int j)
 		else
 			printf("minishell: syntax error near unexpected token `%s'\n",
 				">>");
-	}		
+	}
 	else
 	{
 		if (j == 4)
@@ -101,13 +101,22 @@ int	ft_parse_error(char **words)
 			{
 				global_exit_flag = 2;
 				return (0);
-			}		
+			}
 		}
 		else if (words[i][0] == '|')
 		{
-			printf("minishell: syntax error near unexpected token `|'\n");
-			global_exit_flag = 2;
-			return (0);
+			if (i == 0 || (i > 0 && words[i - 1][0] == '|'))
+			{
+				printf("minishell: syntax error near unexpected token `|'\n");
+				global_exit_flag = 2;
+				return (0);
+			}
+			if (!words[i + 1])
+			{
+				printf("minishell: syntax error near unexpected token `newline'\n");
+				global_exit_flag = 2;
+				return (0);
+			}
 		}
 		i++;
 	}
