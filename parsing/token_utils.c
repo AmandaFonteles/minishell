@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:50 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/27 11:00:09 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:06:20 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,37 @@ int	nb_words(char *str)
 	int	nw;
 	int	d;
 	int	s;
+	int	last_was_pipe;
 
 	i = 0;
 	nw = 0;
 	d = 0;
 	s = 0;
+	last_was_pipe = 0;
 	while (str[i])
 	{
 		i = skip_spaces(str, i);
 		if (str[i] && str[i] != '<' && str[i] != '>' && str[i] != '|' && (!(d % 2) && !(s % 2)))
+		{
 			nw++;
+			last_was_pipe = 0;
+		}
 		while (str[i] && str[i] != ' ' && str[i] != '>' && str[i] != '<' && str[i] != '|')
 		{
 			i = update_quotes(str, i, &d, &s);
 			i++;
 		}
 		if (str[i] == '<' || str[i] == '>' || str[i] == '|')
+		{
+			// If last token was a pipe and current is also a pipe, we need an empty token
+			if (str[i] == '|' && last_was_pipe)
+				nw++;
 			nw++;
+			if (str[i] == '|')
+				last_was_pipe = 1;
+			else
+				last_was_pipe = 0;
+		}
 		while (str[i] == '<' || str[i] == '>')
 			i++;
 		if (str[i] == '|')
@@ -114,11 +128,13 @@ char	**ft_split_token(char *str)
 	int		j;
 	int		d;
 	int		s;
+	int	last_was_pipe;
 
 	i = 0;
 	j = 0;
 	d = 0;
 	s = 0;
+	last_was_pipe = 0;
 	tab = ft_calloc(nb_words(str) + 1, sizeof(char *));
 	while (str[i])
 	{
@@ -130,14 +146,18 @@ char	**ft_split_token(char *str)
 			i++;
 		if (str[i])
 		{
+			// If last token was a pipe and current is also a pipe, create empty token
+			if (str[i] == '|' && last_was_pipe)
+			{
+				tab[j] = ft_calloc(1, sizeof(char));
+				tab[j][0] = '\0';
+				j++;
+			}
 			i += ft_create_word(&str[i], tab, j++);
-		}
-		else if (i > 0 && (str[i - 1] == '|' || str[i - 1] == '<' || str[i - 1] == '>'))
-		{
-			// Handle empty token after pipe/redirection
-			tab[j] = ft_calloc(1, sizeof(char));
-			tab[j][0] = '\0';
-			j++;
+			if (str[i - 1] == '|')
+				last_was_pipe = 1;
+			else
+				last_was_pipe = 0;
 		}
 	}
 	tab[j] = NULL;
