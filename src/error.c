@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:08:03 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/30 17:14:51 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:25:15 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,11 @@ void print_exit_error(char *arg, char *msg)
     ft_putstr_fd("\n", 2);
 }
 
-void print_invalid_identifier(char *arg)
+void print_invalid_identifier(char *builtin, char *arg)
 {
-    ft_putstr_fd("minishell: export: '", 2);
+    ft_putstr_fd("minishell: ", 2);
+    ft_putstr_fd(builtin, 2);
+    ft_putstr_fd(": '", 2);
     ft_putstr_fd(arg, 2);
     ft_putstr_fd("': not a valid identifier\n", 2);
     global_exit_flag = 1;
