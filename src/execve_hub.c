@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_hub.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:59:29 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/20 16:31:07 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/30 17:15:54 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ char *exec_make_path(t_minishell *data, t_pars_cmd *cmd)
     path = ft_getenv("PATH", data);
     if (!path || !*path)
     {
-        print_cmd_not_found(data, cmd->args[0]);
+        //print_cmd_not_found(data, cmd->args[0]);
+        print_cmd_no_file(data, cmd->args[0]);
         free_to_exit(data);
         exit(global_exit_flag);
     }
