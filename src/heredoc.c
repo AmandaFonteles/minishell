@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/30 17:18:15 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:18:15 by afontele         ###   ########.fr       *
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ static char *gen_heredoc_filename(int index)
 	return (name);
 }
 
-int write_heredoc_file(char *filename, char *delimiter)
+int write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 {
 	int fd;
 	char *line;
+	char *expanded_line;
 
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
@@ -49,9 +50,23 @@ int write_heredoc_file(char *filename, char *delimiter)
 		line = readline("> ");
 		if (!line || ft_strcmp(line, delimiter) == 0)
 			break;
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
+
+		if (ft_check_dollars(line))
+		{
+			expanded_line = ft_expend_d(line, 0, -1, data);
+		}
+		else
+		{
+			expanded_line = ft_strdup(line);
+			free(line);
+		}
+
+		if (expanded_line)
+		{
+			write(fd, expanded_line, ft_strlen(expanded_line));
+			write(fd, "\n", 1);
+			free(expanded_line);
+		}
 	}
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -60,7 +75,7 @@ int write_heredoc_file(char *filename, char *delimiter)
 	return (1);
 }
 
-static int handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count)
+static int handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count, t_minishell *data)
 {
 	char *filename;
 
@@ -74,7 +89,7 @@ static int handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count)
 		cmd->heredoc = NULL;
 		return (0);
 	}
-	if (!write_heredoc_file(filename, cmd->delimiters[i]))
+	if (!write_heredoc_file(filename, cmd->delimiters[i], data))
 	{
 		free(filename);
 		while (--i >= 0)
@@ -106,7 +121,7 @@ int generate_heredocs(t_minishell *data)
 			i = 0;
 			while (i < cmd->hd_nb)
 			{
-				if (!handle_heredoc(cmd, i, &hd_count))
+				if (!handle_heredoc(cmd, i, &hd_count, data))
 					return (0);
 				i++;
 			}

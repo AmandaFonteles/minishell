@@ -87,7 +87,8 @@ int	find_stop_index(char *str, int i)
 		i++;
 		if (str[i] == '?')
 			return (++i);
-		while (str[i] && ft_expend_isalnum(str[i]) && str[i] != 34 && str[i] != 39)
+		while (str[i] && ft_expend_isalnum(str[i])
+			&& str[i] != 34 && str[i] != 39)
 			i++;
 		return (i);
 	}

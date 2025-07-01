@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:41 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/07 09:52:43 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/27 10:54:17 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ int	ft_expend_words(t_token **token, t_minishell *data)
 	current = (*token);
 	while (current)
 	{
-		if (current->type != LIMITOR)
+		if (current->type != LIMITOR && current->word)
 		{
 			tmp = current->word;
-			current->word = ft_expend(current->word, current->type, 0, -1, data);
+			current->word = ft_expend(current->word,
+					current->type, 0, -1, data);
 			free(tmp);
 		}
 		current = current->next;
@@ -64,7 +65,10 @@ t_token	*ft_lstnew_token(char *word)
 	new = ft_calloc(1, sizeof(t_token));
 	if (!new)
 		return (NULL);
-	new->word = ft_strdup(word);
+	if (word)
+		new->word = ft_strdup(word);
+	else
+		new->word = NULL;
 	new->type = NONE;
 	new->next = NULL;
 	return (new);

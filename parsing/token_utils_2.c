@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:31 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/07 09:52:33 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/27 10:57:47 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int	ft_count_args(t_pars_cmd *cmd)
 	nb_words = 0;
 	while (cur)
 	{
-		if (cur->word[0] != 34)
+		if (cur->word && cur->word[0] != 34)
 			nb_words += ft_count_space(cur->word);
-		else
+		else if (cur->word)
 			nb_words++;
 		cur = cur->next;
 	}

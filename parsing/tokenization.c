@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:54 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/23 15:58:56 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:01:32 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,22 @@ int	ft_manage_redir(t_pars_cmd *cmd)
 	cur = (*cmd->token);
 	while (cur)
 	{
-		if (cur->type == FILE_IN && cur->next && cur->next->type == OPEN_FILE)
+		if (cur->type == FILE_IN && cur->next && cur->next->type == OPEN_FILE && cur->next->word)
 		{
 			cmd->infile = ft_strdup(cur->next->word);
 			if (!cmd->infile)
 				return (0);
 		}
-		else if (cur->type == FILE_OUT && cur->next && cur->next->type == EXIT_FILE)
+		else if (cur->type == FILE_OUT && cur->next
+			&& cur->next->type == EXIT_FILE && cur->next->word)
 		{
 			cmd->outfile = ft_strdup(cur->next->word);
 			cmd->append = 0;
 			if (!cmd->outfile)
 				return (0);
 		}
-		else if (cur->type == FILE_OUT_SUR && cur->next && cur->next->type == EXIT_FILE_RET)
+		else if (cur->type == FILE_OUT_SUR && cur->next
+			&& cur->next->type == EXIT_FILE_RET && cur->next->word)
 		{
 			cmd->outfile = ft_strdup(cur->next->word);
 			cmd->append = 1;
@@ -81,7 +83,7 @@ int	ft_remove_quote(t_pars_cmd *cmd)
 	cur = (*cmd->token);
 	while (cur)
 	{
-		if (cur->type != LIMITOR)
+		if (cur->type != LIMITOR && cur->word)
 		{
 			tmp = cur->word;
 			cur->word = ft_strtrim(cur->word, "\"");
@@ -128,6 +130,12 @@ t_token	**ft_create_token(char *str, t_minishell *data)
 	i = 1;
 	tab = ft_split_token(str);
 	if (!ft_parse_error(tab))
+	{
+		ft_free_tab(tab, 1);
+		free(token);
+		return (NULL);
+	}
+	if (!tab[0])
 	{
 		ft_free_tab(tab, 1);
 		free(token);
