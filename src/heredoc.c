@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
 /*   Updated: 2025/06/30 17:18:15 by afontele         ###   ########.fr       */
