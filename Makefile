@@ -6,7 +6,7 @@
 #    By: adregis <adregis@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/06/26 13:27:07 by adregis          ###   ########.fr        #
+#    Updated: 2025/07/01 12:29:40 by adregis          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRC = $(SRCDIR)main.c \
 		$(PARS)expend_utils2.c \
 		$(PARS)expend_d.c \
 		$(PARS)error_pars.c \
+		$(PARS)error_pars_2.c \
 		$(PARS)free_parse.c \
 		$(PARS)free_parse_2.c \
 		$(PARS)syntax_check.c \

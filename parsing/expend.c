@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:52 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/01 12:00:16 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/01 12:52:28 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,16 @@ int	find_stop_index(char *str, int i)
 	return (i);
 }
 
-char	*ft_expend(char *str, enum type type, int i, int j, t_minishell *data)
+char	*ft_expend(char *str, enum type type, t_minishell *data)
 {
 	char	**tab;
 	char	*res;
 	char	*tmp;
+	int		i;
+	int		j;
 
+	i = 0;
+	j = -1;
 	tmp = NULL;
 	tab = ft_calloc(nb_str(str) + 1, sizeof(char *));
 	if (!tab)
@@ -121,3 +125,5 @@ char	*ft_expend(char *str, enum type type, int i, int j, t_minishell *data)
 	ft_free_tab(tab, 0);
 	return (res);
 }
+
+

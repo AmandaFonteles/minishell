@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:06 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/01 14:02:55 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/01 14:03:29 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,11 @@ int			ft_check_advanced_syntax(char **words);
 int			ft_check_advanced_syntax_str(char *str);
 int			ft_check_dir(char *str);
 void		debug_print_cmd(t_pars_cmd *cmd);
+int			ft_pipe_error(char **words, int i);
 
 ///////////////////// EXPEND /////////////////////
 
-char		*ft_expend(char *str, enum type type, int i, int j, t_minishell *data);
+char		*ft_expend(char *str, enum type type, t_minishell *data);
 int			find_stop_index(char *str, int i);
 char		*ft_create_part(char *str, int end);
 int			process_special_chars(char *str, int *i);
