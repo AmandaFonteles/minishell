@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:52 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/08 09:51:55 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/26 12:58:27 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,8 @@ char	*ft_create_part(char *str, int end)
 
 int	find_stop_index(char *str, int i)
 {
-	char	c;
-
 	if (str[i] == 34 || str[i] == 39)
-	{
-		c = str[i++];
-		while (str[i] && str[i] != c)
-			i++;
-		return (++i);
-	}
+		return (ft_manage_quote(str, i));
 	else if (str[i] && str[i] == '$')
 	{
 		i++;

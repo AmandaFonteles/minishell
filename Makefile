@@ -6,7 +6,7 @@
 #    By: adregis <adregis@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/06/24 18:30:31 by adregis          ###   ########.fr        #
+#    Updated: 2025/06/26 13:27:07 by adregis          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRC = $(SRCDIR)main.c \
 		$(PARS)parse.c \
 		$(PARS)tokenization.c \
 		$(PARS)parse_utils.c \
+		$(PARS)parse_utils_2.c \
 		$(PARS)token_utils.c \
 		$(PARS)token_utils_2.c \
 		$(PARS)token_utils_3.c \
@@ -62,6 +63,7 @@ SRC = $(SRCDIR)main.c \
 		$(PARS)expend_d.c \
 		$(PARS)error_pars.c \
 		$(PARS)free_parse.c \
+		$(PARS)free_parse_2.c \
 		$(PARS)syntax_check.c \
 		$(PARS)heredoc_parsing.c \
 
