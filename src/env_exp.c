@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_exp.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:17:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/04 09:26:27 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/30 20:23:54 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,13 @@ void export_or_update(t_minishell *data, char *arg)
         error_and_prompt_back("malloc");
         return ;
     }
+    if (!is_valid_identifier(key))
+    {
+        print_invalid_identifier("export", arg);
+        free(key);
+        free(value);
+        return ;
+    }
     if (ft_strchr(arg, '='))
         has_equal = 1;
     if (update_env_value_in_list(data->exported, key, value))
@@ -165,7 +172,7 @@ void check_exp(t_minishell *data, char *arg)
 {
 	if (!is_valid_identifier(arg))
 	{
-		print_invalid_identifier(arg);
+		print_invalid_identifier("export", arg);
 		return ;
 	}
 	export_or_update(data, arg);
@@ -181,6 +188,13 @@ void check_env(t_minishell *data, char *arg)
 		error_and_prompt_back("malloc");
 		return ;
 	}
+    if (!is_valid_identifier(key))
+    {
+        print_invalid_identifier("export", arg);
+        free(key);
+        free(value);
+        return ;
+    }
 	if (!update_env_value_in_list(data->env, key, value))
 		add_env(data, arg, &data->env);
 	free(key);

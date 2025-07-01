@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:08:03 by afontele          #+#    #+#             */
-/*   Updated: 2025/05/29 21:15:42 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:25:15 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,17 @@ void print_cmd_not_found(t_minishell *data, char *cmd)
     global_exit_flag = 127;
 }
 
+void print_cmd_no_file(t_minishell *data, char *cmd)
+{
+    ft_putstr_fd("minishell: ", 2);
+    if (cmd)
+        ft_putstr_fd(cmd, 2);
+    else if (data->cmd_list && data->cmd_list->args && data->cmd_list->args[0])
+        ft_putstr_fd(data->cmd_list->args[0], 2);
+    ft_putstr_fd(": No such file or directory\n", 2);
+    global_exit_flag = 127;
+}
+
 void print_exit_error(char *arg, char *msg)
 {
     ft_putstr_fd("exit\n", 1);
@@ -80,9 +91,11 @@ void print_exit_error(char *arg, char *msg)
     ft_putstr_fd("\n", 2);
 }
 
-void print_invalid_identifier(char *arg)
+void print_invalid_identifier(char *builtin, char *arg)
 {
-    ft_putstr_fd("minishell: export: '", 2);
+    ft_putstr_fd("minishell: ", 2);
+    ft_putstr_fd(builtin, 2);
+    ft_putstr_fd(": '", 2);
     ft_putstr_fd(arg, 2);
     ft_putstr_fd("': not a valid identifier\n", 2);
     global_exit_flag = 1;

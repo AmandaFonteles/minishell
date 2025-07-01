@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 17:04:11 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/26 12:25:17 by adregis          ###   ########.fr       */
+/*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
+/*   Updated: 2025/06/30 20:20:21 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,9 +144,11 @@ void	free_env(t_env *list);
 void	ft_free_cmds_lst(t_pars_cmd **cmds);
 
 /* ERROR.C */
-void	print_cmd_not_found(t_minishell *data, char *cmd);
-void	print_exit_error(char *arg, char *msg);
-void	print_invalid_identifier(char *arg);
+void print_cmd_not_found(t_minishell *data, char *cmd);
+void print_cmd_no_file(t_minishell *data, char *cmd);
+void print_exit_error(char *arg, char *msg);
+void print_invalid_identifier(char *builtin, char *arg);
+
 
 /* UTILS.C */
 long long	ft_atoll(const char *str);

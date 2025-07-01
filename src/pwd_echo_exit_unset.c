@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:34:22 by afontele          #+#    #+#             */
-/*   Updated: 2025/05/29 20:19:24 by afontele         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:26:42 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,12 @@ void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
             print_invalid_option(cmd->args[0], cmd->args[i]);
             return ;
         }
+        else if (!is_valid_identifier(cmd->args[i]))
+            print_invalid_identifier("unset", cmd->args[i]);
         else
         {
             remove_tenv(&data->exported, cmd->args[i]);
-            remove_tenv(&data->env, cmd->args[i]);            
+            remove_tenv(&data->env, cmd->args[i]);
         }
         i++;
     }
