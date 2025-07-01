@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:06 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/01 14:03:29 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/01 17:06:42 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ t_pars_cmd	*ft_lstnew_cmd(char *cmd, int cmd_index);
 t_pars_cmd	*ft_lstlast_cmds(t_pars_cmd *cmd);
 void		ft_shell_add_back(t_pars_cmd **cmds, t_pars_cmd *new);
 int			count_cmds(t_pars_cmd *cmd_list);
+int			pipe_error(char *msg);
+int			check_single(char *str);
+int	check_consecutive_pipes(char *str);
 
 ///////////////////// TOKENIZATION /////////////////////
 
@@ -73,6 +76,16 @@ void		set_next_type(t_token *current);
 int			ft_set_type(t_token **token);
 int			ft_expend_words(t_token **token, t_minishell *data);
 int			update_quotes(char *str, int i, int *d, int *s);
+void		update_quote_state(char c, int *d, int *s);
+void		count_if_meta(char *str, int *i, int *nw);
+void		ft_clean_failed_token(t_token **token, char **tab);
+int			ft_remove_quote(t_pars_cmd *cmd);
+
+///////////////////// REDIR UTILS ////////////////////
+
+int			handle_infile(t_pars_cmd *cmd, t_token *cur);
+int			handle_outfile(t_pars_cmd *cmd, t_token *cur);
+int			handle_append(t_pars_cmd *cmd, t_token *cur);
 
 ///////////////////// FREE PARSE /////////////////////
 
@@ -103,6 +116,11 @@ int			ft_get_value(char **part, char *tmp, t_minishell *data);
 char		*ft_quote_value(char *str);
 int			ft_expend_isalnum(char c);
 int			ft_manage_quote(char *str, int i);
+int			ft_handle_double_quote(char **str, char *tmp, t_minishell *data);
+int			ft_handle_single_quote(char **str, char *tmp);
+int			ft_handle_dollar(char **str, char *tmp, char *var_value);
+int			ft_fill_tab(char *str, char **tab, t_minishell *data, char *tmp);
+
 
 ///////////////////// EXPEND D /////////////////////
 

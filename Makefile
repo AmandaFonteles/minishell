@@ -6,7 +6,7 @@
 #    By: adregis <adregis@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/07/01 12:29:40 by adregis          ###   ########.fr        #
+#    Updated: 2025/07/01 16:54:50 by adregis          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRC = $(SRCDIR)main.c \
 		$(PARS)tokenization.c \
 		$(PARS)parse_utils.c \
 		$(PARS)parse_utils_2.c \
+		$(PARS)parse_utils_3.c \
 		$(PARS)token_utils.c \
 		$(PARS)token_utils_2.c \
 		$(PARS)token_utils_3.c \
@@ -60,6 +61,7 @@ SRC = $(SRCDIR)main.c \
 		$(PARS)expend.c \
 		$(PARS)expend_utils.c \
 		$(PARS)expend_utils2.c \
+		$(PARS)expend_utils_3.c \
 		$(PARS)expend_d.c \
 		$(PARS)error_pars.c \
 		$(PARS)error_pars_2.c \
@@ -67,6 +69,7 @@ SRC = $(SRCDIR)main.c \
 		$(PARS)free_parse_2.c \
 		$(PARS)syntax_check.c \
 		$(PARS)heredoc_parsing.c \
+		$(PARS)redir_utils.c \
 
 
 OBJ = $(addprefix $(OBJDIR), $(notdir $(SRC:.c=.o)))

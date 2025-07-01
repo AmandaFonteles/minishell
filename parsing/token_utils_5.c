@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:46 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/27 10:49:19 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/01 16:25:21 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	set_next_type(t_token *current)
 {
 	if (!current->word || !current->next)
-		return;
+		return ;
 	if (!ft_strcmp(current->word, "<"))
 		current->next->type = OPEN_FILE;
 	else if (!ft_strcmp(current->word, "<<"))
@@ -29,7 +29,7 @@ void	set_next_type(t_token *current)
 void	set_token_type(t_token *current)
 {
 	if (!current->word)
-		return;
+		return ;
 	if (!ft_strcmp(current->word, "<"))
 		current->type = FILE_IN;
 	else if (!ft_strcmp(current->word, "<<"))
@@ -55,4 +55,22 @@ int	ft_set_type(t_token **token)
 		current = current->next;
 	}
 	return (1);
+}
+
+void	update_quote_state(char c, int *d, int *s)
+{
+	if (c == 34 && *s % 2 == 0)
+		(*d)++;
+	if (c == 39 && *d % 2 == 0)
+		(*s)++;
+}
+
+void	count_if_meta(char *str, int *i, int *nw)
+{
+	if (str[*i] == '<' || str[*i] == '>' || str[*i] == '|')
+		(*nw)++;
+	while (str[*i] == '<' || str[*i] == '>')
+		(*i)++;
+	if (str[*i] == '|')
+		(*i)++;
 }

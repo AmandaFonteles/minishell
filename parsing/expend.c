@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:52 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/01 12:52:28 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/01 15:12:47 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,24 +99,15 @@ char	*ft_expend(char *str, enum type type, t_minishell *data)
 	char	**tab;
 	char	*res;
 	char	*tmp;
-	int		i;
 	int		j;
 
-	i = 0;
-	j = -1;
 	tmp = NULL;
 	tab = ft_calloc(nb_str(str) + 1, sizeof(char *));
 	if (!tab)
 		return (NULL);
-	while (str[i])
-	{
-		i += ft_create_str(&str[i], &tab[++j]);
-		if (!i)
-			return (ft_free_tab(tab, 0), NULL);
-		ft_get_value(&tab[j], tmp, data);
-	}
-	if (tab[j])
-		j++;
+	j = ft_fill_tab(str, tab, data, tmp);
+	if (j < 0)
+		return (NULL);
 	res = ft_join_parts(tab, j);
 	if (!res)
 		return (NULL);
@@ -125,5 +116,3 @@ char	*ft_expend(char *str, enum type type, t_minishell *data)
 	ft_free_tab(tab, 0);
 	return (res);
 }
-
-
