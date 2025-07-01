@@ -114,7 +114,7 @@ void builtin_cd(t_minishell *data, t_pars_cmd *cmd)
         global_exit_flag = 1;
         return ;
     }
-    if (cmd->args[1] == NULL || ft_strcmp(cmd->args[1], "~") == 0)
+    if (cmd->args[1] == NULL || ft_strncmp(cmd->args[1], "~", 1) == 0)
         cd_home(data, old_pwd);
     else if (ft_strcmp(cmd->args[1], "-") == 0)
         cd_dash(data, old_pwd);
