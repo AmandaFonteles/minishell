@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/06/30 20:20:21 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:37:15 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int		open_infile(t_pars_cmd *cmd);
 int		open_outfile(t_pars_cmd *cmd, int append);
 
 /* HEREDOC.C */
-int		write_heredoc_file(char *filename, char *delimiter);
+int		write_heredoc_file(char *filename, char *delimiter, t_minishell *data);
 int		generate_heredocs(t_minishell *data);
 char	*last_heredoc_path(t_pars_cmd *cmd);
 int		redirect_heredoc(t_pars_cmd *cmd);
