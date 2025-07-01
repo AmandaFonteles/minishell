@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:06 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/26 12:59:20 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/26 13:48:26 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int			ft_nb_word(char *str, char c);
 t_pars_cmd	*ft_lstnew_cmd(char *cmd, int cmd_index);
 t_pars_cmd	*ft_lstlast_cmds(t_pars_cmd *cmd);
 void		ft_shell_add_back(t_pars_cmd **cmds, t_pars_cmd *new);
+int			count_cmds(t_pars_cmd *cmd_list);
 
 ///////////////////// TOKENIZATION /////////////////////
 

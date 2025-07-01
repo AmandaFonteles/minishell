@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 13:25:38 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/26 13:27:37 by adregis          ###   ########.fr       */
+/*   Updated: 2025/06/26 13:47:57 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_shell_add_back(t_pars_cmd **cmds, t_pars_cmd *new)
 		temp->next = new;
 }
 
-static int	count_cmds(t_pars_cmd *cmd_list)
+int	count_cmds(t_pars_cmd *cmd_list)
 {
 	t_pars_cmd	*cur;
 	int			count;
