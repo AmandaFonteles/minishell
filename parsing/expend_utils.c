@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:43 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/26 11:49:02 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/01 14:31:11 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,11 @@ int	ft_get_value(char **str, char *tmp, t_minishell *data)
 	var_name = *str + 1;
 	var_value = white_get_env(var_name, data);
 	if ((*str)[0] == 34)
-	{
-		tmp = ft_expend_d(ft_strtrim((*str), "\""), 0, -1, data);
-		free(*str);
-		(*str) = tmp;
-	}
-	else if ((*str)[0] == 39)
-	{
-		tmp = ft_strtrim((*str), "\'");
-		free(*str);
-		(*str) = tmp;
-	}
-	else if ((*str) && (*str)[0] == '$')
-	{
-		if (!(*str)[1])
-			tmp = ft_strdup("$");
-		else if ((*str)[1] && (*str)[1] == '?')
-			tmp = ft_itoa(global_exit_flag);
-		else
-		{
-			tmp = var_value ? ft_strdup(var_value) : ft_strdup("");
-		}
-		free(*str);
-		(*str) = tmp;
-	}
+		return (ft_handle_double_quote(str, tmp, data));
+	if ((*str)[0] == 39)
+		return (ft_handle_single_quote(str, tmp));
+	if ((*str)[0] == '$')
+		return (ft_handle_dollar(str, tmp, var_value));
 	return (1);
 }
 

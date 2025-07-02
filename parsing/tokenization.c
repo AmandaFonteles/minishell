@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:54 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/27 11:01:32 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/01 16:54:31 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,15 @@ int	ft_manage_redir(t_pars_cmd *cmd)
 {
 	t_token	*cur;
 
-	cur = (*cmd->token);
+	cur = *(cmd->token);
 	while (cur)
 	{
-		if (cur->type == FILE_IN && cur->next && cur->next->type == OPEN_FILE && cur->next->word)
-		{
-			cmd->infile = ft_strdup(cur->next->word);
-			if (!cmd->infile)
-				return (0);
-		}
-		else if (cur->type == FILE_OUT && cur->next
-			&& cur->next->type == EXIT_FILE && cur->next->word)
-		{
-			cmd->outfile = ft_strdup(cur->next->word);
-			cmd->append = 0;
-			if (!cmd->outfile)
-				return (0);
-		}
-		else if (cur->type == FILE_OUT_SUR && cur->next
-			&& cur->next->type == EXIT_FILE_RET && cur->next->word)
-		{
-			cmd->outfile = ft_strdup(cur->next->word);
-			cmd->append = 1;
-			if (!cmd->outfile)
-				return (0);
-		}
+		if (!handle_infile(cmd, cur))
+			return (0);
+		if (!handle_outfile(cmd, cur))
+			return (0);
+		if (!handle_append(cmd, cur))
+			return (0);
 		cur = cur->next;
 	}
 	return (1);
@@ -75,27 +59,6 @@ int	ft_create_args(t_pars_cmd *cmd)
 	return (1);
 }
 
-int	ft_remove_quote(t_pars_cmd *cmd)
-{
-	t_token	*cur;
-	char	*tmp;
-
-	cur = (*cmd->token);
-	while (cur)
-	{
-		if (cur->type != LIMITOR && cur->word)
-		{
-			tmp = cur->word;
-			cur->word = ft_strtrim(cur->word, "\"");
-			free(tmp);
-			if (!cur->word)
-				return (0);
-		}
-		cur = cur->next;
-	}
-	return (1);
-}
-
 int	ft_tokenise(t_pars_cmd **cmds, t_minishell *data)
 {
 	t_pars_cmd	*current;
@@ -119,47 +82,47 @@ int	ft_tokenise(t_pars_cmd **cmds, t_minishell *data)
 	return (1);
 }
 
-t_token	**ft_create_token(char *str, t_minishell *data)
+int	ft_init_tokens(t_token **token, char **tab)
 {
-	char	**tab;
-	t_token	**token;
 	t_token	*new;
 	int		i;
 
-	token = ft_calloc(1, sizeof(token));
+	*token = ft_lstnew_token(tab[0]);
+	if (!*token)
+	{
+		ft_free_tab(tab, 1);
+		free(token);
+		return (0);
+	}
 	i = 1;
-	tab = ft_split_token(str);
-	if (!ft_parse_error(tab))
-	{
-		ft_free_tab(tab, 1);
-		free(token);
-		return (NULL);
-	}
-	if (!tab[0])
-	{
-		ft_free_tab(tab, 1);
-		free(token);
-		return (NULL);
-	}
-	(*token) = ft_lstnew_token(tab[0]);
-	if (!(*token))
-	{
-		ft_free_tab(tab, 1);
-		free(token);
-		return (NULL);
-	}
 	while (tab[i])
 	{
 		new = ft_lstnew_token(tab[i]);
 		if (!new)
-		{
-			ft_free_tab(tab, 1);
-			free(token);
-			return (NULL);
-		}
+			return (ft_clean_failed_token(token, tab), 0);
 		ft_lstadd_back_token(token, new);
 		i++;
 	}
+	return (1);
+}
+
+t_token	**ft_create_token(char *str, t_minishell *data)
+{
+	char	**tab;
+	t_token	**token;
+
+	token = ft_calloc(1, sizeof(token));
+	if (!token)
+		return (NULL);
+	tab = ft_split_token(str);
+	if (!ft_parse_error(tab) || !tab[0])
+	{
+		ft_free_tab(tab, 1);
+		free(token);
+		return (NULL);
+	}
+	if (!ft_init_tokens(token, tab))
+		return (NULL);
 	if (!ft_set_type(token) || !ft_expend_words(token, data))
 	{
 		ft_free_tab(tab, 1);
