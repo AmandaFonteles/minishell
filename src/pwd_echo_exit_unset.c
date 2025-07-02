@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:34:22 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/30 20:26:42 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:34:27 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ static int too_many_args(char **args, int i)
 void builtin_exit(t_minishell *data, t_pars_cmd *cmd)
 {
     int i;
-    int arg;
+    long long arg;
 
     i = 1;
     if (cmd->args[1] == NULL)
@@ -127,8 +127,16 @@ void builtin_exit(t_minishell *data, t_pars_cmd *cmd)
         exit(0);
     }
     if (ft_strcmp(cmd->args[i], "--") == 0)
+    {
+        if (!cmd->args[i + 1])
+        {
+            free_to_exit(data);
+            ft_putstr_fd("exit\n", 1);
+            exit(0);
+        }
         i++;
-    if (cmd->args[i] && !isnbr(cmd->args[i]))
+    }
+    if (cmd->args[i] && !get_exit_code(cmd->args[i], &arg))
     {
         print_exit_error(cmd->args[i], "numeric argument required");
         free_to_exit(data);
@@ -137,7 +145,6 @@ void builtin_exit(t_minishell *data, t_pars_cmd *cmd)
     if (too_many_args(cmd->args, i))
         return ;
     ft_putstr_fd("exit\n", 1);
-    arg = ft_atoll(cmd->args[i]);
     free_to_exit(data);
     exit((unsigned char)arg);
 }
