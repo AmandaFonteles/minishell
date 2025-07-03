@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/01 14:00:20 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/03 14:28:48 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 	int fd;
 	char *line;
 	char *expanded_line;
+	int original_exit_flag;
 
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
@@ -43,13 +44,37 @@ int write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 		free(filename);
 		return (0);
 	}
+
+	// Sauvegarder l'ancien exit flag
+	original_exit_flag = global_exit_flag;
+	global_exit_flag = 0;
+
+	// Configurer les signaux pour l'heredoc
 	signal(SIGINT, ft_handle_heredoc_signal);
 	signal(SIGQUIT, SIG_IGN);
+
 	while (1)
 	{
 		line = readline("> ");
+
+		// Vérifier si on a reçu un signal (Ctrl+C)
+		if (global_exit_flag == 130)
+		{
+			free(line);
+			close(fd);
+			unlink(filename); // Supprimer le fichier
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
+			global_exit_flag = original_exit_flag;
+			return (0);
+		}
+
+		// Ctrl+D (EOF) ou délimiteur trouvé
 		if (!line || ft_strcmp(line, delimiter) == 0)
+		{
+			free(line);
 			break;
+		}
 
 		if (ft_check_dollars(line))
 		{
@@ -68,9 +93,12 @@ int write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 			free(expanded_line);
 		}
 	}
+
+	// Restaurer les signaux
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	free(line);
+	global_exit_flag = original_exit_flag;
+
 	close(fd);
 	return (1);
 }
@@ -122,7 +150,14 @@ int generate_heredocs(t_minishell *data)
 			while (i < cmd->hd_nb)
 			{
 				if (!handle_heredoc(cmd, i, &hd_count, data))
-					return (0);
+				{
+					// Si on a été interrompu par Ctrl+C, arrêter complètement
+					if (global_exit_flag == 130)
+						return (0);
+					// Sinon, c'est une erreur normale, continuer
+					i++;
+					continue;
+				}
 				i++;
 			}
 			cmd->heredoc[cmd->hd_nb] = NULL;

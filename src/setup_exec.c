@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/24 20:43:05 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:28:58 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,17 @@ void   setup_exec(t_minishell *data)
     if (!data->cmd_list)
         return ;
     if (!generate_heredocs(data))
+    {
+        // Si on a été interrompu par Ctrl+C dans un heredoc, retourner au prompt
+        if (global_exit_flag == 130)
+            return ;
+        // Sinon, c'est une erreur normale, continuer
         return ;
+    }
     if (data->cmd_nb == 1)
     {
-        signal(SIGQUIT, SIG_DFL);
-        signal(SIGINT, ft_signal_cat);
+        // signal(SIGQUIT, SIG_DFL);
+        // signal(SIGINT, ft_signal_cat);
         if (is_builtin(data->cmd_list))
             single_builtin(data, data->cmd_list);
         else
