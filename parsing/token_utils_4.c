@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:41 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/27 10:54:17 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/01 12:45:55 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_expend_words(t_token **token, t_minishell *data)
 		{
 			tmp = current->word;
 			current->word = ft_expend(current->word,
-					current->type, 0, -1, data);
+					current->type, data);
 			free(tmp);
 		}
 		current = current->next;

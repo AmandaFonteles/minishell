@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:36 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/07 09:52:38 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/01 16:40:44 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,31 @@ int	ft_check_dir(char *str)
 			0);
 	else
 		return (1);
+}
+
+int	ft_remove_quote(t_pars_cmd *cmd)
+{
+	t_token	*cur;
+	char	*tmp;
+
+	cur = (*cmd->token);
+	while (cur)
+	{
+		if (cur->type != LIMITOR && cur->word)
+		{
+			tmp = cur->word;
+			cur->word = ft_strtrim(cur->word, "\"");
+			free(tmp);
+			if (!cur->word)
+				return (0);
+		}
+		cur = cur->next;
+	}
+	return (1);
+}
+
+void	ft_clean_failed_token(t_token **token, char **tab)
+{
+	ft_free_tab(tab, 1);
+	free(token);
 }

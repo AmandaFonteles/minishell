@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:50 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/27 11:28:50 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/01 16:28:52 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,16 @@ int	nb_words(char *str)
 	while (str[i])
 	{
 		i = skip_spaces(str, i);
-		if (str[i] && str[i] != '<' && str[i] != '>' && str[i] != '|' && (!(d % 2) && !(s % 2)))
+		if (str[i] && str[i] != '<' && str[i] != '>' && str[i] != '|'
+			&& d % 2 == 0 && s % 2 == 0)
 			nw++;
-		while (str[i] && str[i] != ' ' && str[i] != '>' && str[i] != '<' && str[i] != '|')
+		while (str[i] && str[i] != ' ' && str[i] != '<'
+			&& str[i] != '>' && str[i] != '|')
 		{
 			i = update_quotes(str, i, &d, &s);
 			i++;
 		}
-		if (str[i] == '<' || str[i] == '>' || str[i] == '|')
-			nw++;
-		while (str[i] == '<' || str[i] == '>')
-			i++;
-		if (str[i] == '|')
-			i++;
+		count_if_meta(str, &i, &nw);
 	}
 	return (nw);
 }
@@ -55,7 +52,8 @@ int	calculate_token_len(char *str, int d, int s)
 	int	len;
 
 	len = 0;
-	while (str[len] && str[len] != ' ' && str[len] != '>' && str[len] != '<' && str[len] != '|')
+	while (str[len] && str[len] != ' ' && str[len]
+		!= '>' && str[len] != '<' && str[len] != '|')
 	{
 		if (str[len] == 34 && (s % 2 == 0))
 			(d)++;
@@ -78,11 +76,7 @@ int	ft_create_word(char *str, char **tab, int i)
 {
 	int	len;
 	int	j;
-	int	d;
-	int	s;
 
-	d = 0;
-	s = 0;
 	j = 0;
 	if (*str == '<' || *str == '>')
 	{
@@ -95,7 +89,7 @@ int	ft_create_word(char *str, char **tab, int i)
 		len = 1;
 	}
 	else
-		len = calculate_token_len(str, d, s);
+		len = calculate_token_len(str, 0, 0);
 	tab[i] = ft_calloc(len + 1, sizeof(char));
 	j = 0;
 	while (j < len)
@@ -120,18 +114,15 @@ char	**ft_split_token(char *str)
 	d = 0;
 	s = 0;
 	tab = ft_calloc(nb_words(str) + 1, sizeof(char *));
+	if (!tab)
+		return (NULL);
 	while (str[i])
 	{
-		if (str[i] == 34 && (s % 2 == 0))
-			d++;
-		if (str[i] == 39 && (d % 2 == 0))
-			s++;
+		update_quote_state(str[i], &d, &s);
 		while (str[i] && str[i] == ' ')
 			i++;
 		if (str[i])
-		{
 			i += ft_create_word(&str[i], tab, j++);
-		}
 	}
 	tab[j] = NULL;
 	return (tab);
