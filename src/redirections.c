@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:56:58 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/20 17:06:53 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:06:44 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,56 @@ int setup_redirections(t_pars_cmd *cmd)
     else if (cmd->heredoc && cmd->heredoc[0])
         if (!redirect_heredoc(cmd))
             return 0;
-    if (cmd->outfile)
+
+    // Gérer les redirections de sortie multiples
+    if (cmd->token && *(cmd->token))
     {
-        if (!open_outfile(cmd, cmd->append))
-            return 0;
+        t_token *cur = *(cmd->token);
+        int last_fd = -1;
+        char *filename = NULL;
+        int append = 0;
+
+        // Parcourir tous les tokens pour trouver les redirections de sortie
+        while (cur)
+        {
+            if ((cur->type == FILE_OUT || cur->type == FILE_OUT_SUR) && cur->next && cur->next->word)
+            {
+                // Libérer l'ancien nom de fichier si nécessaire
+                if (filename)
+                    free(filename);
+                filename = ft_strdup(cur->next->word);
+                if (!filename)
+                    return 0;
+                append = (cur->type == FILE_OUT_SUR);
+
+                // Ouvrir le fichier
+                if (last_fd != -1)
+                    close(last_fd);
+                if (append)
+                    last_fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+                else
+                    last_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                if (last_fd == -1)
+                {
+                    free(filename);
+                    return (error_and_prompt_back(filename), 0);
+                }
+            }
+            cur = cur->next;
+        }
+
+        // Rediriger la sortie vers le dernier fichier ouvert
+        if (last_fd != -1)
+        {
+            if (!safe_dup2(last_fd, STDOUT_FILENO))
+            {
+                close(last_fd);
+                free(filename);
+                return 0;
+            }
+            close(last_fd);
+            free(filename);
+        }
     }
     return 1;
 }
@@ -86,7 +132,7 @@ int open_outfile(t_pars_cmd *cmd, int append)
     if (!cmd->args || !cmd->args[0])
         should_dup = 0; // If no args, we don't need to dup2
     if (cmd->outfile[0] == '"' || cmd->outfile[0] == '\'')
-    { 
+    {
         out = ft_substr(cmd->outfile, 1, ft_strlen(cmd->outfile) - 2);
         if (!out)
             return (error_and_prompt_back(cmd->outfile));

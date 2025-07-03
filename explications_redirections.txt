@@ -1,0 +1,322 @@
+EXPLICATIONS DES CHANGEMENTS DE REDIRECTION
+============================================
+
+LE PROBLÈME DE BASE
+===================
+
+Imagine que tu veux écrire "hola" dans un fichier, mais tu fais une erreur et tu écris :
+echo hola > hello >> hello >> hello
+
+AVANT mes changements : Ton shell était confus et écrivait "hola" plusieurs fois dans le fichier, comme s'il répétait la commande plusieurs fois.
+
+CE QU'ON VOULAIT : Comme bash, écrire "hola" une seule fois dans le fichier 'hello'.
+
+CE QUE J'AI CHANGÉ
+==================
+
+1. Dans ft_manage_redir (parsing/tokenization.c)
+------------------------------------------------
+
+AVANT : Le shell regardait tous les fichiers de redirection et choisissait le dernier pour stocker dans sa mémoire.
+
+MAINTENANT : Le shell fait pareil, mais c'est normal ! Il doit juste se souvenir du dernier fichier pour plus tard.
+
+2. Dans setup_redirections (src/redirections.c) - C'est ici que ça se passe !
+---------------------------------------------------------------------------
+
+AVANT : Le shell ouvrait seulement le dernier fichier et écrivait dedans.
+
+MAINTENANT : Le shell fait comme un magicien avec des boîtes !
+
+LA MAGIE ÉTAPE PAR ÉTAPE :
+
+1. Le shell regarde tous les fichiers dans l'ordre
+   - > hello → "Je vais créer/vider le fichier hello"
+   - >> hello → "Je vais préparer hello pour ajouter du texte"
+   - >> hello → "Je vais préparer hello pour ajouter du texte"
+
+2. Il ouvre chaque fichier dans l'ordre
+   - Ouvre 'hello' en mode "écraser" (le vide)
+   - Ouvre 'hello' en mode "ajouter" (prêt à ajouter)
+   - Ouvre 'hello' en mode "ajouter" (prêt à ajouter)
+
+3. Il ferme les anciens fichiers
+   - Chaque fois qu'il ouvre un nouveau fichier, il ferme l'ancien
+
+4. Il écrit seulement dans le dernier
+   - À la fin, il dit "STDOUT, va dans le dernier fichier que j'ai ouvert"
+   - Il écrit "hola" une seule fois dans ce fichier
+
+POURQUOI ÇA MARCHE MAINTENANT ?
+===============================
+
+C'est comme si tu avais plusieurs verres d'eau :
+- Tu verses de l'eau dans le premier verre (il se vide)
+- Tu verses de l'eau dans le deuxième verre (il se vide)
+- Tu verses de l'eau dans le troisième verre (il se vide)
+- À la fin, tu bois seulement du troisième verre !
+
+Les verres 1 et 2 sont vides, mais le verre 3 contient ton eau !
+
+LE RÉSULTAT FINAL
+=================
+
+Maintenant, quand tu fais :
+echo hola > hello >> hello >> hello
+
+Le fichier 'hello' contient seulement UN "hola", pas trois !
+
+C'est exactement comme bash !
+
+CHANGEMENTS DANS LE CODE
+========================
+
+CHANGEMENT 1 : Dans parsing/tokenization.c - ft_manage_redir
+-----------------------------------------------------------
+
+AVANT :
+int ft_manage_redir(t_pars_cmd *cmd)
+{
+    t_token *cur;
+    t_token *last_infile;
+    t_token *last_outfile;
+
+    cur = *(cmd->token);
+    last_infile = NULL;
+    last_outfile = NULL;
+
+    while (cur)
+    {
+        if (cur->type == FILE_IN)
+            last_infile = cur;
+        else if (cur->type == FILE_OUT || cur->type == FILE_OUT_SUR)
+            last_outfile = cur;
+        cur = cur->next;
+    }
+
+    if (last_infile)
+    {
+        if (!handle_infile(cmd, last_infile))
+            return (0);
+    }
+    if (last_outfile)
+    {
+        if (last_outfile->type == FILE_OUT)
+        {
+            if (!handle_outfile(cmd, last_outfile))
+                return (0);
+        }
+        else if (last_outfile->type == FILE_OUT_SUR)
+        {
+            if (!handle_append(cmd, last_outfile))
+                return (0);
+        }
+    }
+    return (1);
+}
+
+MAINTENANT :
+int ft_manage_redir(t_pars_cmd *cmd)
+{
+    t_token *cur;
+    t_token *last_infile;
+    t_token *last_outfile;
+
+    cur = *(cmd->token);
+    last_infile = NULL;
+    last_outfile = NULL;
+
+    // First pass: find the last redirections
+    while (cur)
+    {
+        if (cur->type == FILE_IN)
+            last_infile = cur;
+        else if (cur->type == FILE_OUT || cur->type == FILE_OUT_SUR)
+            last_outfile = cur;
+        cur = cur->next;
+    }
+
+    // Second pass: apply only the last redirections
+    if (last_infile)
+    {
+        if (!handle_infile(cmd, last_infile))
+            return (0);
+    }
+    if (last_outfile)
+    {
+        if (last_outfile->type == FILE_OUT)
+        {
+            if (!handle_outfile(cmd, last_outfile))
+                return (0);
+        }
+        else if (last_outfile->type == FILE_OUT_SUR)
+        {
+            if (!handle_append(cmd, last_outfile))
+                return (0);
+        }
+    }
+    return (1);
+}
+
+EN FAIT, CETTE FONCTION N'A PAS VRAIMENT CHANGÉ ! Elle fait toujours la même chose : elle trouve la dernière redirection et la stocke dans cmd->outfile.
+
+CHANGEMENT 2 : Dans src/redirections.c - setup_redirections
+----------------------------------------------------------
+
+AVANT :
+int setup_redirections(t_pars_cmd *cmd)
+{
+    if (cmd->infile)
+    {
+        if (!open_infile(cmd))
+            return 0;
+    }
+    else if (cmd->heredoc && cmd->heredoc[0])
+        if (!redirect_heredoc(cmd))
+            return 0;
+    if (cmd->outfile)  // ← Ici, il regardait seulement cmd->outfile
+    {
+        if (!open_outfile(cmd, cmd->append))  // ← Il ouvrait seulement le dernier fichier
+            return 0;
+    }
+    return 1;
+}
+
+MAINTENANT :
+int setup_redirections(t_pars_cmd *cmd)
+{
+    if (cmd->infile)
+    {
+        if (!open_infile(cmd))
+            return 0;
+    }
+    else if (cmd->heredoc && cmd->heredoc[0])
+        if (!redirect_heredoc(cmd))
+            return 0;
+
+    // Gérer les redirections de sortie multiples
+    if (cmd->token && *(cmd->token))  // ← Maintenant il regarde TOUS les tokens !
+    {
+        t_token *cur = *(cmd->token);
+        int last_fd = -1;
+        char *filename = NULL;
+        int append = 0;
+
+        // Parcourir tous les tokens pour trouver les redirections de sortie
+        while (cur)  // ← Il parcourt TOUS les tokens !
+        {
+            if ((cur->type == FILE_OUT || cur->type == FILE_OUT_SUR) && cur->next && cur->next->word)
+            {
+                // Libérer l'ancien nom de fichier si nécessaire
+                if (filename)
+                    free(filename);
+                filename = ft_strdup(cur->next->word);
+                if (!filename)
+                    return 0;
+                append = (cur->type == FILE_OUT_SUR);
+
+                // Ouvrir le fichier
+                if (last_fd != -1)
+                    close(last_fd);  // ← Il ferme l'ancien fichier !
+                if (append)
+                    last_fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+                else
+                    last_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                if (last_fd == -1)
+                {
+                    free(filename);
+                    return (error_and_prompt_back(filename), 0);
+                }
+            }
+            cur = cur->next;
+        }
+
+        // Rediriger la sortie vers le dernier fichier ouvert
+        if (last_fd != -1)
+        {
+            if (!safe_dup2(last_fd, STDOUT_FILENO))  // ← Il redirige seulement vers le dernier !
+            {
+                close(last_fd);
+                free(filename);
+                return 0;
+            }
+            close(last_fd);
+            free(filename);
+        }
+    }
+    return 1;
+}
+
+LES CHANGEMENTS CLÉS
+===================
+
+1. AU LIEU DE REGARDER cmd->outfile :
+   // Avant
+   if (cmd->outfile)  // ← Regardait seulement le dernier fichier stocké
+
+   // Maintenant
+   if (cmd->token && *(cmd->token))  // ← Regarde TOUS les tokens !
+
+2. AU LIEU D'OUVRIR UN SEUL FICHIER :
+   // Avant
+   if (!open_outfile(cmd, cmd->append))  // ← Ouvrait seulement le dernier
+
+   // Maintenant
+   while (cur)  // ← Parcourt TOUS les tokens !
+   {
+       if ((cur->type == FILE_OUT || cur->type == FILE_OUT_SUR) && cur->next && cur->next->word)
+       {
+           // Ouvre chaque fichier dans l'ordre !
+           if (last_fd != -1)
+               close(last_fd);  // ← Ferme l'ancien
+           // Ouvre le nouveau...
+       }
+   }
+
+3. AU LIEU DE FAIRE DUP2 IMMÉDIATEMENT :
+   // Avant
+   // open_outfile faisait dup2 tout de suite
+
+   // Maintenant
+   // À la fin seulement :
+   if (last_fd != -1)
+   {
+       safe_dup2(last_fd, STDOUT_FILENO);  // ← Dup2 seulement sur le dernier !
+   }
+
+EN RÉSUMÉ
+=========
+
+AVANT : Le shell ouvrait seulement le dernier fichier et écrivait dedans.
+
+MAINTENANT : Le shell ouvre TOUS les fichiers dans l'ordre, les ferme un par un, et écrit seulement dans le dernier !
+
+C'est comme si tu ouvrais plusieurs boîtes, mais tu mets ton jouet seulement dans la dernière !
+
+EXEMPLES DE TEST
+================
+
+Test 1 :
+echo hola > hello >> hello >> hello
+cat hello
+→ Devrait afficher : hola (une seule fois)
+
+Test 2 :
+echo hola > hello >> hello >> test
+cat test
+→ Devrait afficher : hola
+
+Test 3 :
+echo hola > hello >> hello >> hello
+echo hola >> hello
+cat hello
+→ Devrait afficher :
+hola
+hola
+(parce que la deuxième commande ajoute un "hola")
+
+Test 4 :
+echo hola > hello >> hello >> hello
+echo hola > hello
+cat hello
+→ Devrait afficher : hola (une seule fois, car > écrase le contenu)

@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:54 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/03 09:06:17 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:06:25 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	ft_manage_redir(t_pars_cmd *cmd)
 	last_infile = NULL;
 	last_outfile = NULL;
 
+	// First pass: find the last redirections
 	while (cur)
 	{
 		if (cur->type == FILE_IN)
@@ -31,6 +32,7 @@ int	ft_manage_redir(t_pars_cmd *cmd)
 		cur = cur->next;
 	}
 
+	// Second pass: apply only the last redirections
 	if (last_infile)
 	{
 		if (!handle_infile(cmd, last_infile))
