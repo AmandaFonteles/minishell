@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/07/01 14:00:13 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/02 18:40:26 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void	builtin_hub(t_minishell *data, t_pars_cmd *cmd);
 
 /* BUILTIN_UTILS.C */
 int		isnbr(char *str);
+long long modif_atoll(const char *str, int *overflow);
+int        get_exit_code(char *str, long long *value);
 int		is_valid_identifier(char *s);
 void	remove_tenv(t_env **list, char *arg);
 int		strlen_array(char **arr);
@@ -148,10 +150,6 @@ void print_cmd_not_found(t_minishell *data, char *cmd);
 void print_cmd_no_file(t_minishell *data, char *cmd);
 void print_exit_error(char *arg, char *msg);
 void print_invalid_identifier(char *builtin, char *arg);
-
-/* UTILS.C */
-long long	ft_atoll(const char *str);
-unsigned int    ft_strcmp(char *s1, char *s2);
 
 /* SIGNALS.C */
 void	ft_signal(int sig);

@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:48:45 by afontele          #+#    #+#             */
-/*   Updated: 2025/05/26 19:22:52 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:11:58 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,9 @@ void builtin_cd(t_minishell *data, t_pars_cmd *cmd)
         global_exit_flag = 1;
         return ;
     }
-    if (cmd->args[1] == NULL || ft_strncmp(cmd->args[1], "~", 1) == 0)
+    if (cmd->args[1] == NULL
+        || ft_strncmp(cmd->args[1], "~", 1) == 0
+        || ft_strcmp(cmd->args[1], "--") == 0)
         cd_home(data, old_pwd);
     else if (ft_strcmp(cmd->args[1], "-") == 0)
         cd_dash(data, old_pwd);
