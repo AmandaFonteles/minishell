@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:56:58 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/03 12:23:13 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:40:41 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 int setup_redirections(t_pars_cmd *cmd)
 {
+    t_token *cur = *(cmd->token);
+    int last_fd = -1;
+    char *filename = NULL;
+    int append = 0;
+
     if (cmd->infile)
     {
         if (!open_infile(cmd))
@@ -25,11 +30,6 @@ int setup_redirections(t_pars_cmd *cmd)
 
     if (cmd->token && *(cmd->token))
     {
-        t_token *cur = *(cmd->token);
-        int last_fd = -1;
-        char *filename = NULL;
-        int append = 0;
-
         while (cur)
         {
             if ((cur->type == FILE_OUT || cur->type == FILE_OUT_SUR) && cur->next && cur->next->word)

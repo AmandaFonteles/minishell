@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:54 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/03 12:06:25 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:45:24 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,28 @@
 int	ft_manage_redir(t_pars_cmd *cmd)
 {
 	t_token	*cur;
-	t_token	*last_infile;
-	t_token	*last_outfile;
+	t_token	*last_in;
+	t_token	*last_out;
 
 	cur = *(cmd->token);
-	last_infile = NULL;
-	last_outfile = NULL;
-
-	// First pass: find the last redirections
+	last_in = NULL;
+	last_out = NULL;
 	while (cur)
 	{
 		if (cur->type == FILE_IN)
-			last_infile = cur;
+			last_in = cur;
 		else if (cur->type == FILE_OUT || cur->type == FILE_OUT_SUR)
-			last_outfile = cur;
+			last_out = cur;
 		cur = cur->next;
 	}
-
-	// Second pass: apply only the last redirections
-	if (last_infile)
+	if (last_in && !handle_infile(cmd, last_in))
+		return (0);
+	if (last_out)
 	{
-		if (!handle_infile(cmd, last_infile))
+		if (last_out->type == FILE_OUT && !handle_outfile(cmd, last_out))
 			return (0);
-	}
-	if (last_outfile)
-	{
-		if (last_outfile->type == FILE_OUT)
-		{
-			if (!handle_outfile(cmd, last_outfile))
-				return (0);
-		}
-		else if (last_outfile->type == FILE_OUT_SUR)
-		{
-			if (!handle_append(cmd, last_outfile))
-				return (0);
-		}
+		if (last_out->type == FILE_OUT_SUR && !handle_append(cmd, last_out))
+			return (0);
 	}
 	return (1);
 }
