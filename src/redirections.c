@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:56:58 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/03 12:06:44 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:23:13 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int setup_redirections(t_pars_cmd *cmd)
         if (!redirect_heredoc(cmd))
             return 0;
 
-    // Gérer les redirections de sortie multiples
     if (cmd->token && *(cmd->token))
     {
         t_token *cur = *(cmd->token);
@@ -31,20 +30,16 @@ int setup_redirections(t_pars_cmd *cmd)
         char *filename = NULL;
         int append = 0;
 
-        // Parcourir tous les tokens pour trouver les redirections de sortie
         while (cur)
         {
             if ((cur->type == FILE_OUT || cur->type == FILE_OUT_SUR) && cur->next && cur->next->word)
             {
-                // Libérer l'ancien nom de fichier si nécessaire
                 if (filename)
                     free(filename);
                 filename = ft_strdup(cur->next->word);
                 if (!filename)
                     return 0;
                 append = (cur->type == FILE_OUT_SUR);
-
-                // Ouvrir le fichier
                 if (last_fd != -1)
                     close(last_fd);
                 if (append)
@@ -59,11 +54,9 @@ int setup_redirections(t_pars_cmd *cmd)
             }
             cur = cur->next;
         }
-
-        // Rediriger la sortie vers le dernier fichier ouvert
         if (last_fd != -1)
         {
-            if (!safe_dup2(last_fd, STDOUT_FILENO))
+            if (!dup2(last_fd, STDOUT_FILENO))
             {
                 close(last_fd);
                 free(filename);
