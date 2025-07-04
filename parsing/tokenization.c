@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:54 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/01 16:54:31 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/03 12:45:24 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,28 @@
 int	ft_manage_redir(t_pars_cmd *cmd)
 {
 	t_token	*cur;
+	t_token	*last_in;
+	t_token	*last_out;
 
 	cur = *(cmd->token);
+	last_in = NULL;
+	last_out = NULL;
 	while (cur)
 	{
-		if (!handle_infile(cmd, cur))
-			return (0);
-		if (!handle_outfile(cmd, cur))
-			return (0);
-		if (!handle_append(cmd, cur))
-			return (0);
+		if (cur->type == FILE_IN)
+			last_in = cur;
+		else if (cur->type == FILE_OUT || cur->type == FILE_OUT_SUR)
+			last_out = cur;
 		cur = cur->next;
+	}
+	if (last_in && !handle_infile(cmd, last_in))
+		return (0);
+	if (last_out)
+	{
+		if (last_out->type == FILE_OUT && !handle_outfile(cmd, last_out))
+			return (0);
+		if (last_out->type == FILE_OUT_SUR && !handle_append(cmd, last_out))
+			return (0);
 	}
 	return (1);
 }

@@ -1,0 +1,158 @@
+
+AVANT :
+int setup_redirections(t_pars_cmd *cmd)
+{
+    if (cmd->infile)
+    {
+        if (!open_infile(cmd))
+            return 0;
+    }
+    else if (cmd->heredoc && cmd->heredoc[0])
+        if (!redirect_heredoc(cmd))
+            return 0;
+    if (cmd->outfile)  // ← Ici, il regardait seulement cmd->outfile
+    {
+        if (!open_outfile(cmd, cmd->append))  // ← Il ouvrait seulement le dernier fichier
+            return 0;
+    }
+    return 1;
+}
+
+MAINTENANT :
+int setup_redirections(t_pars_cmd *cmd)
+{
+    if (cmd->infile)
+    {
+        if (!open_infile(cmd))
+            return 0;
+    }
+    else if (cmd->heredoc && cmd->heredoc[0])
+        if (!redirect_heredoc(cmd))
+            return 0;
+
+    // Gérer les redirections de sortie multiples
+    if (cmd->token && *(cmd->token))  // ← Maintenant il regarde TOUS les tokens !
+    {
+        t_token *cur = *(cmd->token);
+        int last_fd = -1;
+        char *filename = NULL;
+        int append = 0;
+
+        // Parcourir tous les tokens pour trouver les redirections de sortie
+        while (cur)  // ← Il parcourt TOUS les tokens !
+        {
+            if ((cur->type == FILE_OUT || cur->type == FILE_OUT_SUR) && cur->next && cur->next->word)
+            {
+                // Libérer l'ancien nom de fichier si nécessaire
+                if (filename)
+                    free(filename);
+                filename = ft_strdup(cur->next->word);
+                if (!filename)
+                    return 0;
+                append = (cur->type == FILE_OUT_SUR);
+
+                // Ouvrir le fichier
+                if (last_fd != -1)
+                    close(last_fd);  // ← Il ferme l'ancien fichier !
+                if (append)
+                    last_fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+                else
+                    last_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                if (last_fd == -1)
+                {
+                    free(filename);
+                    return (error_and_prompt_back(filename), 0);
+                }
+            }
+            cur = cur->next;
+        }
+
+        // Rediriger la sortie vers le dernier fichier ouvert
+        if (last_fd != -1)
+        {
+            if (!safe_dup2(last_fd, STDOUT_FILENO))  // ← Il redirige seulement vers le dernier !
+            {
+                close(last_fd);
+                free(filename);
+                return 0;
+            }
+            close(last_fd);
+            free(filename);
+        }
+    }
+    return 1;
+}
+
+LES CHANGEMENTS CLÉS
+===================
+
+1. AU LIEU DE REGARDER cmd->outfile :
+   // Avant
+   if (cmd->outfile)  // ← Regardait seulement le dernier fichier stocké
+
+   // Maintenant
+   if (cmd->token && *(cmd->token))  // ← Regarde TOUS les tokens !
+
+2. AU LIEU D'OUVRIR UN SEUL FICHIER :
+   // Avant
+   if (!open_outfile(cmd, cmd->append))  // ← Ouvrait seulement le dernier
+
+   // Maintenant
+   while (cur)  // ← Parcourt TOUS les tokens !
+   {
+       if ((cur->type == FILE_OUT || cur->type == FILE_OUT_SUR) && cur->next && cur->next->word)
+       {
+           // Ouvre chaque fichier dans l'ordre !
+           if (last_fd != -1)
+               close(last_fd);  // ← Ferme l'ancien
+           // Ouvre le nouveau...
+       }
+   }
+
+3. AU LIEU DE FAIRE DUP2 IMMÉDIATEMENT :
+   // Avant
+   // open_outfile faisait dup2 tout de suite
+
+   // Maintenant
+   // À la fin seulement :
+   if (last_fd != -1)
+   {
+       safe_dup2(last_fd, STDOUT_FILENO);  // ← Dup2 seulement sur le dernier !
+   }
+
+EN RÉSUMÉ
+=========
+
+AVANT : Le shell ouvrait seulement le dernier fichier et écrivait dedans.
+
+MAINTENANT : Le shell ouvre TOUS les fichiers dans l'ordre, les ferme un par un, et écrit seulement dans le dernier !
+
+C'est comme si tu ouvrais plusieurs boîtes, mais tu mets ton jouet seulement dans la dernière !
+
+EXEMPLES DE TEST
+================
+
+Test 1 :
+echo hola > hello >> hello >> hello
+cat hello
+→ Devrait afficher : hola (une seule fois)
+
+Test 2 :
+echo hola > hello >> hello >> test
+cat test
+→ Devrait afficher : hola
+
+Test 3 :
+echo hola > hello >> hello >> hello
+echo hola >> hello
+cat hello
+→ Devrait afficher :
+hola
+hola
+(parce que la deuxième commande ajoute un "hola")
+
+Test 4 :
+echo hola > hello >> hello >> hello
+echo hola > hello
+cat hello
+→ Devrait afficher : hola (une seule fois, car > écrase le contenu)
