@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:59:29 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/30 17:15:54 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:11:30 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void    execute(t_minishell *data, t_pars_cmd *cur_cmd)
     {
         print_cmd_not_found(data, NULL);
         free_to_exit(data);
-        exit(global_exit_flag);
+        exit(g_exit_flag);
     }
     if (is_builtin(cur_cmd))
     {
@@ -46,14 +46,14 @@ char *exec_make_path(t_minishell *data, t_pars_cmd *cmd)
         //print_cmd_not_found(data, cmd->args[0]);
         print_cmd_no_file(data, cmd->args[0]);
         free_to_exit(data);
-        exit(global_exit_flag);
+        exit(g_exit_flag);
     }
     cmd_path = build_path(path, cmd->args[0]);
     if (!cmd_path)
     {
         print_cmd_not_found(data, cmd->args[0]);
         free_to_exit(data);
-        exit(global_exit_flag);
+        exit(g_exit_flag);
     }
     return (cmd_path);
 }
@@ -78,7 +78,7 @@ void    resolve_and_exec(t_minishell *data, t_pars_cmd *cmd)
             print_cmd_not_found(data, cmd->args[0]);
             free(cmd_path);
             free_to_exit(data);
-            exit(global_exit_flag);
+            exit(g_exit_flag);
         }
         if (S_ISDIR(path_stat.st_mode))
         {
@@ -156,21 +156,21 @@ void    execve_error(t_minishell *data, char *cmd_path)
         ft_putstr_fd("minishell: ", 2);
         ft_putstr_fd(data->cmd_list->args[0], 2);
         ft_putstr_fd(": Permission denied\n", 2);
-        global_exit_flag = 126;
+        g_exit_flag = 126;
     }
     else if (errno == ENOENT)
     {
         print_cmd_not_found(data, data->cmd_list->args[0]);
-        global_exit_flag = 127;
+        g_exit_flag = 127;
     }
     else
     {
         perror(data->cmd_list->args[0]);
-        global_exit_flag = 1;
+        g_exit_flag = 1;
     }
     free(cmd_path);
     free_to_exit(data);
-    exit(global_exit_flag);
+    exit(g_exit_flag);
 }
 
 int check_full_path(char *cmd)

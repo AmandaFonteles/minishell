@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_management.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:45:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/04 09:52:39 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/04 17:11:07 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int global_exit_flag = 0;  // Définition de la variable globale
+int g_exit_flag = 0;
 
 char    *ft_getenv(char *variable, t_minishell *data)
 {

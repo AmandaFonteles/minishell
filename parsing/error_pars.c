@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_pars.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:27 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/01 12:30:27 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/04 17:08:57 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_parse_error(char **words)
 		if (words[i][0] == '>' || words[i][0] == '<')
 		{
 			if (!ft_check_redir(words, i))
-				return (global_exit_flag = 2, 0);
+				return (g_exit_flag = 2, 0);
 		}
 		else if (words[i][0] == '|')
 		{

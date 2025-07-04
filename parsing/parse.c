@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:15 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/01 17:11:20 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/04 17:09:37 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,5 @@ int	process_input(t_minishell *data)
 		free(data->user_input);
 	data->user_input = NULL;
 	free(trimmed);
-	return (global_exit_flag);
+	return (g_exit_flag);
 }

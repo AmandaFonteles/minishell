@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/24 20:43:05 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:13:01 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,15 +100,15 @@ void exec_uniq_cmd(t_minishell *data)
     }
     waitpid(cmd->pid, &status, 0);
     if (WIFEXITED(status))
-        global_exit_flag = WEXITSTATUS(status);
+        g_exit_flag = WEXITSTATUS(status);
     else if (WIFSIGNALED(status))
     {
         if (WTERMSIG(status) == SIGINT)
         {
-            global_exit_flag = 130;
+            g_exit_flag = 130;
         }
         else if (WTERMSIG(status) == SIGQUIT)
             write(2, "Quit (core dumped)\n", 20);
-        global_exit_flag = 128 + WTERMSIG(status);
+        g_exit_flag = 128 + WTERMSIG(status);
     }
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:56:58 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/03 12:40:41 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/04 17:12:53 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ int setup_redirections(t_pars_cmd *cmd)
                 else
                     last_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
                 if (last_fd == -1)
-                {
-                    free(filename);
-                    return (error_and_prompt_back(filename), 0);
-                }
+                    return (error_and_prompt_back(filename), free(filename), 0);
             }
             cur = cur->next;
         }
@@ -96,7 +93,7 @@ int open_infile(t_pars_cmd *cmd)
     {
         ft_putstr_fd("minishell: ", 2);
         perror(cmd->infile);
-        global_exit_flag = 1;
+        g_exit_flag = 1;
         return 0;
     }
     if (should_dup == 0)

@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 11:34:22 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/02 18:34:27 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:12:48 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void builtin_pwd(t_pars_cmd *cmd) //pwd can have arguments
 {
     char *cwd;
     
-    global_exit_flag = 0;
+    g_exit_flag = 0;
     if (cmd->args[1] && cmd->args[1][0] == '-' && cmd->args[1][1] != '\0')
     {
         print_invalid_option(cmd->args[0], cmd->args[1]);
@@ -67,7 +67,7 @@ void builtin_echo(t_pars_cmd *cmd)
     int n_flag;
 
     i = 1;
-    global_exit_flag = 0;
+    g_exit_flag = 0;
     n_flag = parse_flag(cmd->args, &i);
     while (cmd->args[i])
     {
@@ -85,7 +85,7 @@ void    builtin_unset(t_minishell *data, t_pars_cmd *cmd)
     int i;
 
     i = 1;
-    global_exit_flag = 0;
+    g_exit_flag = 0;
     while (cmd->args[i])
     {
         if (cmd->args[i][0] == '-')
@@ -107,7 +107,7 @@ static int too_many_args(char **args, int i)
 {
     if (args[i] && args[i + 1])
     {
-        global_exit_flag = 1;
+        g_exit_flag = 1;
         print_exit_error(NULL, "too many arguments");
         return (1);
     }
