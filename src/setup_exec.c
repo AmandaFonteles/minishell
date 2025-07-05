@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/05 23:33:39 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/06 00:29:35 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void   setup_exec(t_minishell *data)
         return ;
     if (data->cmd_nb == 1)
     {
-        signal(SIGQUIT, SIG_DFL);
-        signal(SIGINT, ft_signal_cat);
         if (is_builtin(data->cmd_list))
             single_builtin(data, data->cmd_list);
         else
@@ -106,6 +104,11 @@ void exec_uniq_cmd(t_minishell *data)
         {
             write(2, "Quit (core dumped)\n", 20);
             global_exit_flag = 131;
+        }
+        else if (exit_code == 130) // Code spécial pour SIGINT
+        {
+            write(1, "\n", 1);
+            global_exit_flag = 130;
         }
         else
             global_exit_flag = exit_code;

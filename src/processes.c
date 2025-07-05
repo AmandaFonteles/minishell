@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/05 23:33:29 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/06 00:29:59 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,11 @@ void wait_loop(t_minishell *data)
 			{
 				write(2, "Quit (core dumped)\n", 20);
 				global_exit_flag = 131;
+			}
+			else if (exit_code == 130) // Code spécial pour SIGINT
+			{
+				write(1, "\n", 1);
+				global_exit_flag = 130;
 			}
 			else
 				global_exit_flag = exit_code;
