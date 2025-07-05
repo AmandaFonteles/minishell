@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:52:20 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/26 13:22:51 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/04 17:09:47 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void	print_check_error(void)
 {
 	printf("minishell: syntax error near unexpected token '|'\n");
-	global_exit_flag = 2;
+	g_exit_flag = 2;
 }
 
 void	print_quote_error(void)
 {
 	printf("minishell: invalid number of quotes\n");
-	global_exit_flag = 2;
+	g_exit_flag = 2;
 }
 
 static int	check_pipe(char *str, int *i, int s, int d)

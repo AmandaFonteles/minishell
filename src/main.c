@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by intaut--          #+#    #+#             */
-/*   Updated: 2025/06/24 15:48:33 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/04 17:12:00 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 #include "../inc/minishell.h"
 
 //TODO: check if all the malloc from libft func was freed!!!
-//int global_exit_flag;
 
 void main_loop(t_minishell *data)
 {
@@ -100,7 +99,7 @@ int main(int ac, char **av, char **envp)
 {
     t_minishell *data;
 
-    global_exit_flag = 0;
+    g_exit_flag = 0;
     (void)av;
     if (ac != 1)
     {
@@ -117,5 +116,5 @@ int main(int ac, char **av, char **envp)
         return (1);
     main_loop(data);
     free_to_exit(data);
-    return (global_exit_flag);
+    return (g_exit_flag);
 }

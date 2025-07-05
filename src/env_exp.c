@@ -6,87 +6,87 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:17:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/30 20:23:54 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/04 17:30:23 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void builtin_env(t_minishell *data, t_pars_cmd *cmd)
+void	builtin_env(t_minishell *data, t_pars_cmd *cmd)
 {
-    t_env *cur_env_node;
+	t_env	*cur_env_node;
 
-    cur_env_node = data->env;
-    global_exit_flag = 0;
-    if (!ft_getenv("PATH", data))
-    {
-        ft_putstr_fd("minishell: env: No such file or directory\n", 2);
-        global_exit_flag = 127;
-        return ;
-    }
-    if (cmd->args[1])
-    {
-        ft_putstr_fd("minishell: env: doesn't accept arguments\n", 2);
-        global_exit_flag = 1;
-        return ;
-    }
-    while (cur_env_node)
-    {
-        if (cur_env_node->value)
-            printf("%s=%s\n", cur_env_node->title, cur_env_node->value);
-        cur_env_node = cur_env_node->next;
-    }
+	cur_env_node = data->env;
+	g_exit_flag = 0;
+	if (!ft_getenv("PATH", data))
+	{
+		ft_putstr_fd("minishell: env: No such file or directory\n", 2);
+		g_exit_flag = 127;
+		return ;
+	}
+	if (cmd->args[1])
+	{
+		ft_putstr_fd("minishell: env: doesn't accept arguments\n", 2);
+		g_exit_flag = 1;
+		return ;
+	}
+	while (cur_env_node)
+	{
+		if (cur_env_node->value)
+			printf("%s=%s\n", cur_env_node->title, cur_env_node->value);
+		cur_env_node = cur_env_node->next;
+	}
 }
 
-void builtin_export(t_minishell *data, t_pars_cmd *cmd)
+void	builtin_export(t_minishell *data, t_pars_cmd *cmd)
 {
-    int i;
+	int	i;
 
-    i = 1;
-    global_exit_flag = 0;
-    if (!cmd->args[i] || (ft_strcmp(cmd->args[i], "--") == 0 && !cmd->args[i + 1]))
-    {
-        print_exported(data->exported);
-        return ;
-    }
-    if (ft_strcmp(cmd->args[i], "--") == 0 && cmd->args[i + 1])
-        i++;
-    if (ft_strncmp(cmd->args[i], "-", 1) == 0 && cmd->args[i][1] != '\0')
-    {
-        print_invalid_option(cmd->args[0], cmd->args[i]);
-        return ;
-    }
-    while (cmd->args[i])
-    {
-        check_exp(data, cmd->args[i]);
-        i++;
-    }
+	i = 1;
+	g_exit_flag = 0;
+	if (!cmd->args[i]
+		|| (ft_strcmp(cmd->args[i], "--") == 0 && !cmd->args[i + 1]))
+	{
+		print_exported(data->exported);
+		return ;
+	}
+	if (ft_strcmp(cmd->args[i], "--") == 0 && cmd->args[i + 1])
+		i++;
+	if (ft_strncmp(cmd->args[i], "-", 1) == 0 && cmd->args[i][1] != '\0')
+	{
+		print_invalid_option(cmd->args[0], cmd->args[i]);
+		return ;
+	}
+	while (cmd->args[i])
+	{
+		check_exp(data, cmd->args[i]);
+		i++;
+	}
 }
 
-//learn how to put quotes in the value
-void print_exported(t_env *cur_exp_node)
+void	print_exported(t_env *cur_exp_node)
 {
-    while (cur_exp_node)
-    {
-        if (cur_exp_node->title)
-        {
-            ft_putstr_fd("export ", 1);
-            ft_putstr_fd(cur_exp_node->title, 1);
-            if (cur_exp_node->value)
-            {
-                ft_putstr_fd("=\"", 1);
-                ft_putstr_fd(cur_exp_node->value, 1);
-                ft_putstr_fd("\"", 1);
-            }
-            ft_putstr_fd("\n", 1);
-        }
-        cur_exp_node = cur_exp_node->next;
-    }
+	while (cur_exp_node)
+	{
+		if (cur_exp_node->title)
+		{
+			ft_putstr_fd("export ", 1);
+			ft_putstr_fd(cur_exp_node->title, 1);
+			if (cur_exp_node->value)
+			{
+				ft_putstr_fd("=\"", 1);
+				ft_putstr_fd(cur_exp_node->value, 1);
+				ft_putstr_fd("\"", 1);
+			}
+			ft_putstr_fd("\n", 1);
+		}
+		cur_exp_node = cur_exp_node->next;
+	}
 }
 
-int extract_key_value(char *arg, char **key, char **value)
+int	extract_key_value(char *arg, char **key, char **value)
 {
-	char *equal;
+	char	*equal;
 
 	equal = ft_strchr(arg, '=');
 	if (equal)
@@ -111,9 +111,9 @@ int extract_key_value(char *arg, char **key, char **value)
 	return (1);
 }
 
-int update_env_value_in_list(t_env *list, char *key, char *value)
+int	update_env_value_in_list(t_env *list, char *key, char *value)
 {
-	t_env *cur;
+	t_env	*cur;
 
 	cur = list;
 	while (cur)
@@ -132,43 +132,43 @@ int update_env_value_in_list(t_env *list, char *key, char *value)
 	return (0);
 }
 
-void export_or_update(t_minishell *data, char *arg)
+void	export_or_update(t_minishell *data, char *arg)
 {
-    char *key;
-    char *value;
-    int has_equal;
+	char	*key;
+	char	*value;
+	int		has_equal;
 
-    has_equal = 0;
-    if (!extract_key_value(arg, &key, &value))
-    {
-        error_and_prompt_back("malloc");
-        return ;
-    }
-    if (!is_valid_identifier(key))
-    {
-        print_invalid_identifier("export", arg);
-        free(key);
-        free(value);
-        return ;
-    }
-    if (ft_strchr(arg, '='))
-        has_equal = 1;
-    if (update_env_value_in_list(data->exported, key, value))
-    {
-        if (has_equal)
-            check_env(data, arg);
-    }
-    else
-    {
-        if (has_equal)
-            add_env(data, arg, &data->env);
-        add_env(data, arg, &data->exported);
-    }
-    free(key);
-    free(value);
+	has_equal = 0;
+	if (!extract_key_value(arg, &key, &value))
+	{
+		error_and_prompt_back("malloc");
+		return ;
+	}
+	if (!is_valid_identifier(key))
+	{
+		print_invalid_identifier("export", arg);
+		free(key);
+		free(value);
+		return ;
+	}
+	if (ft_strchr(arg, '='))
+		has_equal = 1;
+	if (update_env_value_in_list(data->exported, key, value))
+	{
+		if (has_equal)
+			check_env(data, arg);
+	}
+	else
+	{
+		if (has_equal)
+			add_env(data, arg, &data->env);
+		add_env(data, arg, &data->exported);
+	}
+	free(key);
+	free(value);
 }
 
-void check_exp(t_minishell *data, char *arg)
+void	check_exp(t_minishell *data, char *arg)
 {
 	if (!is_valid_identifier(arg))
 	{
@@ -178,23 +178,23 @@ void check_exp(t_minishell *data, char *arg)
 	export_or_update(data, arg);
 }
 
-void check_env(t_minishell *data, char *arg)
+void	check_env(t_minishell *data, char *arg)
 {
-	char *key;
-	char *value;
+	char	*key;
+	char	*value;
 
 	if (!extract_key_value(arg, &key, &value))
 	{
 		error_and_prompt_back("malloc");
 		return ;
 	}
-    if (!is_valid_identifier(key))
-    {
-        print_invalid_identifier("export", arg);
-        free(key);
-        free(value);
-        return ;
-    }
+	if (!is_valid_identifier(key))
+	{
+		print_invalid_identifier("export", arg);
+		free(key);
+		free(value);
+		return ;
+	}
 	if (!update_env_value_in_list(data->env, key, value))
 		add_env(data, arg, &data->env);
 	free(key);

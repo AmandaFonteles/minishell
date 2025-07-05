@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expend_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:48 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/01 15:13:30 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/04 17:09:16 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_handle_dollar(char **str, char *tmp, char *var_value)
 	if (!(*str)[1])
 		tmp = ft_strdup("$");
 	else if ((*str)[1] == '?')
-		tmp = ft_itoa(global_exit_flag);
+		tmp = ft_itoa(g_exit_flag);
 	else
 	{
 		if (var_value)

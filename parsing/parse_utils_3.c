@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils_3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:56:39 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/01 17:07:49 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/04 17:09:30 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	pipe_error(char *msg)
 {
 	printf("minishell: syntax error near unexpected token `%s'\n", msg);
-	global_exit_flag = 2;
+	g_exit_flag = 2;
 	return (0);
 }
 

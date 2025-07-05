@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:52:34 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/20 16:18:18 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/04 17:13:10 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	ft_signal(int sig)
 {
-	global_exit_flag += sig;
+	g_exit_flag += sig;
 	if (sig == 2)
 	{
-		global_exit_flag = 130;
+		g_exit_flag = 130;
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
@@ -32,10 +32,10 @@ void	ft_signal(int sig)
 
 void	ft_signal_cat(int sig)
 {
-	global_exit_flag += sig;
+	g_exit_flag += sig;
 	if (sig == 2)
 	{
-		global_exit_flag = 130;
+		g_exit_flag = 130;
     write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
