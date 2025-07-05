@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:52:34 by adregis           #+#    #+#             */
-/*   Updated: 2025/06/20 16:18:18 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/05 23:32:25 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,11 @@ void	ft_signal_cat(int sig)
     write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
-
 	}
 	if (sig == SIGQUIT)
 	{
 		write(2, "Quit (core dumped)\n", 20);
-		exit(1);
+		exit(131);
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/06/24 20:41:58 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/05 23:33:29 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,16 @@ void wait_loop(t_minishell *data)
 	{
 		waitpid(cur_cmd->pid, &status, 0);
 		if (WIFEXITED(status))
-			global_exit_flag = WEXITSTATUS(status);
+		{
+			int exit_code = WEXITSTATUS(status);
+			if (exit_code == 131) // Code spécial pour SIGQUIT
+			{
+				write(2, "Quit (core dumped)\n", 20);
+				global_exit_flag = 131;
+			}
+			else
+				global_exit_flag = exit_code;
+		}
 		else if (WIFSIGNALED(status))
 		{
 			int sig = WTERMSIG(status);
