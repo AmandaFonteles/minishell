@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/05 23:32:47 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/06 23:54:29 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ int write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 		free(filename);
 		return (0);
 	}
-	signal(SIGINT, ft_handle_heredoc_signal);
-	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		line = readline("> ");
@@ -68,8 +66,6 @@ int write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 			free(expanded_line);
 		}
 	}
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 	free(line);
 	close(fd);
 	return (1);

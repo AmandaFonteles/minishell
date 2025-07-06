@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/06 23:50:04 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/06 23:54:12 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,64 +71,37 @@ int setup_multiple_cmd(t_minishell *data)
 // execute a single command without pipes
 void exec_uniq_cmd(t_minishell *data)
 {
-  int status;
-  t_pars_cmd *cmd;
+    int status;
+    t_pars_cmd *cmd;
 
-  cmd = data->cmd_list;
-  cmd->pid = fork();
-  if (cmd->pid == -1)
-  {
-    error_and_prompt_back("error fork");
-    return;
-  }
-  if (cmd->pid == 0)
-  {
-    signal(SIGQUIT, SIG_DFL);
-    signal(SIGINT, ft_signal_cat);
-    if (!setup_redirections(cmd))
+    cmd = data->cmd_list;
+    cmd->pid = fork();
+    if (cmd->pid == -1)
     {
-      free_to_exit(data);
-      exit(1);
+        error_and_prompt_back("error fork");
+        return ;
     }
-    if (cmd->args && cmd->args[0])
-      execute(data, cmd);
-    free_to_exit(data);
-    exit(0);
-  }
-
-  // Gérer les signaux pendant l'attente de l'enfant
-  signal(SIGQUIT, SIG_IGN);
-  signal(SIGINT, ft_signal);
-
-  waitpid(cmd->pid, &status, 0);
-
-  // Restaurer les signaux par défaut
-  signal(SIGQUIT, SIG_IGN);
-  signal(SIGINT, SIG_IGN);
-
-  if (WIFEXITED(status))
-  {
-    int exit_code = WEXITSTATUS(status);
-    if (exit_code == 131) // Code spécial pour SIGQUIT
+    if (cmd->pid == 0)
     {
-      write(2, "Quit (core dumped)\n", 20);
-      global_exit_flag = 131;
+        if (!setup_redirections(cmd))
+        {
+            free_to_exit(data);
+            exit(1);
+        }
+        if (cmd->args && cmd->args[0])
+            execute(data, cmd);
+        free_to_exit(data);
+        exit(0);
     }
-    else if (exit_code == 130) // Code spécial pour SIGINT
+
+    waitpid(cmd->pid, &status, 0);
+
+    if (WIFEXITED(status))
     {
-      global_exit_flag = 130;
+        global_exit_flag = WEXITSTATUS(status);
     }
-    else
-      global_exit_flag = exit_code;
-  }
-  else if (WIFSIGNALED(status))
-  {
-    if (WTERMSIG(status) == SIGINT)
+    else if (WIFSIGNALED(status))
     {
-      global_exit_flag = 130;
+        global_exit_flag = 128 + WTERMSIG(status);
     }
-    else if (WTERMSIG(status) == SIGQUIT)
-      write(2, "Quit (core dumped)\n", 20);
-    global_exit_flag = 128 + WTERMSIG(status);
-  }
 }
