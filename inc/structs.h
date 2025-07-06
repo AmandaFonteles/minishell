@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:00:39 by afontele          #+#    #+#             */
-/*   Updated: 2025/04/28 16:11:43 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/06 15:41:57 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 typedef struct s_parsed_command
 {
-    char	*cmd; 
+    char	*cmd;
     //entire command before I split it to put it in args
     struct token	**token; //I am also adding a token to the command structure
     int	cmd_index; //index of the command in the list
@@ -49,6 +49,7 @@ typedef struct s_minishell
     t_pars_cmd *cmd_list; //pointer to the first command in the list
     int     cmd_nb; //number of commands in the list
     int     **pipe_ends; //array with the pipe[2] for each command
+    int     child_running; //flag to indicate if child processes are running
 }   t_minishell;
 
 #endif
