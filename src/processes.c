@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/06 16:34:38 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/06 23:49:01 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,11 @@ void wait_loop(t_minishell *data)
 	int status;
 
 	cur_cmd = data->cmd_list;
+
+	// Gérer les signaux pendant l'attente des enfants
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, ft_signal);
+
 	while (cur_cmd)
 	{
 		waitpid(cur_cmd->pid, &status, 0);
@@ -170,4 +175,8 @@ void wait_loop(t_minishell *data)
 		}
 		cur_cmd = cur_cmd->next;
 	}
+
+	// Restaurer les signaux par défaut
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 }

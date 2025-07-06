@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:52:34 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/06 16:34:33 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/06 23:49:31 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	ft_signal(int sig)
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		rl_redisplay();
+		// Pas de rl_redisplay() pour éviter le double affichage
+		// readline affichera automatiquement le prompt
 	}
 	// SIGQUIT est ignoré dans la boucle principale (SIG_IGN)
 	// donc cette fonction ne devrait jamais être appelée pour SIGQUIT
