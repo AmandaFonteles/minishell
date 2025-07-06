@@ -51,7 +51,7 @@ int    create_processes(t_minishell *data)
 void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
 {
     signal(SIGQUIT, SIG_DFL);
-    signal(SIGINT, ft_signal_cat);
+    signal(SIGINT, SIG_DFL);
     int idx;
     idx = cur_cmd->cmd_index;
     if (data->cmd_nb > 1)

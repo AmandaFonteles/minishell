@@ -18,7 +18,8 @@ void	ft_signal(int sig)
 	if (sig == 2)
 	{
 		global_exit_flag = 130;
-		write(1, "\n", 1);
+/*     printf("minishell:hello from after signal %d", global_exit_flag);
+ */	write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
