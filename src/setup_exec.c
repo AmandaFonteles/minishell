@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/07 00:12:40 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/07 00:17:48 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,15 @@ void exec_uniq_cmd(t_minishell *data)
         exit(0);
     }
 
+    // Ignorer les signaux pendant l'attente de l'enfant
+    signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, SIG_IGN);
+
     waitpid(cmd->pid, &status, 0);
+
+    // Restaurer les signaux pour la boucle principale
+    signal(SIGINT, ft_signal_main);
+    signal(SIGQUIT, SIG_IGN);
 
     if (WIFEXITED(status))
     {
