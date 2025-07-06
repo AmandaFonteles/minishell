@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:03:09 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/06 15:42:04 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/06 16:27:21 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void    init_structs(t_minishell *data)
     data->cmd_list = NULL; //included in the parser (some parts will be included in the exec part)
     data->cmd_nb = 0; //included in the parser
     data->pipe_ends = NULL; //included in the pipe manager
-    data->child_running = 0; //no child processes running initially
 }
 
 int init_envp(t_minishell *data)

@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/06 15:42:08 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/06 16:34:38 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int    create_processes(t_minishell *data)
 void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
 {
     signal(SIGQUIT, SIG_DFL);
-    signal(SIGINT, SIG_DFL);
+    signal(SIGINT, ft_signal_cat);
     int idx;
     idx = cur_cmd->cmd_index;
     if (data->cmd_nb > 1)
@@ -143,7 +143,6 @@ void wait_loop(t_minishell *data)
 	int status;
 
 	cur_cmd = data->cmd_list;
-	data->child_running = 1;  // Marquer que des processus enfants tournent
 	while (cur_cmd)
 	{
 		waitpid(cur_cmd->pid, &status, 0);
@@ -171,5 +170,4 @@ void wait_loop(t_minishell *data)
 		}
 		cur_cmd = cur_cmd->next;
 	}
-	data->child_running = 0;  // Marquer qu'aucun processus enfant ne tourne
 }

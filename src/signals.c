@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:52:34 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/06 15:41:54 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/06 16:34:33 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void	ft_signal(int sig)
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		// Pas de rl_redisplay() pour éviter l'affichage double
-		// readline affichera automatiquement le prompt
+		rl_redisplay();
 	}
 	// SIGQUIT est ignoré dans la boucle principale (SIG_IGN)
 	// donc cette fonction ne devrait jamais être appelée pour SIGQUIT
@@ -34,8 +33,8 @@ void	ft_signal_cat(int sig)
 	if (sig == 2)
 	{
 		global_exit_flag = 130;
-		// Pas de write() ni de fonctions readline dans les processus enfants
-		// Le parent gérera l'affichage
+		write(1, "\n", 1);
+		// Pas de rl_redisplay() pour les processus enfants
 	}
 	if (sig == SIGQUIT)
 	{

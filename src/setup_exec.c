@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/06 15:42:05 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/06 16:34:31 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void exec_uniq_cmd(t_minishell *data)
   if (cmd->pid == 0)
   {
     signal(SIGQUIT, SIG_DFL);
-    signal(SIGINT, SIG_DFL);
+    signal(SIGINT, ft_signal_cat);
     if (!setup_redirections(cmd))
     {
       free_to_exit(data);
@@ -95,9 +95,7 @@ void exec_uniq_cmd(t_minishell *data)
     free_to_exit(data);
     exit(0);
   }
-  data->child_running = 1;  // Marquer qu'un processus enfant tourne
   waitpid(cmd->pid, &status, 0);
-  data->child_running = 0;  // Marquer qu'aucun processus enfant ne tourne
   if (WIFEXITED(status))
   {
     int exit_code = WEXITSTATUS(status);

@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:00:39 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/06 15:41:57 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/06 16:27:11 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct s_minishell
     t_pars_cmd *cmd_list; //pointer to the first command in the list
     int     cmd_nb; //number of commands in the list
     int     **pipe_ends; //array with the pipe[2] for each command
-    int     child_running; //flag to indicate if child processes are running
 }   t_minishell;
 
 #endif
