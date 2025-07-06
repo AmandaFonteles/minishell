@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/06 23:54:21 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/07 00:12:46 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ int    create_processes(t_minishell *data)
 
 void setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
 {
+    // Gestion des signaux pour les processus enfants
+    signal(SIGINT, ft_signal_child);
+    signal(SIGQUIT, SIG_DFL);
+
     int idx;
     idx = cur_cmd->cmd_index;
     if (data->cmd_nb > 1)
@@ -146,10 +150,18 @@ void wait_loop(t_minishell *data)
 		waitpid(cur_cmd->pid, &status, 0);
 		if (WIFEXITED(status))
 		{
-			global_exit_flag = WEXITSTATUS(status);
+			int exit_code = WEXITSTATUS(status);
+			if (exit_code == 130) // Ctrl+C dans l'enfant
+			{
+				global_exit_flag = 130;
+			}
+			else
+				global_exit_flag = exit_code;
 		}
 		else if (WIFSIGNALED(status))
 		{
+			if (WTERMSIG(status) == SIGQUIT)
+				write(2, "Quit (core dumped)\n", 20);
 			global_exit_flag = 128 + WTERMSIG(status);
 		}
 		cur_cmd = cur_cmd->next;

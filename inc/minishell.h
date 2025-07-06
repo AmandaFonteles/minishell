@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by tautin--          #+#    #+#             */
-/*   Updated: 2025/07/06 23:49:14 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/07 00:12:27 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,5 +155,8 @@ void print_invalid_identifier(char *builtin, char *arg);
 void	ft_signal(int sig);
 void	ft_signal_cat(int sig);
 void	ft_handle_heredoc_signal(int sig);
+void	ft_signal_main(int sig);
+void	ft_signal_child(int sig);
+void	ft_signal_heredoc(int sig);
 
 #endif

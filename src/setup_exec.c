@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/06 23:54:12 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/07 00:12:40 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,10 @@ void exec_uniq_cmd(t_minishell *data)
     }
     if (cmd->pid == 0)
     {
+        // Gestion des signaux pour les processus enfants
+        signal(SIGINT, ft_signal_child);
+        signal(SIGQUIT, SIG_DFL);
+
         if (!setup_redirections(cmd))
         {
             free_to_exit(data);
@@ -98,10 +102,18 @@ void exec_uniq_cmd(t_minishell *data)
 
     if (WIFEXITED(status))
     {
-        global_exit_flag = WEXITSTATUS(status);
+        int exit_code = WEXITSTATUS(status);
+        if (exit_code == 130) // Ctrl+C dans l'enfant
+        {
+            global_exit_flag = 130;
+        }
+        else
+            global_exit_flag = exit_code;
     }
     else if (WIFSIGNALED(status))
     {
+        if (WTERMSIG(status) == SIGQUIT)
+            write(2, "Quit (core dumped)\n", 20);
         global_exit_flag = 128 + WTERMSIG(status);
     }
 }
