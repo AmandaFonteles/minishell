@@ -3,38 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/01 14:00:20 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/07 13:41:07 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static char *gen_heredoc_filename(int index)
+static char	*gen_heredoc_filename(int index)
 {
-	char *num;
-	char *name;
+	char	*num;
+	char	*name;
 
 	num = ft_itoa(index);
 	if (!num)
-		return NULL;
+		return (NULL);
 	name = ft_strjoin("hd_tmp", num);
 	if (!name)
 	{
 		free(num);
-		return NULL;
+		return (NULL);
 	}
 	free(num);
 	return (name);
 }
 
-int write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
+int	write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 {
-	int fd;
-	char *line;
-	char *expanded_line;
+	int		fd;
+	char	*line;
+	char	*expanded_line;
 
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
@@ -49,18 +49,14 @@ int write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 	{
 		line = readline("> ");
 		if (!line || ft_strcmp(line, delimiter) == 0)
-			break;
-
+			break ;
 		if (ft_check_dollars(line))
-		{
 			expanded_line = ft_expend_d(line, 0, -1, data);
-		}
 		else
 		{
 			expanded_line = ft_strdup(line);
 			free(line);
 		}
-
 		if (expanded_line)
 		{
 			write(fd, expanded_line, ft_strlen(expanded_line));
@@ -75,9 +71,10 @@ int write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 	return (1);
 }
 
-static int handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count, t_minishell *data)
+static int	handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count,
+	t_minishell *data)
 {
-	char *filename;
+	char	*filename;
 
 	filename = gen_heredoc_filename(*hd_count);
 	if (!filename)
@@ -103,11 +100,11 @@ static int handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count, t_minishell *da
 	return (1);
 }
 
-int generate_heredocs(t_minishell *data)
+int	generate_heredocs(t_minishell *data)
 {
-	t_pars_cmd *cmd;
-	int hd_count;
-	int i;
+	t_pars_cmd	*cmd;
+	int			hd_count;
+	int			i;
 
 	hd_count = 0;
 	cmd = data->cmd_list;
@@ -132,20 +129,22 @@ int generate_heredocs(t_minishell *data)
 	return (1);
 }
 
-char *last_heredoc_path(t_pars_cmd *cmd)
+char	*last_heredoc_path(t_pars_cmd *cmd)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (!cmd->heredoc)
-		return NULL;
+		return (NULL);
 	while (cmd->heredoc[i + 1])
 		i++;
 	return (cmd->heredoc[i]);
 }
 
-int redirect_heredoc(t_pars_cmd *cmd)
+int	redirect_heredoc(t_pars_cmd *cmd)
 {
-	char *path;
-	int fd_hd;
+	char	*path;
+	int		fd_hd;
 
 	path = last_heredoc_path(cmd);
 	if (!path)
