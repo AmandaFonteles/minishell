@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 17:36:18 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/07 13:45:52 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/07 18:52:59 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	create_processes(t_minishell *data)
 {
 	t_pars_cmd	*cur_cmd;
 
+	signal(SIGINT, ft_signal_cat);
+	signal(SIGQUIT, SIG_IGN);
 	cur_cmd = data->cmd_list;
 	while (cur_cmd)
 	{
@@ -38,6 +40,8 @@ int	create_processes(t_minishell *data)
 	}
 	close_all_pipes(data);
 	wait_loop(data);
+	signal(SIGINT, ft_signal);
+	signal(SIGQUIT, SIG_IGN);		
 	return (1);
 }
 
@@ -46,7 +50,7 @@ void	setup_child(t_minishell *data, t_pars_cmd *cur_cmd)
 	int	idx;
 
 	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, ft_signal_cat);
+	signal(SIGINT, SIG_DFL);
 	idx = cur_cmd->cmd_index;
 	if (data->cmd_nb > 1)
 	{
@@ -84,8 +88,10 @@ void	wait_loop(t_minishell *data)
 	t_pars_cmd	*cur_cmd;
 	int			status;
 	int			sig;
+	int			pt_quit;
 
 	cur_cmd = data->cmd_list;
+	pt_quit = 0;
 	while (cur_cmd)
 	{
 		waitpid(cur_cmd->pid, &status, 0);
@@ -94,8 +100,11 @@ void	wait_loop(t_minishell *data)
 		else if (WIFSIGNALED(status))
 		{
 			sig = WTERMSIG(status);
-			if (sig == SIGQUIT)
+			if (sig == SIGQUIT && !pt_quit)
+			{
 				write(2, "Quit (core dumped)\n", 20);
+				pt_quit = 1;
+			}
 			g_exit_flag = 128 + sig;
 		}
 		cur_cmd = cur_cmd->next;
