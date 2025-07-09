@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 10:59:29 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/09 14:49:16 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:24:47 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,50 @@ void	execute(t_minishell *data, t_pars_cmd *cur_cmd)
 	}
 }
 
+static char	*dup_and_stat(t_minishell *data, t_pars_cmd *cmd,
+			struct stat *path_stat)
+{
+	char	*cmd_path;
+
+	cmd_path = ft_strdup(cmd->args[0]);
+	if (!cmd_path)
+	{
+		error_and_prompt_back("malloc error");
+		return (NULL);
+	}
+	if (stat(cmd_path, path_stat) == -1)
+	{
+		print_cmd_not_found(data, cmd->args[0]);
+		free(cmd_path);
+		free_to_exit(data);
+		exit(g_exit_flag);
+	}
+	return (cmd_path);
+}
+
+static void	check_dir_perm(t_minishell *data, char *cmd_path,
+			char *cmd_name, struct stat path_stat)
+{
+	if (S_ISDIR(path_stat.st_mode))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd_name, 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		free(cmd_path);
+		free_to_exit(data);
+		exit(126);
+	}
+	if (access(cmd_path, X_OK) == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd_name, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+		free(cmd_path);
+		free_to_exit(data);
+		exit(126);
+	}
+}
+
 void	resolve_and_exec(t_minishell *data, t_pars_cmd *cmd)
 {
 	char			*cmd_path;
@@ -43,37 +87,10 @@ void	resolve_and_exec(t_minishell *data, t_pars_cmd *cmd)
 		cmd_path = exec_make_path(data, cmd);
 	else
 	{
-		cmd_path = ft_strdup(cmd->args[0]);
+		cmd_path = dup_and_stat(data, cmd, &path_stat);
 		if (!cmd_path)
-		{
-			error_and_prompt_back("malloc error");
 			return ;
-		}
-		if (stat(cmd_path, &path_stat) == -1)
-		{
-			print_cmd_not_found(data, cmd->args[0]);
-			free(cmd_path);
-			free_to_exit(data);
-			exit(g_exit_flag);
-		}
-		if (S_ISDIR(path_stat.st_mode))
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(cmd->args[0], 2);
-			ft_putstr_fd(": is a directory\n", 2);
-			free(cmd_path);
-			free_to_exit(data);
-			exit(126);
-		}
-		if (access(cmd_path, X_OK) == -1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(cmd->args[0], 2);
-			ft_putstr_fd(": Permission denied\n", 2);
-			free(cmd_path);
-			free_to_exit(data);
-			exit(126);
-		}
+		check_dir_perm(data, cmd_path, cmd->args[0], path_stat);
 	}
 	if (execve(cmd_path, cmd->args, data->envp) == -1)
 	{
