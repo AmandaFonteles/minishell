@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: afontele <afontele@student.42.fr>          +#+  +:+       +#+         #
+#    By: adregis <adregis@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/07/07 14:00:15 by afontele         ###   ########.fr        #
+#    Updated: 2025/07/09 13:05:51 by adregis          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC = $(SRCDIR)main.c \
 		$(SRCDIR)env_exp.c \
 		$(SRCDIR)pwd_echo_exit_unset.c \
 		$(SRCDIR)error.c \
+		$(SRCDIR)error_2.c \
 		$(SRCDIR)free.c \
 		$(SRCDIR)execve_hub.c \
 		$(SRCDIR)pipes.c \

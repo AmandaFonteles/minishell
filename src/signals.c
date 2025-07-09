@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:52:34 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/07 16:34:30 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 13:14:07 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	ft_signal(int sig)
 {
-/*	g_exit_flag += sig;
-	if (sig == 2)
+	if (sig == SIGINT)
 	{
 		g_exit_flag = 130;
 		write(1, "\n", 1);
@@ -23,55 +22,26 @@ void	ft_signal(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	if (sig == SIGQUIT)
-	{
-		write(2, "Quit (core dumped)\n", 20);
-		exit(1);
-	}*/
-    if (sig == SIGINT)
-    {
-        g_exit_flag = 130;
-        write(1, "\n", 1);
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
-    }
 }
 
 void	ft_signal_cat(int sig)
 {
-	/*g_exit_flag += sig;
-	if (sig == 2)
+	if (sig == SIGINT)
 	{
 		g_exit_flag = 130;
-    write(1, "\n", 1);
+		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
-
 	}
-	if (sig == SIGQUIT)
-	{
-		write(2, "Quit (core dumped)\n", 20);
-		exit(1);
-	}*/
-    if (sig == SIGINT)
-    {
-        g_exit_flag = 130;
-        write(1, "\n", 1);
-        rl_on_new_line();
-        rl_replace_line("", 0);
-    }
 }
 
-void    ft_handle_heredoc_signal(int sig)
+void	ft_handle_heredoc_signal(int sig)
 {
-    if (sig == SIGINT)
-    {
-        write(1, "\n", 1);
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        signal(SIGINT, SIG_DFL);
-        signal(SIGQUIT, SIG_DFL);
-        exit(130);
-    }
+	if (sig == SIGINT)
+	{
+		g_exit_flag = 130;
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+	}
 }

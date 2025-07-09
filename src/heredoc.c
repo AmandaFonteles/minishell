@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/07 13:41:07 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 11:46:09 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,14 @@ int	write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, delimiter) == 0)
+		if (!line) 
+		{
+			write(2, "bash: warning: here-document at line 1 delimited by end-of-file (wanted `", 73);
+			write(2, delimiter, ft_strlen(delimiter));
+			write(2, "')\n", 3);
+			break ;
+		}
+		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		if (ft_check_dollars(line))
 			expanded_line = ft_expend_d(line, 0, -1, data);
@@ -64,9 +71,10 @@ int	write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 			free(expanded_line);
 		}
 	}
-	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, ft_handle_heredoc_signal);
 	signal(SIGQUIT, SIG_DFL);
-	free(line);
+	if (line) 
+		free(line);
 	close(fd);
 	return (1);
 }
