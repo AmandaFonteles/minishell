@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:08:03 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/07 13:28:26 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 13:09:04 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,49 +75,4 @@ void	print_cmd_no_file(t_minishell *data, char *cmd)
 		ft_putstr_fd(data->cmd_list->args[0], 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
 	g_exit_flag = 127;
-}
-
-void	print_exit_error(char *arg, char *msg)
-{
-	ft_putstr_fd("exit\n", 1);
-	ft_putstr_fd("minishell: exit: ", 2);
-	if (arg)
-	{
-		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(": ", 2);
-	}
-	ft_putstr_fd(msg, 2);
-	ft_putstr_fd("\n", 2);
-}
-
-void	print_invalid_identifier(char *builtin, char *arg)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(builtin, 2);
-	ft_putstr_fd(": '", 2);
-	ft_putstr_fd(arg, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
-	g_exit_flag = 1;
-}
-
-int	print_invalid_option(char *builtin, char *arg)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(builtin, 2);
-	ft_putstr_fd(": '", 2);
-	ft_putchar_fd(arg[0], 2);
-	ft_putchar_fd(arg[1], 2);
-	ft_putstr_fd("': invalid option\n", 2);
-	g_exit_flag = 1;
-	return (0);
-}
-
-void	error_chdir(char *path)
-{
-	ft_putstr_fd("minishell: cd: ", 2);
-	ft_putstr_fd(path, 2);
-	ft_putstr_fd(": ", 2);
-	perror("chdir");
-	free(path);
-	g_exit_flag = 1;
 }

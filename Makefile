@@ -6,7 +6,7 @@
 #    By: afontele <afontele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/07/07 14:00:15 by afontele         ###   ########.fr        #
+#    Updated: 2025/07/09 16:38:01 by afontele         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,20 +33,28 @@ LIBFTDIR = libft/
 SRC = $(SRCDIR)main.c \
 		$(SRCDIR)builtins.c \
 		$(SRCDIR)builtin_utils.c \
+		$(SRCDIR)builtin_utils_2.c \
 		$(SRCDIR)cd.c \
 		$(SRCDIR)env_exp.c \
-		$(SRCDIR)pwd_echo_exit_unset.c \
+		$(SRCDIR)env_exp_2.c \
+		$(SRCDIR)pwd_echo_unset.c \
+		$(SRCDIR)exit.c \
 		$(SRCDIR)error.c \
+		$(SRCDIR)error_2.c \
 		$(SRCDIR)free.c \
+		$(SRCDIR)free_2.c \
 		$(SRCDIR)execve_hub.c \
+		$(SRCDIR)execve_hub_2.c \
 		$(SRCDIR)pipes.c \
 		$(SRCDIR)processes.c \
 		$(SRCDIR)redirections.c \
 		$(SRCDIR)setup_exec.c \
 		$(SRCDIR)heredoc.c \
+		$(SRCDIR)heredoc_2.c \
 		$(SRCDIR)env_management.c \
 		$(SRCDIR)init.c \
 		$(SRCDIR)signals.c \
+		$(SRCDIR)uniq_cmd.c \
 		$(PARS)parse.c \
 		$(PARS)tokenization.c \
 		$(PARS)parse_utils.c \

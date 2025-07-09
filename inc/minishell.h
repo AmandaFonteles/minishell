@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/04 17:07:21 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:18:33 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,9 @@ int		write_heredoc_file(char *filename, char *delimiter, t_minishell *data);
 int		generate_heredocs(t_minishell *data);
 char	*last_heredoc_path(t_pars_cmd *cmd);
 int		redirect_heredoc(t_pars_cmd *cmd);
+char	*gen_heredoc_filename(int index);
+int	handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count,
+	t_minishell *data);
 
 /* BUILTINS.C */
 int		is_builtin(t_pars_cmd *command);
