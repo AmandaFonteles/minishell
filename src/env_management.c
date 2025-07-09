@@ -6,13 +6,11 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 16:45:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/07 13:24:21 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 14:44:00 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-int	g_exit_flag = 0;
 
 char	*ft_getenv(char *variable, t_minishell *data)
 {
