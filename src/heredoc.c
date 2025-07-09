@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/09 14:58:22 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:15:17 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 	return (1);
 }
 
-static int	handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count,
+int	handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count,
 	t_minishell *data)
 {
 	char	*filename;

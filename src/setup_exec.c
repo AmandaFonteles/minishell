@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
+/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:55:12 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/09 13:30:55 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/09 16:38:34 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,43 +70,4 @@ int	setup_multiple_cmd(t_minishell *data)
 		return (0);
 	free_pipes(data);
 	return (1);
-}
-
-void	exec_uniq_cmd(t_minishell *data)
-{
-	int			status;
-	t_pars_cmd	*cmd;
-
-	cmd = data->cmd_list;
-	cmd->pid = fork();
-	if (cmd->pid == -1)
-	{
-		error_and_prompt_back("error fork");
-		return ;
-	}
-	if (cmd->pid == 0)
-	{
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
-		if (!setup_redirections(cmd))
-		{
-			free_to_exit(data);
-			exit(1);
-		}
-		if (cmd->args && cmd->args[0])
-			execute(data, cmd);
-		free_to_exit(data);
-		exit(0);
-	}
-	waitpid(cmd->pid, &status, 0);
-	if (WIFEXITED(status))
-		g_exit_flag = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGINT)
-			g_exit_flag = 130;
-		else if (WTERMSIG(status) == SIGQUIT)
-			write(2, "Quit (core dumped)\n", 20);
-		g_exit_flag = 128 + WTERMSIG(status);
-	}
 }
