@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/09 08:55:05 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/09 09:05:40 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,6 @@ int	write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 	if (line) // Seulement si line n'est pas NULL (pas Ctrl+D)
 		free(line);
 	close(fd);
-	// Si g_exit_flag a été modifié par le signal, retourner une erreur
-	if (g_exit_flag == 130)
-	{
-		unlink(filename); // Supprimer le fichier temporaire
-		free(filename);
-		return (0);
-	}
 	return (1);
 }
 
@@ -103,22 +96,12 @@ static int	handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count,
 	}
 	if (!write_heredoc_file(filename, cmd->delimiters[i], data))
 	{
-		// Si write_heredoc_file échoue à cause d'un signal, nettoyer et retourner
-		if (g_exit_flag == 130)
-		{
-			while (--i >= 0)
-			{
-				unlink(cmd->heredoc[i]);
-				free(cmd->heredoc[i]);
-			}
-			free(cmd->heredoc);
-			cmd->heredoc = NULL;
-			return (0);
-		}
-		// Sinon, c'est une erreur normale
-		free(filename);
+		// Si write_heredoc_file échoue, nettoyer les fichiers déjà créés
 		while (--i >= 0)
+		{
+			unlink(cmd->heredoc[i]);
 			free(cmd->heredoc[i]);
+		}
 		free(cmd->heredoc);
 		cmd->heredoc = NULL;
 		return (0);
@@ -133,6 +116,8 @@ int	generate_heredocs(t_minishell *data)
 	t_pars_cmd	*cmd;
 	int			hd_count;
 	int			i;
+	pid_t		pid;
+	int			status;
 
 	hd_count = 0;
 	cmd = data->cmd_list;
@@ -146,16 +131,36 @@ int	generate_heredocs(t_minishell *data)
 			i = 0;
 			while (i < cmd->hd_nb)
 			{
-				if (!handle_heredoc(cmd, i, &hd_count, data))
+				pid = fork();
+				if (pid == -1)
 				{
-					// Si un heredoc échoue à cause d'un signal, nettoyer et retourner
-					if (g_exit_flag == 130)
+					error_and_prompt_back("fork heredoc");
+					return (0);
+				}
+				if (pid == 0)
+				{
+					// Processus enfant pour le heredoc
+					if (!handle_heredoc(cmd, i, &hd_count, data))
+						exit(1);
+					exit(0);
+				}
+				else
+				{
+					// Processus parent
+					waitpid(pid, &status, 0);
+					if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
 					{
+						// Le heredoc a échoué
 						cleanup_heredocs(data);
 						return (0);
 					}
-					// Sinon, c'est une erreur normale
-					return (0);
+					else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+					{
+						// Le heredoc a été interrompu par Ctrl+C
+						g_exit_flag = 130;
+						cleanup_heredocs(data);
+						return (0);
+					}
 				}
 				i++;
 			}
