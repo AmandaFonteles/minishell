@@ -6,12 +6,20 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:00:39 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/04 17:19:25 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 20:53:53 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+typedef struct s_exp_data
+{
+	char    *arg;
+    char    *key;
+    char    *value;
+    int             has_equal;
+}	t_exp_data;
 
 typedef struct s_parsed_command
 {

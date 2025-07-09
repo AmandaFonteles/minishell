@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:39:33 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/09 14:42:49 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:06:51 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,14 @@ void	builtin_env(t_minishell *data, t_pars_cmd *cmd)
 			printf("%s=%s\n", cur_env_node->title, cur_env_node->value);
 		cur_env_node = cur_env_node->next;
 	}
+}
+
+void	check_exp(t_minishell *data, char *arg)
+{
+	if (!is_valid_identifier(arg))
+	{
+		print_invalid_identifier("export", arg);
+		return ;
+	}
+	export_or_update(data, arg);
 }
