@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/07 13:41:07 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 08:55:05 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,14 @@ int	write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, delimiter) == 0)
+		if (!line) // Ctrl+D (EOF)
+		{
+			write(2, "bash: warning: here-document at line 1 delimited by end-of-file (wanted `", 70);
+			write(2, delimiter, ft_strlen(delimiter));
+			write(2, "')\n", 3);
+			break ;
+		}
+		if (ft_strcmp(line, delimiter) == 0)
 			break ;
 		if (ft_check_dollars(line))
 			expanded_line = ft_expend_d(line, 0, -1, data);
@@ -66,8 +73,16 @@ int	write_heredoc_file(char *filename, char *delimiter, t_minishell *data)
 	}
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	free(line);
+	if (line) // Seulement si line n'est pas NULL (pas Ctrl+D)
+		free(line);
 	close(fd);
+	// Si g_exit_flag a été modifié par le signal, retourner une erreur
+	if (g_exit_flag == 130)
+	{
+		unlink(filename); // Supprimer le fichier temporaire
+		free(filename);
+		return (0);
+	}
 	return (1);
 }
 
@@ -88,6 +103,19 @@ static int	handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count,
 	}
 	if (!write_heredoc_file(filename, cmd->delimiters[i], data))
 	{
+		// Si write_heredoc_file échoue à cause d'un signal, nettoyer et retourner
+		if (g_exit_flag == 130)
+		{
+			while (--i >= 0)
+			{
+				unlink(cmd->heredoc[i]);
+				free(cmd->heredoc[i]);
+			}
+			free(cmd->heredoc);
+			cmd->heredoc = NULL;
+			return (0);
+		}
+		// Sinon, c'est une erreur normale
 		free(filename);
 		while (--i >= 0)
 			free(cmd->heredoc[i]);
@@ -119,7 +147,16 @@ int	generate_heredocs(t_minishell *data)
 			while (i < cmd->hd_nb)
 			{
 				if (!handle_heredoc(cmd, i, &hd_count, data))
+				{
+					// Si un heredoc échoue à cause d'un signal, nettoyer et retourner
+					if (g_exit_flag == 130)
+					{
+						cleanup_heredocs(data);
+						return (0);
+					}
+					// Sinon, c'est une erreur normale
 					return (0);
+				}
 				i++;
 			}
 			cmd->heredoc[cmd->hd_nb] = NULL;
