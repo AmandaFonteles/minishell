@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:13:49 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/09 09:05:40 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/09 09:11:04 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,9 @@ static int	handle_heredoc(t_pars_cmd *cmd, int i, int *hd_count,
 	}
 	if (!write_heredoc_file(filename, cmd->delimiters[i], data))
 	{
-		// Si write_heredoc_file échoue, nettoyer les fichiers déjà créés
+		free(filename);
 		while (--i >= 0)
-		{
-			unlink(cmd->heredoc[i]);
 			free(cmd->heredoc[i]);
-		}
 		free(cmd->heredoc);
 		cmd->heredoc = NULL;
 		return (0);
@@ -116,8 +113,6 @@ int	generate_heredocs(t_minishell *data)
 	t_pars_cmd	*cmd;
 	int			hd_count;
 	int			i;
-	pid_t		pid;
-	int			status;
 
 	hd_count = 0;
 	cmd = data->cmd_list;
@@ -131,37 +126,8 @@ int	generate_heredocs(t_minishell *data)
 			i = 0;
 			while (i < cmd->hd_nb)
 			{
-				pid = fork();
-				if (pid == -1)
-				{
-					error_and_prompt_back("fork heredoc");
+				if (!handle_heredoc(cmd, i, &hd_count, data))
 					return (0);
-				}
-				if (pid == 0)
-				{
-					// Processus enfant pour le heredoc
-					if (!handle_heredoc(cmd, i, &hd_count, data))
-						exit(1);
-					exit(0);
-				}
-				else
-				{
-					// Processus parent
-					waitpid(pid, &status, 0);
-					if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-					{
-						// Le heredoc a échoué
-						cleanup_heredocs(data);
-						return (0);
-					}
-					else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-					{
-						// Le heredoc a été interrompu par Ctrl+C
-						g_exit_flag = 130;
-						cleanup_heredocs(data);
-						return (0);
-					}
-				}
 				i++;
 			}
 			cmd->heredoc[cmd->hd_nb] = NULL;

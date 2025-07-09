@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:52:34 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/09 09:05:10 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/09 09:10:45 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void    ft_handle_heredoc_signal(int sig)
 {
     if (sig == SIGINT)
     {
-        g_exit_flag = 130;
         write(1, "\n", 1);
         rl_on_new_line();
         rl_replace_line("", 0);
