@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:04:11 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/09 16:18:33 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 23:35:43 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,10 @@ int		setup_multiple_cmd(t_minishell *data);
 void	exec_uniq_cmd(t_minishell *data);
 
 /* PROCESSES.C */
+int      fork_process(t_minishell *data, t_pars_cmd *cur_cmd);
+void     handle_prev_pipe(t_minishell *data, int idx);
+void     handle_next_pipe(t_minishell *data, int idx);
+void     update_exit_status(int status, int *pt_quit);
 int		create_processes(t_minishell *data);
 void	setup_child(t_minishell *data, t_pars_cmd *cur_cmd);
 void	wait_loop(t_minishell *data);

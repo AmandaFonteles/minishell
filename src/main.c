@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by intaut--          #+#    #+#             */
-/*   Updated: 2025/07/09 15:51:33 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 23:22:05 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	main_loop(t_minishell *data)
 		if (!data->user_input)
 		{
 			printf("exit\n");
-			break;
+			break ;
 		}
 		if (data->user_input[0] != '\0')
 			add_history(data->user_input);

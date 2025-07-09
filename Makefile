@@ -6,7 +6,7 @@
 #    By: afontele <afontele@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/07/09 16:38:01 by afontele         ###   ########.fr        #
+#    Updated: 2025/07/09 23:34:30 by afontele         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,9 @@ SRC = $(SRCDIR)main.c \
 		$(SRCDIR)execve_hub_2.c \
 		$(SRCDIR)pipes.c \
 		$(SRCDIR)processes.c \
+		$(SRCDIR)processes_2.c \
 		$(SRCDIR)redirections.c \
+		$(SRCDIR)redirections_2.c \
 		$(SRCDIR)setup_exec.c \
 		$(SRCDIR)heredoc.c \
 		$(SRCDIR)heredoc_2.c \
