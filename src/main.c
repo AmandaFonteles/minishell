@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:01:52 by intaut--          #+#    #+#             */
-/*   Updated: 2025/07/04 17:12:00 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 13:32:57 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void main_loop(t_minishell *data)
     {
         init_structs(data);
         signal(SIGQUIT, SIG_IGN);
-	    signal(SIGINT, ft_signal);
+        signal(SIGINT, ft_signal);
         data->user_input = readline("minishell$> ");
         if (!data->user_input)
         {
