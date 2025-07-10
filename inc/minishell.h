@@ -120,6 +120,8 @@ void		print_invalid_identifier(char *builtin, char *arg);
 void		ft_signal(int sig);
 void		ft_signal_cat(int sig);
 void		ft_handle_heredoc_signal(int sig);
+void		set_heredoc_signals(void);
+void		reset_heredoc_signals(void);
 long long	modif_atoll(const char *str, int *overflow);
 
 #endif
