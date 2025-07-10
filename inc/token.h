@@ -6,7 +6,7 @@
 /*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 09:51:06 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/01 17:06:42 by adregis          ###   ########.fr       */
+/*   Updated: 2025/07/10 10:42:36 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void		ft_shell_add_back(t_pars_cmd **cmds, t_pars_cmd *new);
 int			count_cmds(t_pars_cmd *cmd_list);
 int			pipe_error(char *msg);
 int			check_single(char *str);
-int	check_consecutive_pipes(char *str);
+int			check_consecutive_pipes(char *str);
 
 ///////////////////// TOKENIZATION /////////////////////
 
@@ -120,7 +120,6 @@ int			ft_handle_double_quote(char **str, char *tmp, t_minishell *data);
 int			ft_handle_single_quote(char **str, char *tmp);
 int			ft_handle_dollar(char **str, char *tmp, char *var_value);
 int			ft_fill_tab(char *str, char **tab, t_minishell *data, char *tmp);
-
 
 ///////////////////// EXPEND D /////////////////////
 
