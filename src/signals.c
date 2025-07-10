@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 08:52:34 by adregis           #+#    #+#             */
-/*   Updated: 2025/07/10 10:56:22 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/10 11:19:34 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ void	set_heredoc_signals(void)
 
 void	reset_heredoc_signals(void)
 {
-	signal(SIGINT, ft_handle_heredoc_signal);
+	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
