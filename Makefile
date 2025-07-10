@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: afontele <afontele@student.42.fr>          +#+  +:+       +#+         #
+#    By: adregis <adregis@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/06 18:35:57 by afontele          #+#    #+#              #
-#    Updated: 2025/07/09 23:34:30 by afontele         ###   ########.fr        #
+#    Updated: 2025/07/10 11:01:56 by adregis          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ SRC = $(SRCDIR)main.c \
 		$(SRCDIR)heredoc_2.c \
 		$(SRCDIR)env_management.c \
 		$(SRCDIR)init.c \
+		$(SRCDIR)init_2.c \
 		$(SRCDIR)signals.c \
 		$(SRCDIR)uniq_cmd.c \
 		$(PARS)parse.c \

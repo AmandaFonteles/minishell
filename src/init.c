@@ -3,20 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adregis <adregis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 18:03:09 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/07 13:42:14 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/10 11:05:55 by adregis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+int	append_env_node(t_env **parse_env, t_env *new)
+{
+	t_env	*cur;
+
+	if (!(*parse_env))
+		*parse_env = new;
+	else
+	{
+		cur = *parse_env;
+		while (cur->next)
+			cur = cur->next;
+		cur->next = new;
+	}
+	return (1);
+}
+
 int	init_data(t_minishell *data, char **envp)
 {
 	t_env	**parse_env;
 	t_env	*new;
-	t_env	*cur;
 	int		i;
 
 	init_structs(data);
@@ -30,15 +45,8 @@ int	init_data(t_minishell *data, char **envp)
 		new = create_env_node(data, envp[i]);
 		if (!new)
 			return (0);
-		if (!(*parse_env))
-			*parse_env = new;
-		else
-		{
-			cur = *parse_env;
-			while (cur->next)
-				cur = cur->next;
-			cur->next = new;
-		}
+		if (!append_env_node(parse_env, new))
+			return (0);
 		i++;
 	}
 	return (1);
@@ -67,53 +75,5 @@ int	init_envp(t_minishell *data)
 			return (0);
 		i++;
 	}
-	return (1);
-}
-
-t_env	*create_env_node(t_minishell *data, char *env_str)
-{
-	t_env	*new;
-	char	*equal;
-
-	new = malloc(sizeof(t_env));
-	if (!new)
-		error_to_exit(data, "malloc t_env node");
-	equal = ft_strchr(env_str, '=');
-	if (equal)
-	{
-		if (!(new->title = ft_substr(env_str, 0, equal - env_str))
-			|| !(new->value = ft_strdup(equal + 1)))
-		{
-			error_to_exit(data, "error populating env node");
-			return (NULL);
-		}
-	}
-	else
-	{
-		if (!(new->title = ft_strdup(env_str)))
-			error_to_exit(data, "error ft_strdup");
-		new->value = NULL;
-	}
-	new->next = NULL;
-	return (new);
-}
-
-int	add_env(t_minishell *data, char *envp, t_env **list)
-{
-	t_env	*new;
-	t_env	*cur;
-
-	new = create_env_node(data, envp);
-	if (!new)
-		return (0);
-	if (!(*list))
-	{
-		*list = new;
-		return (1);
-	}
-	cur = *list;
-	while (cur->next)
-		cur = cur->next;
-	cur->next = new;
 	return (1);
 }
