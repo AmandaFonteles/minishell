@@ -43,7 +43,7 @@ static void	handle_status(int status)
 
 void	exec_uniq_cmd(t_minishell *data)
 {
-	int		status;
+	int			status;
 	t_pars_cmd	*cmd;
 
 	cmd = data->cmd_list;
