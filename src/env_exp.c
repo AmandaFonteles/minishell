@@ -6,7 +6,7 @@
 /*   By: afontele <afontele@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:17:20 by afontele          #+#    #+#             */
-/*   Updated: 2025/07/09 14:42:11 by afontele         ###   ########.fr       */
+/*   Updated: 2025/07/09 21:09:59 by afontele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,48 +58,49 @@ void	print_exported(t_env *cur_exp_node)
 	}
 }
 
-void	export_or_update(t_minishell *data, char *arg)
+static int	parse_export_arg(t_exp_data *exp)
 {
-	char	*key;
-	char	*value;
-	int		has_equal;
-
-	has_equal = 0;
-	if (!extract_key_value(arg, &key, &value))
+	exp->has_equal = 0;
+	if (!extract_key_value(exp->arg, &exp->key, &exp->value))
 	{
 		error_and_prompt_back("malloc");
-		return ;
+		return (0);
 	}
-	if (!is_valid_identifier(key))
+	if (!is_valid_identifier(exp->key))
 	{
-		print_invalid_identifier("export", arg);
-		free(key);
-		free(value);
-		return ;
+		print_invalid_identifier("export", exp->arg);
+		free(exp->key);
+		free(exp->value);
+		return (0);
 	}
-	if (ft_strchr(arg, '='))
-		has_equal = 1;
-	if (update_env_value_in_list(data->exported, key, value))
+	if (ft_strchr(exp->arg, '='))
+		exp->has_equal = 1;
+	return (1);
+}
+
+static void	update_export_lists(t_minishell *data, t_exp_data *exp)
+{
+	if (update_env_value_in_list(data->exported, exp->key, exp->value))
 	{
-		if (has_equal)
-			check_env(data, arg);
+		if (exp->has_equal)
+			check_env(data, exp->arg);
 	}
 	else
 	{
-		if (has_equal)
-			add_env(data, arg, &data->env);
-		add_env(data, arg, &data->exported);
+		if (exp->has_equal)
+			add_env(data, exp->arg, &data->env);
+		add_env(data, exp->arg, &data->exported);
 	}
-	free(key);
-	free(value);
 }
 
-void	check_exp(t_minishell *data, char *arg)
+void	export_or_update(t_minishell *data, char *arg)
 {
-	if (!is_valid_identifier(arg))
-	{
-		print_invalid_identifier("export", arg);
+	t_exp_data	exp;
+
+	exp.arg = arg;
+	if (!parse_export_arg(&exp))
 		return ;
-	}
-	export_or_update(data, arg);
+	update_export_lists(data, &exp);
+	free(exp.key);
+	free(exp.value);
 }
